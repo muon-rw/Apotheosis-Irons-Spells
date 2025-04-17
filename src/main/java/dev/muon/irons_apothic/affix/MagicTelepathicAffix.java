@@ -52,38 +52,6 @@ public class MagicTelepathicAffix extends Affix {
         return Component.translatable("affix." + this.id() + ".desc.staff");
     }
 
-    public static void drops(LivingDropsEvent e) {
-        DamageSource src = e.getSource();
-        Entity directEntity = src.getDirectEntity();
-        Entity causingEntity = src.getEntity();
-
-        boolean canTeleport = false;
-        Vec3 targetPos = null;
-
-        if (directEntity instanceof Projectile spell && spell.getOwner() != null) {
-            canTeleport = IronsApothicAffixHelper.streamAffixes(spell).anyMatch(AffixInstance::enablesTelepathy);
-            if (canTeleport) {
-                targetPos = spell.getOwner().position();
-            }
-        }
-
-        if (!canTeleport && causingEntity instanceof LivingEntity living) {
-            ItemStack weapon = living.getMainHandItem();
-
-            canTeleport = AffixHelper.streamAffixes(weapon).anyMatch(AffixInstance::enablesTelepathy);
-            if (canTeleport) {
-                targetPos = living.position();
-            }
-        }
-
-        if (canTeleport && targetPos != null) {
-            for (ItemEntity item : e.getDrops()) {
-                item.setPos(targetPos.x, targetPos.y, targetPos.z);
-                item.setPickUpDelay(0);
-            }
-        }
-    }
-
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
         return this.minRarity.isBound() && LootCategories.isStaff(stack) && rarity.sortIndex() >= this.minRarity.get().sortIndex();

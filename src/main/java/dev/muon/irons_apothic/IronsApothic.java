@@ -1,6 +1,6 @@
 package dev.muon.irons_apothic;
 
-import dev.muon.irons_apothic.attribute.AttributeRegistry;
+import dev.muon.irons_apothic.affix.AffixEventHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -18,7 +18,7 @@ public class IronsApothic {
         modEventBus.addListener(this::commonSetup);
 
         LootCategories.register(modEventBus);
-        AttributeRegistry.init(modEventBus);
+        AffixEventHandler.register();
 
         IronsApothic.LOGGER.info("Loading Iron's Apotheosis Compat");
 
