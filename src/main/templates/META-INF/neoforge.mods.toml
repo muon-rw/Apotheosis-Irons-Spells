@@ -41,7 +41,7 @@ config="${mod_id}.mixins.json"
 [[dependencies.${mod_id}]]
 modId="apotheosis"
 mandatory=true
-versionRange="*"
+versionRange="[8.3.0,)"
 ordering="AFTER"
 side="BOTH"
 
