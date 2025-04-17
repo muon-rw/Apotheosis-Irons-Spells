@@ -237,6 +237,13 @@ publishMods {
         optional "enders-spellsandstuff" // Spellblade
         optional "to-tweaks-irons-spells" // Aqua (pending)
     }
+
+    github {
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        repository = "muon-rw/Apotheosis-Irons-Spells"
+        commitish = "master"
+        tagName = "v${project.version}"
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
