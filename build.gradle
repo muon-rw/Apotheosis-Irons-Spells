@@ -214,6 +214,7 @@ publishMods {
     changelog = new File("$project.rootDir/CHANGELOG.md").getText('UTF-8')
     version = "${mod_version}+${minecraft_version}"
     type = STABLE
+    displayName = "${mod_version}+${minecraft_version}"
 
     curseforge {
         projectId = "${curseforge_project}"
@@ -224,13 +225,17 @@ publishMods {
 
         clientRequired = true
         serverRequired = true
-    }
 
-    modrinth {
-        projectId = "${modrinth_project}"
-        accessToken = System.getenv("MODRINTH_TOKEN")
+        // Dependencies
+        requires "apotheosis"
+        requires "irons-spells-n-spellbooks"
 
-        minecraftVersions.add(minecraft_version)
+        optional "cataclysm-spellbooks" // Abyssal
+        optional "alshanexs-familiars" // Sound
+        optional "snackpirates-aeromancy-additions" // Wind
+        optional "magic-from-the-east" // Symmetry
+        optional "enders-spellsandstuff" // Spellblade
+        optional "to-tweaks-irons-spells" // Aqua (pending)
     }
 }
 
