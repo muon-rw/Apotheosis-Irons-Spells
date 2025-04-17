@@ -66,6 +66,18 @@
         "flawless": 0.04,
         "perfect": 0.05
       }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": { "key": "core_armor", "types": ["apotheosis:chestplate", "apotheosis:leggings"] },
+      "mob_effect": "irons_spellbooks:thunderstorm",
+      "target": "hurt_self",
+      "operation": "ADD_VALUE",
+      "values": {
+        "normal":   { "duration": 100, "amplifier": 0, "cooldown": 400 },
+        "flawless": { "duration": 120, "amplifier": 0, "cooldown": 350 },
+        "perfect":  { "duration": 140, "amplifier": 0, "cooldown": 300 }
+       }
     }
   ]
 }

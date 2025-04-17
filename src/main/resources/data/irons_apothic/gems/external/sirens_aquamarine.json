@@ -90,6 +90,13 @@
         "flawless": 0.24,
         "perfect": 0.3
       }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": { "key": "helmet", "types": ["apotheosis:helmet"] },
+      "attribute": "irons_spellbooks:max_mana",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": { "cracked": 0.03, "chipped": 0.045, "flawed": 0.06, "normal": 0.09, "flawless": 0.12, "perfect": 0.15 }
     }
   ]
 } 

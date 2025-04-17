@@ -49,22 +49,47 @@
       }
     },
     {
-      "type": "apotheosis:attribute",
+      "type": "apotheosis:mob_effect",
       "gem_class": {
         "key": "helmet",
         "types": [
           "apotheosis:helmet"
         ]
       },
-      "attribute": "irons_spellbooks:mana_regen",
-      "operation": "ADD_MULTIPLIED_BASE",
+      "mob_effect": "irons_spellbooks:blight",
+      "target": "hurt_attacker",
+      "operation": "ADD_VALUE",
       "values": {
-        "cracked": 0.03,
-        "chipped": 0.045,
-        "flawed": 0.06,
-        "normal": 0.09,
-        "flawless": 0.12,
-        "perfect": 0.15
+        "cracked": {
+          "duration": 60,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "chipped": {
+          "duration": 80,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "flawed": {
+          "duration": 100,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "normal": {
+          "duration": 120,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "flawless": {
+          "duration": 160,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "perfect": {
+          "duration": 200,
+          "amplifier": 1,
+          "cooldown": 100
+        }
       }
     }
   ]

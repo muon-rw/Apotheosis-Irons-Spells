@@ -19,9 +19,8 @@
     {
       "type": "apotheosis:attribute",
       "gem_class": {
-        "key": "magic_weapons",
+        "key": "melee_weapon",
         "types": [
-          "irons_apothic:staff",
           "apotheosis:melee_weapon"
         ]
       },
@@ -39,9 +38,9 @@
     {
       "type": "apotheosis:attribute",
       "gem_class": {
-        "key": "melee_weapon",
+        "key": "magic_weapons",
         "types": [
-          "apotheosis:melee_weapon"
+          "irons_apothic:staff"
         ]
       },
       "attribute": "endersequipment:spellblade_magic_resist",
@@ -73,6 +72,13 @@
         "flawless": 0.05,
         "perfect": 0.06
       }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": { "key": "helmet", "types": ["apotheosis:helmet"] },
+      "attribute": "apothic_attributes:crit_chance",
+      "operation": "ADD_VALUE",
+      "values": { "cracked": 0.01, "chipped": 0.015, "flawed": 0.02, "normal": 0.03, "flawless": 0.04, "perfect": 0.05 }
     }
   ]
 } 

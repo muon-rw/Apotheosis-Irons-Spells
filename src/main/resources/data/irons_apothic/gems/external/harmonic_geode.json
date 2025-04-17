@@ -55,22 +55,21 @@
       }
     },
     {
-      "type": "apotheosis:attribute",
+      "type": "apotheosis:enchantment",
       "gem_class": {
         "key": "chestplate",
         "types": [
           "apotheosis:chestplate"
         ]
       },
-      "attribute": "apothic_attributes:life_steal",
-      "operation": "ADD_MULTIPLIED_BASE",
+      "enchantment": "apothic_enchanting:reflective_defenses",
       "values": {
-        "cracked": 0.005,
-        "chipped": 0.01,
-        "flawed": 0.015,
-        "normal": 0.02,
-        "flawless": 0.025,
-        "perfect": 0.03
+        "cracked": 1,
+        "chipped": 1,
+        "flawed": 2,
+        "normal": 2,
+        "flawless": 3,
+        "perfect": 3
       }
     }
   ]

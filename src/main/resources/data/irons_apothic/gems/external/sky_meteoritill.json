@@ -90,6 +90,20 @@
         "flawless": 0.075,
         "perfect": 0.09
       }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": { "key": "leggings", "types": ["apotheosis:leggings"] },
+      "mob_effect": "irons_spellbooks:hastened",
+      "target": "hurt_self",
+      "operation": "ADD_VALUE",
+      "values": {
+        "chipped":  { "duration": 80, "amplifier": 0, "cooldown": 300 },
+        "flawed":   { "duration": 100, "amplifier": 0, "cooldown": 300 },
+        "normal":   { "duration": 120, "amplifier": 1, "cooldown": 300 },
+        "flawless": { "duration": 140, "amplifier": 1, "cooldown": 300 },
+        "perfect":  { "duration": 160, "amplifier": 1, "cooldown": 300 }
+       }
     }
   ]
 } 

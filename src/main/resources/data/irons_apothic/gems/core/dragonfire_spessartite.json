@@ -66,6 +66,13 @@
         "flawless": 0.04,
         "perfect": 0.05
       }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": { "key": "core_armor", "types": ["apotheosis:chestplate", "apotheosis:leggings"] },
+      "attribute": "apothic_attributes:fire_damage",
+      "operation": "ADD_VALUE",
+      "values": { "cracked": 0.25, "chipped": 0.5, "flawed": 0.75, "normal": 1.0, "flawless": 1.25, "perfect": 1.5 }
     }
   ]
 }

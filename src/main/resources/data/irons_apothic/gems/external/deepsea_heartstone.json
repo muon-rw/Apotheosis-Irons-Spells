@@ -62,16 +62,30 @@
           "apotheosis:leggings"
         ]
       },
-      "attribute": "apothic_attributes:magic_penetration",
+      "attribute": "apothic_attributes:cold_damage",
       "operation": "ADD_VALUE",
       "values": {
-        "cracked": 0.01,
-        "chipped": 0.02,
-        "flawed": 0.03,
-        "normal": 0.04,
-        "flawless": 0.05,
-        "perfect": 0.06
+        "cracked": 0.25,
+        "chipped": 0.5,
+        "flawed": 0.75,
+        "normal": 1.0,
+        "flawless": 1.25,
+        "perfect": 1.5
       }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": { "key": "chestplate", "types": ["apotheosis:chestplate"] },
+      "mob_effect": "irons_spellbooks:chilled",
+      "target": "hurt_attacker",
+      "operation": "ADD_VALUE",
+      "values": {
+        "chipped":  { "duration": 60, "amplifier": 0, "cooldown": 100 },
+        "flawed":   { "duration": 80, "amplifier": 0, "cooldown": 100 },
+        "normal":   { "duration": 100, "amplifier": 1, "cooldown": 100 },
+        "flawless": { "duration": 120, "amplifier": 1, "cooldown": 100 },
+        "perfect":  { "duration": 140, "amplifier": 1, "cooldown": 100 }
+       }
     }
   ]
 } 

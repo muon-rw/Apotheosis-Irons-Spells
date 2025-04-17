@@ -85,6 +85,19 @@
         "flawless": 0.08,
         "perfect": 0.1
       }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": { "key": "boots", "types": ["apotheosis:boots"] },
+      "mob_effect": "irons_spellbooks:evasion",
+      "target": "hurt_self",
+      "operation": "ADD_VALUE",
+      "values": {
+        "flawed":   { "duration": 10, "amplifier": 0, "cooldown": 600 },
+        "normal":   { "duration": 10, "amplifier": 0, "cooldown": 550 },
+        "flawless": { "duration": 10, "amplifier": 0, "cooldown": 500 },
+        "perfect":  { "duration": 10, "amplifier": 1, "cooldown": 450 }
+       }
     }
   ]
 }

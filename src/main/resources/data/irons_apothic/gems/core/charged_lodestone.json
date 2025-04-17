@@ -49,21 +49,47 @@
       }
     },
     {
-      "type": "apotheosis:attribute",
+      "type": "apotheosis:mob_effect",
       "gem_class": {
         "key": "boots",
         "types": [
           "apotheosis:boots"
         ]
       },
-      "attribute": "minecraft:generic.movement_speed",
-      "operation": "ADD_MULTIPLIED_BASE",
+      "mob_effect": "irons_spellbooks:charged",
+      "target": "hurt_self",
+      "operation": "ADD_VALUE",
       "values": {
-        "chipped": 0.05,
-        "flawed": 0.075,
-        "normal": 0.125,
-        "flawless": 0.15,
-        "perfect": 0.2
+        "cracked": {
+          "duration": 60,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "chipped": {
+          "duration": 80,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "flawed": {
+          "duration": 100,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "normal": {
+          "duration": 120,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "flawless": {
+          "duration": 160,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "perfect": {
+          "duration": 200,
+          "amplifier": 1,
+          "cooldown": 100
+        }
       }
     }
   ]

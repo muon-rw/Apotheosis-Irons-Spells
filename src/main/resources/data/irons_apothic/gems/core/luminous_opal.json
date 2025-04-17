@@ -111,6 +111,13 @@
           "cooldown": 120
         }
       }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": { "key": "boots", "types": ["apotheosis:boots"] },
+      "attribute": "apothic_attributes:ghost_health",
+      "operation": "ADD_VALUE",
+      "values": { "cracked": 1.0, "chipped": 1.5, "flawed": 2.0, "normal": 2.5, "flawless": 3.0, "perfect": 4.0 }
     }
   ]
 }

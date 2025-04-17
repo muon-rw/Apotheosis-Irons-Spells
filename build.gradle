@@ -175,7 +175,7 @@ dependencies {
     localRuntime "curse.maven:azurelib-817423:6378821"
     localRuntime "curse.maven:lionfish-api-1001614:6168249"
 
-    //localRuntime "curse.maven:magic-from-the-east-1224162:6353396"
+    localRuntime "curse.maven:magic-from-the-east-1224162:6353396"
 
     localRuntime "curse.maven:enders-spellsandstuff-1140215:6427854"
     localRuntime "curse.maven:gtbcs-spelllib-1194714:6164512"

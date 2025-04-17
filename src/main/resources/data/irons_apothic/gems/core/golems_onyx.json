@@ -78,6 +78,21 @@
         "flawless": 0.25,
         "perfect": 0.3
       }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": { "key": "helmet", "types": ["apotheosis:helmet"] },
+      "mob_effect": "irons_spellbooks:oakskin",
+      "target": "hurt_self",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked":  { "duration": 100, "amplifier": 0, "cooldown": 300 },
+        "chipped":  { "duration": 120, "amplifier": 0, "cooldown": 300 },
+        "flawed":   { "duration": 140, "amplifier": 0, "cooldown": 300 },
+        "normal":   { "duration": 160, "amplifier": 1, "cooldown": 300 },
+        "flawless": { "duration": 180, "amplifier": 1, "cooldown": 300 },
+        "perfect":  { "duration": 200, "amplifier": 1, "cooldown": 300 }
+      }
     }
   ]
 }

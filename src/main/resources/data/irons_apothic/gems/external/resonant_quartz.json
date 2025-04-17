@@ -55,23 +55,55 @@
       }
     },
     {
-      "type": "apotheosis:attribute",
+      "type": "apotheosis:mob_effect",
       "gem_class": {
         "key": "helmet",
         "types": [
           "apotheosis:helmet"
         ]
       },
-      "attribute": "irons_spellbooks:cast_time_reduction",
-      "operation": "ADD_MULTIPLIED_BASE",
+      "mob_effect": "irons_spellbooks:rend",
+      "target": "hurt_attacker",
+      "operation": "ADD_VALUE",
       "values": {
-        "cracked": 0.005,
-        "chipped": 0.01,
-        "flawed": 0.02,
-        "normal": 0.03,
-        "flawless": 0.04,
-        "perfect": 0.05
+        "cracked": {
+          "duration": 60,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "chipped": {
+          "duration": 80,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "flawed": {
+          "duration": 100,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "normal": {
+          "duration": 120,
+          "amplifier": 1,
+          "cooldown": 100
+        },
+        "flawless": {
+          "duration": 160,
+          "amplifier": 2,
+          "cooldown": 100
+        },
+        "perfect": {
+          "duration": 200,
+          "amplifier": 2,
+          "cooldown": 100
+        }
       }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": { "key": "leggings", "types": ["apotheosis:leggings"] },
+      "attribute": "apothic_attributes:armor_shred",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": { "cracked": 0.01, "chipped": 0.02, "flawed": 0.03, "normal": 0.04, "flawless": 0.05, "perfect": 0.06 }
     }
   ]
 } 
