@@ -1,0 +1,83 @@
+{
+  "type": "apotheosis:gem",
+  "constraints": {
+    "min_purity": "cracked",
+    "dimensions": [],
+    "unique": true
+  },
+  "weights": {
+    "weight": 5,
+    "quality": 2
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_weapons",
+        "types": [
+          "irons_apothic:staff"
+        ]
+      },
+      "attribute": "irons_spellbooks:spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.01,
+        "chipped": 0.02,
+        "flawed": 0.04,
+        "normal": 0.06,
+        "flawless": 0.08,
+        "perfect": 0.1
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "irons_spellbooks:spell_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.01,
+        "chipped": 0.02,
+        "flawed": 0.03,
+        "normal": 0.045,
+        "flawless": 0.06,
+        "perfect": 0.08
+      }
+    },
+    {
+      "type": "apotheosis:enchantment",
+      "gem_class": "apotheosis:breaker",
+      "enchantment": "unbreaking",
+      "values": {
+        "flawed": 1,
+        "normal": 1,
+        "flawless": 2,
+        "perfect": 3
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "core_armor",
+        "types": [
+          "apotheosis:chestplate",
+          "apotheosis:leggings"
+        ]
+      },
+      "attribute": "minecraft:generic.knockback_resistance",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.05,
+        "chipped": 0.1,
+        "flawed": 0.15,
+        "normal": 0.2,
+        "flawless": 0.25,
+        "perfect": 0.3
+      }
+    }
+  ]
+}

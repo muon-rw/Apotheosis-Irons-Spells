@@ -1,0 +1,95 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aero_additions"
+    }
+  ],
+  "type": "apotheosis:gem",
+  "constraints": {
+    "min_purity": "cracked",
+    "dimensions": [],
+    "unique": true
+  },
+  "weights": {
+    "weight": 5,
+    "quality": 2
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_weapons",
+        "types": [
+          "irons_apothic:staff"
+        ]
+      },
+      "attribute": "aero_additions:wind_spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "aero_additions:wind_magic_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.1,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "boots",
+        "types": [
+          "apotheosis:boots"
+        ]
+      },
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "chipped": 0.05,
+        "flawed": 0.075,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "chestplate",
+        "types": [
+          "apotheosis:chestplate"
+        ]
+      },
+      "attribute": "apothic_attributes:dodge_chance",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.015,
+        "chipped": 0.03,
+        "flawed": 0.045,
+        "normal": 0.06,
+        "flawless": 0.075,
+        "perfect": 0.09
+      }
+    }
+  ]
+} 

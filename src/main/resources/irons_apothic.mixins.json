@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.muon.irons_apothic.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "irons_apothic.refmap.json",
+  "mixins": [
+    "apoth.AffixRegistryMixin",
+    "apoth.LootControllerMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

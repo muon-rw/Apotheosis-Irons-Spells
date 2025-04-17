@@ -1,0 +1,141 @@
+{
+  "loot_category.irons_apothic.staff": "Staff",
+  "loot_category.irons_apothic.staff.plural": "Staffs",
+
+  "item.apotheosis.gem.irons_apothic:core/celsius_tear": "Celsius' Tear",
+  "item.apotheosis.gem.irons_apothic:core/dragonfire_spessartite": "Dragonfire Spessartite",
+  "item.apotheosis.gem.irons_apothic:core/luminous_opal": "Luminous Opal",
+  "item.apotheosis.gem.irons_apothic:core/void_umbalite": "Void Umbalite",
+  "item.apotheosis.gem.irons_apothic:core/bloody_pearl": "Bloody Pearl",
+  "item.apotheosis.gem.irons_apothic:core/effervescent_brimstone": "Effervescent Brimstone",
+  "item.apotheosis.gem.irons_apothic:core/golems_onyx": "Golem's Onyx",
+  "item.apotheosis.gem.irons_apothic:core/whispering_tentaculite": "Whispering Tentaculite",
+  "item.apotheosis.gem.irons_apothic:core/charged_lodestone": "Charged Lodestone",
+  "item.apotheosis.gem.irons_apothic:core/mossy_agate": "Mossy Agate",
+
+  "item.apotheosis.gem.irons_apothic:external/sky_meteoritill": "Sky Meteoritill",
+  "item.apotheosis.gem.irons_apothic:external/sirens_aquamarine": "Siren's Aquamarine",
+  "item.apotheosis.gem.irons_apothic:external/deepsea_heartstone": "Deepsea Heartstone",
+  "item.apotheosis.gem.irons_apothic:external/harmonic_geode": "Harmonic Geode",
+  "item.apotheosis.gem.irons_apothic:external/resonant_quartz": "Resonant Quartz",
+  "item.apotheosis.gem.irons_apothic:external/arcanists_edge": "Arcanist's Edge",
+
+  "gem_class.magic_weapons": "Staffs",
+  "affix.irons_apothic.target.spell_damage_self": "On spell damage, gain %s",
+  "affix.irons_apothic.target.spell_damage_target": "On spell damage, inflict %s",
+  "affix.irons_apothic.target.spell_heal_self": "On spell heal, gain %s",
+  "affix.irons_apothic.target.spell_heal_target": "On spell heal, grant %s",
+
+  "affix.irons_apothic.spell_level.desc": "%s spells cast with this weapon will be %s levels higher",
+
+  "affix.irons_apothic:telepathic": "Telepathic",
+  "affix.irons_apothic:telepathic.suffix": "of Space and Time",
+  "affix.irons_apothic:telepathic.desc.staff": "Mob drops will teleport to you.",
+
+  "affix.irons_apothic:magic_weapons/attribute/volatile": "Volatile",
+  "affix.irons_apothic:magic_weapons/attribute/volatile.suffix": "of Wild Magics",
+  "affix.irons_apothic:magic_weapons/attribute/intricate": "Intricate",
+  "affix.irons_apothic:magic_weapons/attribute/intricate.suffix": "of Critical Thinking",
+  "affix.irons_apothic:magic_weapons/attribute/vampiric": "Vampiric",
+  "affix.irons_apothic:magic_weapons/attribute/vampiric.suffix": "of Bloodletting",
+  "affix.irons_apothic:magic_weapons/attribute/ward_piercing": "Ward Piercing",
+  "affix.irons_apothic:magic_weapons/attribute/ward_piercing.suffix": "of Unyielding Power",
+  "affix.irons_apothic:magic_weapons/attribute/vigorous": "Vigorous",
+  "affix.irons_apothic:magic_weapons/attribute/vigorous.suffix": "of Mental Agility",
+
+  "affix.irons_apothic:magic_weapons/mob_effect/sophisticated": "Sophisticated",
+  "affix.irons_apothic:magic_weapons/mob_effect/sophisticated.suffix": "of Elevated Wisdom",
+  "affix.irons_apothic:magic_weapons/mob_effect/elusive": "Elusive",
+  "affix.irons_apothic:magic_weapons/mob_effect/elusive.suffix": "of Swift Winds",
+  "affix.irons_apothic:magic_weapons/mob_effect/obliviating": "Obliviating",
+  "affix.irons_apothic:magic_weapons/mob_effect/obliviating.suffix": "of the ender Tome",
+  "affix.irons_apothic:magic_weapons/mob_effect/smothering": "Smothering",
+  "affix.irons_apothic:magic_weapons/mob_effect/smothering.suffix": "of the Overwhelming Fog",
+
+  "affix.irons_apothic:magic_weapons/mob_effect/invigorating": "Invigorating",
+  "affix.irons_apothic:magic_weapons/mob_effect/invigorating.suffix": "of Vitality",
+  "affix.irons_apothic:magic_weapons/mob_effect/protective": "Protective",
+  "affix.irons_apothic:magic_weapons/mob_effect/protective.suffix": "of Shielding",
+  "affix.irons_apothic:magic_weapons/mob_effect/inspiring": "Inspiring",
+  "affix.irons_apothic:magic_weapons/mob_effect/inspiring.suffix": "of Valor",
+  "affix.irons_apothic:magic_weapons/mob_effect/fortifying": "Fortifying",
+  "affix.irons_apothic:magic_weapons/mob_effect/fortifying.suffix": "of Warding",
+
+  "affix.irons_apothic:elemental/school_none/attribute": "Arcane",
+  "affix.irons_apothic:elemental/school_none/attribute.suffix": "of the Archmage",
+
+  "affix.irons_apothic:elemental/school_eldritch/attribute": "Eldritch",
+  "affix.irons_apothic:elemental/school_eldritch/attribute.suffix": "of Sinister Horrors",
+  "affix.irons_apothic:elemental/school_eldritch/hasturian": "Hasturian",
+  "affix.irons_apothic:elemental/school_eldritch/hasturian.suffix": "of Disfigured Abominations",
+
+  "affix.irons_apothic:elemental/school_lightning/attribute": "Charged",
+  "affix.irons_apothic:elemental/school_lightning/attribute.suffix": "of Scattering Sparks",
+  "affix.irons_apothic:elemental/school_lightning/electromancers": "Electromancer's",
+  "affix.irons_apothic:elemental/school_lightning/electromancers.suffix": "of the Shaman",
+
+  "affix.irons_apothic:elemental/school_ender/attribute": "Voidborne",
+  "affix.irons_apothic:elemental/school_ender/attribute.suffix": "of Esoteric Secrets",
+  "affix.irons_apothic:elemental/school_ender/void_seers": "Void Seer's",
+  "affix.irons_apothic:elemental/school_ender/void_seers.suffix": "of Forbidden Power",
+
+  "affix.irons_apothic:elemental/school_ice/attribute": "Glacial",
+  "affix.irons_apothic:elemental/school_ice/attribute.suffix": "of Eternal Freezing",
+  "affix.irons_apothic:elemental/school_ice/cryomancers": "Cryomancer's",
+  "affix.irons_apothic:elemental/school_ice/cryomancers.suffix": "of True Ice",
+
+  "affix.irons_apothic:elemental/school_holy/attribute": "Sacred",
+  "affix.irons_apothic:elemental/school_holy/attribute.suffix": "of the Eternal Heavens",
+  "affix.irons_apothic:elemental/school_holy/clerics": "Cleric's",
+  "affix.irons_apothic:elemental/school_holy/clerics.suffix": "of Unwavering Purity",
+
+  "affix.irons_apothic:elemental/school_blood/attribute": "Undead",
+  "affix.irons_apothic:elemental/school_blood/attribute.suffix": "of the Skeleton King",
+  "affix.irons_apothic:elemental/school_blood/necromancers": "Necromancer's",
+  "affix.irons_apothic:elemental/school_blood/necromancers.suffix": "of Unwilling Resurrection",
+
+  "affix.irons_apothic:elemental/school_fire/attribute": "Infernal",
+  "affix.irons_apothic:elemental/school_fire/attribute.suffix": "of Screaming Hellfire",
+  "affix.irons_apothic:elemental/school_fire/pyromancers": "Pyromancer's",
+  "affix.irons_apothic:elemental/school_fire/pyromancers.suffix": "of Insanity",
+
+  "affix.irons_apothic:elemental/school_evocation/attribute": "Breezy",
+  "affix.irons_apothic:elemental/school_evocation/attribute.suffix": "of the Hurricane",
+  "affix.irons_apothic:elemental/school_evocation/storm_wizard": "Storm Wizard's",
+  "affix.irons_apothic:elemental/school_evocation/storm_wizard.suffix": "of Fierce Winds",
+
+  "affix.irons_apothic:elemental/school_nature/attribute": "Crushing",
+  "affix.irons_apothic:elemental/school_nature/attribute.suffix": "of the Continents",
+  "affix.irons_apothic:elemental/school_nature/terraformer": "Terraformer's",
+  "affix.irons_apothic:elemental/school_nature/terraformer.suffix": "of High Mountains",
+
+  "affix.irons_apothic:elemental/school_wind/attribute": "Zephyrous",
+  "affix.irons_apothic:elemental/school_wind/attribute.suffix": "of Howling Gales",
+  "affix.irons_apothic:elemental/school_wind/aeromancer": "Aeromancer's",
+  "affix.irons_apothic:elemental/school_wind/aeromancer.suffix": "of Boundless Skies",
+
+  "affix.irons_apothic:elemental/school_aqua/attribute": "Nautical",
+  "affix.irons_apothic:elemental/school_aqua/attribute.suffix": "of Crashing Tides",
+  "affix.irons_apothic:elemental/school_aqua/aquamancer": "Aquamancer's",
+  "affix.irons_apothic:elemental/school_aqua/aquamancer.suffix": "of the Ocean's Depths",
+
+  "affix.irons_apothic:elemental/school_abyssal/attribute": "Abyssal",
+  "affix.irons_apothic:elemental/school_abyssal/attribute.suffix": "of Sunken Depths",
+  "affix.irons_apothic:elemental/school_abyssal/chthonic": "Chthonic",
+  "affix.irons_apothic:elemental/school_abyssal/chthonic.suffix": "of the Void Below",
+
+  "affix.irons_apothic:elemental/school_symmetry/attribute": "Symmetrical",
+  "affix.irons_apothic:elemental/school_symmetry/attribute.suffix": "of Perfect Balance",
+  "affix.irons_apothic:elemental/school_symmetry/equilibrium": "Equilibrium's",
+  "affix.irons_apothic:elemental/school_symmetry/equilibrium.suffix": "of Mirrored Souls",
+
+  "affix.irons_apothic:elemental/school_sound/attribute": "Sonorous",
+  "affix.irons_apothic:elemental/school_sound/attribute.suffix": "of Echoing Waves",
+  "affix.irons_apothic:elemental/school_sound/bardic": "Bardic",
+  "affix.irons_apothic:elemental/school_sound/bardic.suffix": "of Melodious Harmony",
+
+  "affix.irons_apothic:elemental/school_spellblade/attribute": "Spellforged",
+  "affix.irons_apothic:elemental/school_spellblade/attribute.suffix": "of Imbued Steel",
+  "affix.irons_apothic:elemental/school_spellblade/blade_dancer": "Blade Dancer's",
+  "affix.irons_apothic:elemental/school_spellblade/blade_dancer.suffix": "of Arcane Strikes"
+}

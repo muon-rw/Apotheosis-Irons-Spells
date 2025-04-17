@@ -1,0 +1,23 @@
+{
+  "type": "irons_apothic:spell_level",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 25,
+      "quality": 0.1
+    },
+    "exclusive_set": []
+  },
+  "school": "irons_spellbooks:nature",
+  "values": {
+    "apotheosis:common": 1,
+    "apotheosis:uncommon": 1,
+    "apotheosis:rare": 1,
+    "apotheosis:epic": 2,
+    "apotheosis:mythic": 2
+  },
+  "types": [
+    "apotheosis:melee_weapon",
+    "irons_apothic:staff"
+  ]
+}
