@@ -1,3 +1,7 @@
+## 1.3.0
+- Add Staff-specific bonuses to most existing Apotheosis gems
+- Fix Gem class name (Staff: -> Staffs:)
+
 ## 1.2.1
 - Fixed gems not being obtainable in Survival
 
