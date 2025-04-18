@@ -1,3 +1,6 @@
+## 1.2.1
+- Fixed gems not being obtainable in Survival
+
 ## 1.2.0
 - Added a new SchoolAttributeAffix type, replacing mixin-based affix filtering
 - Cleaned up internals

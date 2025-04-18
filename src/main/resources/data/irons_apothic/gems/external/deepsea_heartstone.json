@@ -6,11 +6,8 @@
     }
   ],
   "type": "apotheosis:gem",
-  "constraints": {
-    "min_purity": "cracked",
-    "dimensions": [],
-    "unique": true
-  },
+  "min_purity": "cracked",
+  "unique": false,
   "weights": {
     "weight": 5,
     "quality": 2
