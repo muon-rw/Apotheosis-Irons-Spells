@@ -1,0 +1,23 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:overworld/earth",
+    "bonuses": [
+        {
+            "type": "apotheosis:enchantment",
+            "enchantment": "minecraft:unbreaking",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "mode": "existing", 
+            "values": {
+                "flawed": 1, 
+                "normal": 2,
+                "flawless": 3,
+                "perfect": 4
+            }
+        }
+    ]
+} 

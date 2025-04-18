@@ -1,0 +1,44 @@
+{
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "twilightforest"
+        }
+    ],
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:twilight/queen",
+    "bonuses": [
+         {
+            "type": "apotheosis:multi_attribute",
+            "desc": "bonus.apotheosis:multi_attr.desc.and",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "modifiers": [
+                {
+                    "attribute": "irons_spellbooks:ice_spell_power",
+                    "operation": "add_multiplied_base",
+                     "values": {
+                        "flawed": 0.15,
+                        "normal": 0.20,
+                        "flawless": 0.25,
+                        "perfect": 0.30
+                    }
+                },
+                {
+                    "attribute": "irons_spellbooks:max_mana",
+                    "operation": "add_value",
+                     "values": {
+                         "flawed": 60.0,
+                        "normal": 80.0,
+                        "flawless": 100.0,
+                        "perfect": 125.0
+                    }
+                }
+            ]
+        }
+    ]
+} 

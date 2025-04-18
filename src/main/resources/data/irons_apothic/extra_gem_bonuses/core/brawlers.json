@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/brawlers",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:cooldown_reduction",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base",
+            "values": {
+                "cracked": 0.01,
+                "chipped": 0.02,
+                "flawed": 0.03,
+                "normal": 0.04,
+                "flawless": 0.06,
+                "perfect": 0.08
+            }
+        }
+    ]
+} 

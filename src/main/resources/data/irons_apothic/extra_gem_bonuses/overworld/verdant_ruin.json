@@ -1,0 +1,23 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:overworld/verdant_ruin",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:nature_spell_power",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base", 
+            "values": {
+                "flawed": 0.15,
+                "normal": 0.20,
+                "flawless": 0.275,
+                "perfect": 0.35
+            }
+        }
+    ]
+} 

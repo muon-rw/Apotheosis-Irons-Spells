@@ -1,0 +1,42 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/splendor",
+    "bonuses": [
+        {
+            "type": "apotheosis:multi_attribute",
+            "desc": "bonus.apotheosis:multi_attr.desc.and",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "modifiers": [
+                {
+                    "attribute": "apothic_attributes:experience_gained",
+                    "operation": "add_multiplied_base",
+                    "values": { 
+                        "cracked": 0.05, 
+                        "chipped": 0.10,
+                        "flawed": 0.15,
+                        "normal": 0.20,
+                        "flawless": 0.30,
+                        "perfect": 0.40
+                    }
+                },
+                {
+                    "attribute": "minecraft:generic.luck",
+                    "operation": "add_value",
+                    "values": { 
+                        "cracked": 0.25,
+                        "chipped": 0.5,
+                        "flawed": 0.75,
+                        "normal": 1.0,
+                        "flawless": 1.5,
+                        "perfect": 2.0
+                    }
+                }
+            ]
+        }
+    ]
+} 

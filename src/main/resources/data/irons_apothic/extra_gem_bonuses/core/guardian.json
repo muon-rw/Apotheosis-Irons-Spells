@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/guardian",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:holy_spell_power",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base", 
+            "values": {
+                "cracked": 0.05,
+                "chipped": 0.075,
+                "flawed": 0.10,
+                "normal": 0.125,
+                "flawless": 0.15,
+                "perfect": 0.20
+            }
+        }
+    ]
+} 

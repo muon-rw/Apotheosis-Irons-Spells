@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/lunar",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:max_mana",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_value",
+            "values": {
+                "cracked": 30.0,
+                "chipped": 60.0,
+                "flawed": 90.0,
+                "normal": 120.0,
+                "flawless": 150.0,
+                "perfect": 180.0
+            }
+        }
+    ]
+} 

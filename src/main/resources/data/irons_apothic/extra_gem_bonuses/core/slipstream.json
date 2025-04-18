@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/slipstream",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:casting_movespeed",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base", 
+            "values": {
+                "cracked": 0.05,
+                "chipped": 0.10,
+                "flawed": 0.15,
+                "normal": 0.20,
+                "flawless": 0.25,
+                "perfect": 0.30
+            }
+        }
+    ]
+} 

@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/tyrannical",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:summon_damage",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base", 
+            "values": {
+                "cracked": 0.10,
+                "chipped": 0.15,
+                "flawed": 0.20,
+                "normal": 0.25,
+                "flawless": 0.30,
+                "perfect": 0.35
+            }
+        }
+    ]
+} 

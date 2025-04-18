@@ -1,0 +1,42 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/lightning",
+    "bonuses": [
+        {
+            "type": "apotheosis:multi_attribute",
+            "desc": "bonus.apotheosis:multi_attr.desc.and",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "modifiers": [
+                {
+                    "attribute": "irons_spellbooks:casting_movespeed",
+                    "operation": "add_multiplied_base",
+                    "values": {
+                        "cracked": 0.02,
+                        "chipped": 0.04,
+                        "flawed": 0.07,
+                        "normal": 0.09,
+                        "flawless": 0.12,
+                        "perfect": 0.15
+                    }
+                },
+                {
+                    "attribute": "irons_spellbooks:cast_time_reduction",
+                    "operation": "add_multiplied_base",
+                    "values": {
+                         "cracked": 0.01,
+                        "chipped": 0.02,
+                        "flawed": 0.03,
+                        "normal": 0.04,
+                        "flawless": 0.06,
+                        "perfect": 0.08
+                    }
+                }
+            ]
+        }
+    ]
+} 

@@ -1,0 +1,25 @@
+{
+    "type": "apotheosis:extra_gem_bonus",
+    "gem": "apotheosis:core/samurai",
+    "bonuses": [
+        {
+            "type": "apotheosis:attribute",
+            "attribute": "irons_spellbooks:cooldown_reduction",
+            "gem_class": {
+                "key": "staff",
+                "types": [
+                    "irons_apothic:staff"
+                ]
+            },
+            "operation": "add_multiplied_base",
+            "values": {
+                "cracked": 0.02,
+                "chipped": 0.03,
+                "flawed": 0.05,
+                "normal": 0.07,
+                "flawless": 0.09,
+                "perfect": 0.12
+            }
+        }
+    ]
+} 
