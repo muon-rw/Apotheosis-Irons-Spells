@@ -1,5 +1,5 @@
 {
-  "gem_class.staff": "Staff",
+  "gem_class.staff": "Staffs",
   "loot_category.irons_apothic.staff": "Staff",
   "loot_category.irons_apothic.staff.plural": "Staffs",
 
@@ -138,5 +138,34 @@
   "affix.irons_apothic:elemental/school_spellblade/attribute": "Spellforged",
   "affix.irons_apothic:elemental/school_spellblade/attribute.suffix": "of Imbued Steel",
   "affix.irons_apothic:elemental/school_spellblade/blade_dancer": "Blade Dancer's",
-  "affix.irons_apothic:elemental/school_spellblade/blade_dancer.suffix": "of Arcane Strikes"
+  "affix.irons_apothic:elemental/school_spellblade/blade_dancer.suffix": "of Arcane Strikes",
+
+  "affix.irons_apothic:elemental/school_blood/armor": "Sanguine",
+  "affix.irons_apothic:elemental/school_blood/armor.suffix": "of the Blood Ward",
+  "affix.irons_apothic:elemental/school_ender/armor": "Void-Touched",
+  "affix.irons_apothic:elemental/school_ender/armor.suffix": "of the Ender Bulwark",
+  "affix.irons_apothic:elemental/school_evocation/armor": "Warding",
+  "affix.irons_apothic:elemental/school_evocation/armor.suffix": "of the Protective Gale",
+  "affix.irons_apothic:elemental/school_fire/armor": "Flame-Touched",
+  "affix.irons_apothic:elemental/school_fire/armor.suffix": "of the Fireproof Heart",
+  "affix.irons_apothic:elemental/school_holy/armor": "Hallowed",
+  "affix.irons_apothic:elemental/school_holy/armor.suffix": "of the Divine Aegis",
+  "affix.irons_apothic:elemental/school_ice/armor": "Frosted",
+  "affix.irons_apothic:elemental/school_ice/armor.suffix": "of the Rimeguard",
+  "affix.irons_apothic:elemental/school_lightning/armor": "Static",
+  "affix.irons_apothic:elemental/school_lightning/armor.suffix": "of the Storm Mantle",
+  "affix.irons_apothic:elemental/school_nature/armor": "Earthen",
+  "affix.irons_apothic:elemental/school_nature/armor.suffix": "of the Stone Skin",
+  "affix.irons_apothic:elemental/school_abyssal/armor": "Deepwater",
+  "affix.irons_apothic:elemental/school_abyssal/armor.suffix": "of the Abyssal Barrier",
+  "affix.irons_apothic:elemental/school_aqua/armor": "Oceanic",
+  "affix.irons_apothic:elemental/school_aqua/armor.suffix": "of the Wave Crest",
+  "affix.irons_apothic:elemental/school_sound/armor": "Resonant",
+  "affix.irons_apothic:elemental/school_sound/armor.suffix": "of the Sonic Dampener",
+  "affix.irons_apothic:elemental/school_spellblade/armor": "Arcane-Infused",
+  "affix.irons_apothic:elemental/school_spellblade/armor.suffix": "of the Spellshield",
+  "affix.irons_apothic:elemental/school_symmetry/armor": "Balanced",
+  "affix.irons_apothic:elemental/school_symmetry/armor.suffix": "of the Mirror Guard",
+  "affix.irons_apothic:elemental/school_wind/armor": "Aerial",
+  "affix.irons_apothic:elemental/school_wind/armor.suffix": "of the Sky Barrier"
 }
