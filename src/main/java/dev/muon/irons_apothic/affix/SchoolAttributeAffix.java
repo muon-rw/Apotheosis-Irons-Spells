@@ -56,17 +56,18 @@ public class SchoolAttributeAffix extends AttributeAffix {
         if (!super.canApplyTo(stack, cat, rarity)) {
             return false;
         }
-        if (!cat.isNone()) {
-            Set<SchoolType> gearSchools = AffixSchoolMapper.getSpellSchoolsFromGear(stack);
-
-            if (this.school.isPresent()) {
-                SchoolType requiredSchool = this.school.get();
-                return gearSchools.contains(requiredSchool);
-            } else {
-                return gearSchools.isEmpty();
-            }
+        if (cat == null || cat.isNone()) {
+             return false; 
         }
-        return false; 
+
+        Set<SchoolType> gearSchools = AffixSchoolMapper.getSpellSchoolsFromGear(stack);
+
+        if (this.school.isPresent()) {
+            SchoolType requiredSchool = this.school.get();
+            return gearSchools.contains(requiredSchool);
+        } else { 
+            return gearSchools.isEmpty();
+        }
     }
 
     @Override
