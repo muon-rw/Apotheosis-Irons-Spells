@@ -1,6 +1,11 @@
 package dev.muon.irons_apothic;
 
 import dev.muon.irons_apothic.affix.AffixEventHandler;
+import dev.muon.irons_apothic.affix.SchoolAttributeAffix;
+import dev.muon.irons_apothic.affix.MagicTelepathicAffix;
+import dev.muon.irons_apothic.affix.SpellEffectAffix;
+import dev.muon.irons_apothic.affix.SpellLevelAffix;
+import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -25,6 +30,12 @@ public class IronsApothic {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        LOGGER.info("Registering custom affix codecs...");
+        AffixRegistry.INSTANCE.registerCodec(loc("attribute"), SchoolAttributeAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("spell_effect"), SpellEffectAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("magic_telepathic"), MagicTelepathicAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("spell_level"), SpellLevelAffix.CODEC);
+        LOGGER.info("Custom affix codecs registered.");
     }
 
     public static ResourceLocation loc(String id) {

@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
-import dev.shadowsoffire.apotheosis.affix.AffixType;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -74,8 +73,15 @@ public class SpellLevelAffix extends Affix {
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
-        if (cat.isNone()) return false;
-        return (this.validTypes.isEmpty() || this.validTypes.contains(cat))
-                && this.values.containsKey(rarity);
+        if (cat.isNone() || !this.values.containsKey(rarity)) {
+            return false;
+        }
+        if (!this.validTypes.isEmpty() && !this.validTypes.contains(cat)) {
+            return false;
+        }
+
+        Set<SchoolType> gearSchools = AffixSchoolMapper.getSpellSchoolsFromGear(stack);
+
+        return gearSchools.contains(this.school);
     }
 }

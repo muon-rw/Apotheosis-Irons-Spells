@@ -5,7 +5,7 @@
       "modid": "cataclysm_spellbooks"
     }
   ],
-  "type": "apotheosis:attribute",
+  "type": "irons_apothic:attribute",
   "definition": {
     "affix_type": "stat",
     "weights": {
@@ -46,5 +46,6 @@
   "categories": [
     "apotheosis:melee_weapon",
     "irons_apothic:staff"
-  ]
-} 
+  ],
+  "school": "cataclysm_spellbooks:abyssal"
+}
