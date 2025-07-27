@@ -24,13 +24,13 @@ public class AffixSchoolMapper {
     public static Set<SchoolType> getSpellSchoolsFromGear(ItemStack stack) {
         Set<SchoolType> schools = new HashSet<>();
         
-        schools.addAll(getVanillaAttributes(stack));
+        schools.addAll(getVanillaSlotAttributes(stack));
         schools.addAll(getCurioAttributes(stack));
         
         return schools;
     }
     
-    private static Set<SchoolType> getVanillaAttributes(ItemStack stack) {
+    private static Set<SchoolType> getVanillaSlotAttributes(ItemStack stack) {
         Set<SchoolType> schools = new HashSet<>();
         
         ItemAttributeModifiers componentModifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
