@@ -1,3 +1,6 @@
+## 1.4.0
+- School-filtered affixes now support Curios
+
 ## 1.3.0
 - Add Staff-specific bonuses to most existing Apotheosis gems
 - Fix Gem class name (Staff: -> Staffs:)
