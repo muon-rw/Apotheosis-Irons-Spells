@@ -54,7 +54,7 @@ public class SpellLevelAffix extends Affix {
         String schoolTranslationKey = "school." + school.getId().getNamespace() + "." + school.getId().getPath();
 
         return Component.translatable("affix.irons_apothic.spell_level.desc",
-                Component.translatable(schoolTranslationKey),
+                Component.translatable(schoolTranslationKey).withStyle(school.getDisplayName().getStyle()),
                 bonus);
     }
 
