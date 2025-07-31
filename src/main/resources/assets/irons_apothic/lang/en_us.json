@@ -55,6 +55,10 @@
   "affix.irons_apothic:magic_weapons/attribute/ward_piercing.suffix": "of Unyielding Power",
   "affix.irons_apothic:magic_weapons/attribute/vigorous": "Vigorous",
   "affix.irons_apothic:magic_weapons/attribute/vigorous.suffix": "of Mental Agility",
+  "affix.irons_apothic:magic_weapons/attribute/restorative": "Restorative",
+  "affix.irons_apothic:magic_weapons/attribute/restorative.suffix": "of Arcane Flow",
+  "affix.irons_apothic:magic_weapons/attribute/brutish": "Brutish",
+  "affix.irons_apothic:magic_weapons/attribute/brutish.suffix": "of Forceful Magics",
 
   "affix.irons_apothic:magic_weapons/mob_effect/sophisticated": "Sophisticated",
   "affix.irons_apothic:magic_weapons/mob_effect/sophisticated.suffix": "of Elevated Wisdom",

@@ -8,7 +8,7 @@
     },
     "exclusive_set": []
   },
-  "attribute": "apothic_attributes:crit_chance",
+  "attribute": "irons_spellbooks:mana_regen",
   "operation": "ADD_MULTIPLIED_BASE",
   "values": {
     "apotheosis:common": {
