@@ -1,0 +1,27 @@
+{
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 8,
+      "quality": 0.6
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:cleanse",
+  "trigger": "HURT",
+  "target": "SELF",
+  "values": {
+    "apotheosis:mythic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 0
+      },
+      "cooldown": 900
+    }
+  },
+  "types": [
+    "apotheosis:helmet"
+  ]
+} 

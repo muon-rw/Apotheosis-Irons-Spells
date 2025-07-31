@@ -4,15 +4,19 @@ import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
+import io.redspace.ironsspellbooks.api.events.ChangeManaEvent;
 import io.redspace.ironsspellbooks.api.events.ModifySpellLevelEvent;
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellHealEvent;
+import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
+import io.redspace.ironsspellbooks.api.spells.SpellData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -115,6 +119,50 @@ public class AffixEventHandler {
                     affix.triggerSpell(caster, target, inst);
                 }
             });
+        }
+    }
+
+    @SubscribeEvent
+    public void onChangeMana(ChangeManaEvent event) {
+        if (event.getEntity().level().isClientSide()) return;
+        
+        Player player = event.getEntity();
+        MagicData magicData = event.getMagicData();
+        SpellData castingSpell = magicData.getCastingSpell();
+        
+        if (castingSpell == null || event.getNewMana() >= event.getOldMana()) {
+            return;
+        }
+        
+        AbstractSpell spell = castingSpell.getSpell();
+        if (spell == null) return;
+        
+        SchoolType spellSchool = spell.getSchoolType();
+        
+        // Only applies to STAFF/MELEE_WEAPON
+        ItemStack mainHand = player.getMainHandItem();
+        if (mainHand.isEmpty()) return;
+        
+        float totalReduction = 0f;
+        
+        Map<DynamicHolder<Affix>, AffixInstance> affixes = AffixHelper.getAffixes(mainHand);
+        for (AffixInstance instance : affixes.values()) {
+            if (instance.isValid() && instance.affix().isBound()) {
+                Affix affix = instance.getAffix();
+                if (affix instanceof ManaCostAffix manaCostAffix) {
+                    if (manaCostAffix.getSchool() == spellSchool) {
+                        float reduction = manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
+                        totalReduction += reduction;
+                    }
+                }
+            }
+        }
+
+        if (totalReduction > 0) {
+            float manaCost = event.getOldMana() - event.getNewMana();
+            float reducedCost = manaCost * (1 - Math.min(totalReduction, 0.9f)); // Cap at 90% reduction
+            float newManaValue = event.getOldMana() - reducedCost;
+            event.setNewMana(newManaValue);
         }
     }
 

@@ -1,0 +1,43 @@
+{
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 12,
+      "quality": 0.35
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:blessing_of_life",
+  "trigger": "SPELL_HEAL",
+  "target": "SELF",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 2,
+        "step": 1
+      },
+      "cooldown": 600
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 1,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 500
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 2,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 400
+    }
+  },
+  "types": [
+    "irons_apothic:staff"
+  ]
+} 

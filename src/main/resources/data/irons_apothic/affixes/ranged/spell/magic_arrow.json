@@ -1,0 +1,43 @@
+{
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 15,
+      "quality": 0.35
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:magic_arrow",
+  "trigger": "PROJECTILE_HIT",
+  "target": "TARGET",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 2,
+        "step": 1
+      },
+      "cooldown": 140
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 1,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 100
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 2,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 80
+    }
+  },
+  "types": [
+    "apotheosis:bow"
+  ]
+} 

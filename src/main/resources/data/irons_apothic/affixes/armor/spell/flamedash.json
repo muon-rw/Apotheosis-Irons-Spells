@@ -1,0 +1,49 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aero_additions"
+    }
+  ],
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 12,
+      "quality": 0.5
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:burning_dash",
+  "trigger": "HURT",
+  "target": "SELF",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 400
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 2,
+        "steps": 4,
+        "step": 1
+      },
+      "cooldown": 300
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 3,
+        "steps": 5,
+        "step": 1
+      },
+      "cooldown": 200
+    }
+  },
+  "types": [
+    "apotheosis:boots"
+  ]
+} 

@@ -1,0 +1,43 @@
+{
+  "type": "irons_apothic:mana_cost",
+  "definition": {
+    "affix_type": "basic_effect",
+    "weights": {
+      "weight": 50,
+      "quality": 0.15
+    },
+    "exclusive_set": []
+  },
+  "school": "irons_spellbooks:fire",
+  "values": {
+    "apotheosis:common": {
+      "min": 0.05,
+      "steps": 3,
+      "step": 0.01
+    },
+    "apotheosis:uncommon": {
+      "min": 0.08,
+      "steps": 4,
+      "step": 0.01
+    },
+    "apotheosis:rare": {
+      "min": 0.12,
+      "steps": 4,
+      "step": 0.02
+    },
+    "apotheosis:epic": {
+      "min": 0.16,
+      "steps": 5,
+      "step": 0.02
+    },
+    "apotheosis:mythic": {
+      "min": 0.20,
+      "steps": 5,
+      "step": 0.03
+    }
+  },
+  "categories": [
+    "apotheosis:melee_weapon",
+    "irons_apothic:staff"
+  ]
+} 

@@ -1,7 +1,9 @@
 ## 1.4.0
 - Added Spell Trigger Affixes - cast a spell automatically to SELF or TARGET, on SPELL_DAMAGE, SPELL_HEAL, MELEE_HIT, PROJECTILE_HIT, HURT
 - School-filtered affixes now support Curios
-- Spell Level Affix now works from any slot, and properly modifies spell tooltips
+- Spell Level Affix now works from any slot, and now shows in tooltips
+- Removed the Durability affix from Staffs, and slightly improved their affix bonuses to compensate
+- Added Mana Cost affix, school-filtered mana cost reduction affix for weapons only
 
 ## 1.3.0
 - Add Staff-specific bonuses to most existing Apotheosis gems

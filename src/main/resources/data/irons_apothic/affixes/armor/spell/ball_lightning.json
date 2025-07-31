@@ -1,0 +1,46 @@
+{
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 8,
+      "quality": 0.6
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:ball_lightning",
+  "trigger": "HURT",
+  "target": "TARGET",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 2,
+        "step": 1
+      },
+      "cooldown": 1800
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 2,
+        "steps": 4,
+        "step": 1
+      },
+      "cooldown": 1200
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 3,
+        "steps": 5,
+        "step": 1
+      },
+      "cooldown": 900
+    }
+  },
+  "types": [
+    "apotheosis:helmet",
+    "apotheosis:chestplate",
+    "apotheosis:leggings",
+    "apotheosis:boots"
+  ]
+} 

@@ -1,0 +1,43 @@
+{
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 18,
+      "quality": 0.3
+    },
+    "exclusive_set": []
+  },
+  "spell": "irons_spellbooks:divine_smite",
+  "trigger": "MELEE_HIT",
+  "target": "TARGET",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 200
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 2,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 160
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 3,
+        "steps": 4,
+        "step": 1
+      },
+      "cooldown": 120
+    }
+  },
+  "types": [
+    "apotheosis:melee_weapon"
+  ]
+} 
