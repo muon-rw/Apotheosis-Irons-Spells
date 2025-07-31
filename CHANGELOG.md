@@ -4,6 +4,7 @@
 - Spell Level Affix now works from any slot, and now shows in tooltips
 - Removed the Durability affix from Staffs, and slightly improved their affix bonuses to compensate
 - Added Mana Cost affix, school-filtered mana cost reduction affix for weapons only
+- Added a small amount of crit chance/damage to Staffs (~1/3 of Bows/Swords)
 
 ## 1.3.0
 - Add Staff-specific bonuses to most existing Apotheosis gems
