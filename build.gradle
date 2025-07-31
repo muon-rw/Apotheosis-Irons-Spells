@@ -167,8 +167,8 @@ dependencies {
     runtimeOnly ("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config}")
 
     // Optional Compats
-
-    localRuntime "curse.maven:snackpirates-aeromancy-additions-1160104:6361726"
+    /*
+    localRuntime "curse.maven:snackpirates-aeromancy-additions-1160104:6781033"
 
     localRuntime "curse.maven:cataclysm-spellbooks-1099461:6427259"
     localRuntime "curse.maven:lendercataclysm-551586:6429407"
@@ -181,6 +181,8 @@ dependencies {
     localRuntime "curse.maven:gtbcs-spelllib-1194714:6164512"
 
     localRuntime "curse.maven:alshanexs-familiars-1171602:6250900"
+
+     */
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
