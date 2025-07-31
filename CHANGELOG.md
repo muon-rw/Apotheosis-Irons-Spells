@@ -1,9 +1,9 @@
 ## 1.4.0
 - Added Spell Trigger Affixes - cast a spell automatically to SELF or TARGET, on SPELL_DAMAGE, SPELL_HEAL, MELEE_HIT, PROJECTILE_HIT, HURT
-- School-filtered affixes now support Curios
-- Spell Level Affix now works from any slot, and now shows in tooltips
-- Removed the Durability affix from Staffs, and slightly improved their affix bonuses to compensate
-- Added Mana Cost affix, school-filtered mana cost reduction affix for weapons only
+- School-filtered affixes now support Curios (optionally - no built-in Curio support yet, for balance)
+- Spell Level Affix now works from any slot, and now shows in tooltips (optionally - still only built-in on weapons, for balance)
+- Removed the Durability affix from Staffs, and just slightly improved their other affix bonuses to compensate
+- Added ManaCost affix, school-filtered mana cost reduction affix for weapons only
 - Added a small amount of crit chance/damage to Staffs (~1/3 of Bows/Swords)
 
 ## 1.3.0
