@@ -1,7 +1,12 @@
 {
-  "gem_class.staff": "Staffs",
   "loot_category.irons_apothic.staff": "Staff",
-  "loot_category.irons_apothic.staff.plural": "Staffs",
+  "loot_category.irons_apothic.staff.plural": "Staves",
+  "loot_category.irons_apothic.spellbook": "Spellbook",
+  "loot_category.irons_apothic.spellbook.plural": "Spellbooks",
+
+  "gem_class.staff": "Staves",
+  "gem_class.magic_gear": "Staves or Spellbooks",
+  "gem_class.spellbook": "Spellbooks",
 
   "item.apotheosis.gem.irons_apothic:core/celsius_tear": "Celsius' Tear",
   "item.apotheosis.gem.irons_apothic:core/dragonfire_spessartite": "Dragonfire Spessartite",
@@ -21,7 +26,6 @@
   "item.apotheosis.gem.irons_apothic:external/resonant_quartz": "Resonant Quartz",
   "item.apotheosis.gem.irons_apothic:external/arcanists_edge": "Arcanist's Edge",
 
-  "gem_class.magic_weapons": "Staffs",
   "affix.irons_apothic.target.spell_damage_self": "On spell damage, gain %s",
   "affix.irons_apothic.target.spell_damage_target": "On spell damage, inflict %s",
   "affix.irons_apothic.target.spell_heal_self": "On spell heal, gain %s",
@@ -59,6 +63,8 @@
   "affix.irons_apothic:magic_weapons/attribute/restorative.suffix": "of Arcane Flow",
   "affix.irons_apothic:magic_weapons/attribute/brutish": "Brutish",
   "affix.irons_apothic:magic_weapons/attribute/brutish.suffix": "of Forceful Magics",
+  "affix.irons_apothic:magic_weapons/attribute/capacity": "Mana-Spring",
+  "affix.irons_apothic:magic_weapons/attribute/capacity.suffix": "of Magical Reserves",
 
   "affix.irons_apothic:magic_weapons/mob_effect/sophisticated": "Sophisticated",
   "affix.irons_apothic:magic_weapons/mob_effect/sophisticated.suffix": "of Elevated Wisdom",
