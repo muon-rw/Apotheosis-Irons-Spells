@@ -6,9 +6,10 @@
             "type": "apotheosis:attribute",
             "attribute": "irons_spellbooks:max_mana",
             "gem_class": {
-                "key": "staff",
+                "key": "magic_gear",
                 "types": [
-                    "irons_apothic:staff"
+                    "irons_apothic:staff",
+                    "irons_apothic:spellbook"
                 ]
             },
             "operation": "add_value",

@@ -45,7 +45,9 @@
   },
   "categories": [
     "apotheosis:melee_weapon",
-    "irons_apothic:staff"
+    "irons_apothic:staff",
+    "irons_apothic:spellbook",
+    "irons_apothic:spellbook"
   ],
   "school": "cataclysm_spellbooks:abyssal"
 }

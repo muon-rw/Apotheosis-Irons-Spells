@@ -1,6 +1,8 @@
 package dev.muon.irons_apothic;
 
 import dev.muon.irons_apothic.affix.*;
+import dev.muon.irons_apothic.category.LootCategories;
+import dev.muon.irons_apothic.category.SlotGroups;
 import dev.muon.irons_apothic.command.IronsApothicCommands;
 import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +23,7 @@ public class IronsApothic {
     public IronsApothic(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
+        SlotGroups.register(modEventBus);
         LootCategories.register(modEventBus);
         AffixEventHandler.register();
 

@@ -1,3 +1,10 @@
+## 1.5.0
+- Spellbooks are now reforgeable! Added spellbook affixes and many spellbook gem bonuses
+- Changed Spell Level affix category to BASIC_EFFECT instead of ABILITY
+- Slightly lowered the chance of mob effect on-cast affixes appearing on staffs
+- Spell Level bonuses now have a range instead of being a fixed level bonus based on affix tier
+- Added max mana affixes to staves/spellbooks
+
 ## 1.4.0
 - Added Spell Trigger Affixes - cast a spell automatically to SELF or TARGET, on SPELL_DAMAGE, SPELL_HEAL, MELEE_HIT, PROJECTILE_HIT, HURT
 - School-filtered affixes now support Curios (optionally - no built-in Curio support yet, for balance)

@@ -38,6 +38,7 @@
     }
   },
   "categories": [
-    "irons_apothic:staff"
+    "irons_apothic:staff",
+    "irons_apothic:spellbook"
   ]
 }

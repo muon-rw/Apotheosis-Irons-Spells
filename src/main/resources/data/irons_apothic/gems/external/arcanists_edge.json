@@ -35,9 +35,10 @@
     {
       "type": "apotheosis:attribute",
       "gem_class": {
-        "key": "magic_weapons",
+        "key": "magic_gear",
         "types": [
-          "irons_apothic:staff"
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
         ]
       },
       "attribute": "endersequipment:spellblade_magic_resist",

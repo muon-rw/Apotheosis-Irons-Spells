@@ -6,9 +6,10 @@
             "type": "apotheosis:multi_attribute",
             "desc": "bonus.apotheosis:multi_attr.desc.and",
             "gem_class": {
-                "key": "staff",
+                "key": "magic_gear",
                 "types": [
-                    "irons_apothic:staff"
+                    "irons_apothic:staff",
+                    "irons_apothic:spellbook"
                 ]
             },
             "modifiers": [

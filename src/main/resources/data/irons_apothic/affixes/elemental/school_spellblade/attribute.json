@@ -45,7 +45,8 @@
   },
   "categories": [
     "apotheosis:melee_weapon",
-    "irons_apothic:staff"
+    "irons_apothic:staff",
+    "irons_apothic:spellbook"
   ],
   "school": "endersequipment:blade"
 }

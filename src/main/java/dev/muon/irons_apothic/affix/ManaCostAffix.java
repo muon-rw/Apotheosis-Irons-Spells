@@ -2,7 +2,7 @@ package dev.muon.irons_apothic.affix;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.muon.irons_apothic.LootCategories;
+import dev.muon.irons_apothic.category.LootCategories;
 import dev.shadowsoffire.apotheosis.Apoth;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
@@ -51,7 +51,7 @@ public class ManaCostAffix extends Affix {
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
-        if (cat != LootCategories.STAFF && cat != Apoth.LootCategories.MELEE_WEAPON) {
+        if (cat != LootCategories.STAFF && cat != Apoth.LootCategories.MELEE_WEAPON  && cat != LootCategories.SPELLBOOK) {
             return false;
         }
         

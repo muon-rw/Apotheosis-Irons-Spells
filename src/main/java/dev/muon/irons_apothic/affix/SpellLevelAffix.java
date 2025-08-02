@@ -7,6 +7,7 @@ import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
+import dev.shadowsoffire.placebo.util.StepFunction;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.network.chat.Component;
@@ -23,15 +24,15 @@ public class SpellLevelAffix extends Affix {
             inst.group(
                     Affix.affixDef(),
                     ResourceLocation.CODEC.fieldOf("school").forGetter(a -> a.school.getId()),
-                    LootRarity.mapCodec(Codec.INT).fieldOf("values").forGetter(a -> a.values),
+                    LootRarity.mapCodec(LevelData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.validTypes)
             ).apply(inst, SpellLevelAffix::new));
 
     protected final SchoolType school;
-    protected final Map<LootRarity, Integer> values;
+    protected final Map<LootRarity, LevelData> values;
     protected final Set<LootCategory> validTypes;
 
-    public SpellLevelAffix(AffixDefinition definition, ResourceLocation schoolId, Map<LootRarity, Integer> values, Set<LootCategory> types) {
+    public SpellLevelAffix(AffixDefinition definition, ResourceLocation schoolId, Map<LootRarity, LevelData> values, Set<LootCategory> types) {
         super(definition);
         this.school = SchoolRegistry.getSchool(schoolId);
         if (this.school == null) {
@@ -48,8 +49,10 @@ public class SpellLevelAffix extends Affix {
 
     @Override
     public MutableComponent getDescription(AffixInstance inst, AttributeTooltipContext ctx) {
-        Integer bonus = this.values.get(inst.rarity().get());
-        if (bonus == null) return Component.empty();
+        LevelData data = this.values.get(inst.rarity().get());
+        if (data == null) return Component.empty();
+
+        int bonus = data.level().getInt(inst.level());
 
         String schoolTranslationKey = "school." + school.getId().getNamespace() + "." + school.getId().getPath();
 
@@ -60,7 +63,26 @@ public class SpellLevelAffix extends Affix {
 
     @Override
     public Component getAugmentingText(AffixInstance inst, AttributeTooltipContext ctx) {
-        return this.getDescription(inst, ctx);
+        LevelData data = this.values.get(inst.rarity().get());
+        if (data == null) return Component.empty();
+
+        int currentBonus = data.level().getInt(inst.level());
+        int minBonus = data.level().getInt(0);
+        int maxBonus = data.level().getInt(1);
+
+        String schoolTranslationKey = "school." + school.getId().getNamespace() + "." + school.getId().getPath();
+        MutableComponent comp = Component.translatable("affix.irons_apothic.spell_level.desc",
+                Component.translatable(schoolTranslationKey).withStyle(school.getDisplayName().getStyle()),
+                currentBonus);
+
+        // Add min/max bounds if they differ
+        if (minBonus != maxBonus) {
+            Component minComp = Component.literal(String.valueOf(minBonus));
+            Component maxComp = Component.literal(String.valueOf(maxBonus));
+            comp.append(Affix.valueBounds(minComp, maxComp));
+        }
+
+        return comp;
     }
 
     public SchoolType getSchool() {
@@ -68,7 +90,8 @@ public class SpellLevelAffix extends Affix {
     }
 
     public int getBonusLevel(LootRarity rarity, float level) {
-        return this.values.getOrDefault(rarity, 0);
+        LevelData data = this.values.get(rarity);
+        return data != null ? data.level().getInt(level) : 0;
     }
 
     @Override
@@ -83,5 +106,12 @@ public class SpellLevelAffix extends Affix {
         Set<SchoolType> gearSchools = AffixSchoolMapper.getSpellSchoolsFromGear(stack);
 
         return gearSchools.contains(this.school);
+    }
+
+    public record LevelData(StepFunction level) {
+        private static final Codec<LevelData> CODEC = RecordCodecBuilder.create(inst -> inst
+                .group(
+                        StepFunction.CODEC.optionalFieldOf("level", StepFunction.constant(1)).forGetter(LevelData::level)
+                ).apply(inst, LevelData::new));
     }
 }

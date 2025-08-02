@@ -10,9 +10,10 @@
     {
       "type": "apotheosis:attribute",
       "gem_class": {
-        "key": "magic_weapons",
+        "key": "magic_gear",
         "types": [
-          "irons_apothic:staff"
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
         ]
       },
       "attribute": "irons_spellbooks:ender_spell_power",

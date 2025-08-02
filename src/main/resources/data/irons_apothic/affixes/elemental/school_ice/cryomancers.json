@@ -1,7 +1,7 @@
 {
   "type": "irons_apothic:spell_level",
   "definition": {
-    "affix_type": "ability",
+    "affix_type": "basic_effect",
     "weights": {
       "weight": 25,
       "quality": 0.1
@@ -18,6 +18,7 @@
   },
   "types": [
     "apotheosis:melee_weapon",
-    "irons_apothic:staff"
+    "irons_apothic:staff",
+    "irons_apothic:spellbook"
   ]
 }

@@ -24,6 +24,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Map;
 
@@ -175,24 +176,40 @@ public class AffixEventHandler {
 
         int totalBonus = 0;
 
-        // Boy, this looks expensive
         for (ItemStack stack : livingEntity.getAllSlots()) {
-            Map<DynamicHolder<Affix>, AffixInstance> affixes = AffixHelper.getAffixes(stack);
-            for (AffixInstance instance : affixes.values()) {
-                if (instance.isValid() && instance.affix().isBound()) {
-                    Affix affix = instance.getAffix();
-                    if (affix instanceof SpellLevelAffix spellLevelAffix) {
-                        if (spellLevelAffix.getSchool() == school) {
-                            int bonus = spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
-                            totalBonus += bonus;
-                        }
-                    }
-                }
-            }
+            totalBonus += getSpellLevelBonus(stack, school);
         }
+
+        int curiosBonus = CuriosApi.getCuriosInventory(livingEntity)
+            .map(curiosHandler -> {
+                int bonus = 0;
+                for (var slotResult : curiosHandler.findCurios(stack -> !stack.isEmpty())) {
+                    bonus += getSpellLevelBonus(slotResult.stack(), school);
+                }
+                return bonus;
+            })
+            .orElse(0);
+        
+        totalBonus += curiosBonus;
 
         if (totalBonus > 0) {
             event.addLevels(totalBonus);
         }
+    }
+
+    private int getSpellLevelBonus(ItemStack stack, SchoolType school) {
+        int bonus = 0;
+        Map<DynamicHolder<Affix>, AffixInstance> affixes = AffixHelper.getAffixes(stack);
+        for (AffixInstance instance : affixes.values()) {
+            if (instance.isValid() && instance.affix().isBound()) {
+                Affix affix = instance.getAffix();
+                if (affix instanceof SpellLevelAffix spellLevelAffix) {
+                    if (spellLevelAffix.getSchool() == school) {
+                        bonus += spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
+                    }
+                }
+            }
+        }
+        return bonus;
     }
 } 

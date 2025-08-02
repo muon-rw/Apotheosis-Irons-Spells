@@ -7,7 +7,7 @@
   ],
   "type": "irons_apothic:spell_level",
   "definition": {
-    "affix_type": "ability",
+    "affix_type": "basic_effect",
     "weights": {
       "weight": 25,
       "quality": 0.1
@@ -15,15 +15,32 @@
     "exclusive_set": []
   },
   "school": "endersequipment:blade",
-  "values": {
-    "apotheosis:common": 1,
-    "apotheosis:uncommon": 1,
-    "apotheosis:rare": 1,
-    "apotheosis:epic": 2,
-    "apotheosis:mythic": 2
+"values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 0
+      }
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 0
+      }
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 1
+      }
+    }
   },
   "types": [
     "apotheosis:melee_weapon",
-    "irons_apothic:staff"
+    "irons_apothic:staff",
+    "irons_apothic:spellbook"
   ]
 } 
