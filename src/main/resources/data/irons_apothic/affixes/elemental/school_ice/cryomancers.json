@@ -10,11 +10,27 @@
   },
   "school": "irons_spellbooks:ice",
   "values": {
-    "apotheosis:common": 1,
-    "apotheosis:uncommon": 1,
-    "apotheosis:rare": 1,
-    "apotheosis:epic": 2,
-    "apotheosis:mythic": 3
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 0
+      }
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 0
+      }
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 1
+      }
+    }
   },
   "types": [
     "apotheosis:melee_weapon",

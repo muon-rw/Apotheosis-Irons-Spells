@@ -1,3 +1,6 @@
+## 1.5.1
+- Fix Ice Spell Level affix bonuses not loading at all (Thanks cHin4916!)
+
 ## 1.5.0
 - Spellbooks are now reforgeable! Added spellbook affixes and many spellbook gem bonuses
 - Changed Spell Level affix category to BASIC_EFFECT instead of ABILITY
