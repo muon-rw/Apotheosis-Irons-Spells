@@ -2,6 +2,8 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '1.0.21'
+    // later
+    // id 'net.neoforged.moddev' version '2.0.105'
     id "me.modmuss50.mod-publish-plugin" version "0.8.3"
 }
 
@@ -156,6 +158,8 @@ dependencies {
     implementation("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${apothic_attributes}")
     implementation("dev.shadowsoffire:ApothicSpawners:${minecraft_version}-${apothic_spawners}")
     implementation("dev.shadowsoffire:ApothicEnchanting:${minecraft_version}-${apothic_enchanting}")
+    // Override newer version of patchouli due to dev env crash
+    implementation("vazkii.patchouli:Patchouli:${patchouli_version}")
 
 
     implementation ("io.redspace:irons_spellbooks:${irons_version}")
@@ -166,7 +170,9 @@ dependencies {
 
     runtimeOnly ("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config}")
 
+
     // Optional Compats
+    localRuntime "curse.maven:magic-from-the-east-1224162:6864551"
     /*
     localRuntime "curse.maven:snackpirates-aeromancy-additions-1160104:6781033"
 

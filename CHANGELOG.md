@@ -1,3 +1,7 @@
+## 1.6.0
+- Fix Flawed Ballast gems giving 80% spell power
+- Added support for ISS Magic From The East's Spirit school
+
 ## 1.5.1
 - Fix Ice Spell Level affix bonuses not loading at all (Thanks cHin4916!)
 

@@ -34,7 +34,7 @@
             "values": {
                 "cracked": 0.03,
                 "chipped": 0.05,
-                "flawed": 0.8,
+                "flawed": 0.08,
                 "normal": 0.12,
                 "flawless": 0.15,
                 "perfect": 0.2

@@ -25,6 +25,7 @@
   "item.apotheosis.gem.irons_apothic:external/harmonic_geode": "Harmonic Geode",
   "item.apotheosis.gem.irons_apothic:external/resonant_quartz": "Resonant Quartz",
   "item.apotheosis.gem.irons_apothic:external/arcanists_edge": "Arcanist's Edge",
+  "item.apotheosis.gem.irons_apothic:external/amethyst_lotus": "Amethyst Lotus",
 
   "affix.irons_apothic.target.spell_damage_self": "On spell damage, gain %s",
   "affix.irons_apothic.target.spell_damage_target": "On spell damage, inflict %s",
@@ -152,6 +153,11 @@
   "affix.irons_apothic:elemental/school_symmetry/equilibrium": "Equilibrium's",
   "affix.irons_apothic:elemental/school_symmetry/equilibrium.suffix": "of Mirrored Souls",
 
+  "affix.irons_apothic:elemental/school_spirit/attribute": "Spiritual",
+  "affix.irons_apothic:elemental/school_spirit/attribute.suffix": "of the Blue Cliff",
+  "affix.irons_apothic:elemental/school_spirit/harmonic": "Harmonic",
+  "affix.irons_apothic:elemental/school_spirit/harmonic.suffix": "of the Gateless Gate",
+
   "affix.irons_apothic:elemental/school_sound/attribute": "Sonorous",
   "affix.irons_apothic:elemental/school_sound/attribute.suffix": "of Echoing Waves",
   "affix.irons_apothic:elemental/school_sound/bardic": "Bardic",
@@ -188,6 +194,8 @@
   "affix.irons_apothic:elemental/school_aqua/mana_cost.suffix": "of Tidal Efficiency",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost": "Depths-touched",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost.suffix": "of Abyssal Channeling",
+  "affix.irons_apothic:elemental/school_spirit/mana_cost": "Lightweight",
+  "affix.irons_apothic:elemental/school_spirit/mana_cost.suffix": "of Noble Truths",
   "affix.irons_apothic:elemental/school_symmetry/mana_cost": "Mirrored",
   "affix.irons_apothic:elemental/school_symmetry/mana_cost.suffix": "of Balanced Flow",
   "affix.irons_apothic:elemental/school_sound/mana_cost": "Melodic",
