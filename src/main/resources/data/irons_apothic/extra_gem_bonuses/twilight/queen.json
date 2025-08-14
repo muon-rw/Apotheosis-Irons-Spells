@@ -22,20 +22,20 @@
                     "attribute": "irons_spellbooks:ice_spell_power",
                     "operation": "add_multiplied_base",
                      "values": {
-                        "flawed": 0.15,
+                        "flawed": 0.10,
                         "normal": 0.20,
-                        "flawless": 0.25,
-                        "perfect": 0.30
+                        "flawless": 0.30,
+                        "perfect": 0.40
                     }
                 },
                 {
                     "attribute": "irons_spellbooks:max_mana",
                     "operation": "add_value",
                      "values": {
-                         "flawed": 60.0,
-                        "normal": 80.0,
-                        "flawless": 100.0,
-                        "perfect": 125.0
+                         "flawed": 100.0,
+                        "normal": 150.0,
+                        "flawless": 200.0,
+                        "perfect": 250.0
                     }
                 }
             ]

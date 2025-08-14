@@ -13,10 +13,10 @@
             },
             "operation": "add_multiplied_base", 
             "values": {
-                "flawed": 0.15,
+                "flawed": 0.10,
                 "normal": 0.20,
-                "flawless": 0.275,
-                "perfect": 0.35
+                "flawless": 0.35,
+                "perfect": 0.50
             }
         }
     ]

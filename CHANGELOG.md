@@ -1,3 +1,7 @@
+## 1.6.1
+- Buffed a few unique gem bonuses (ex. Ice queen gem Ice Spell Power 30% -> 40%)
+- Removed unusable Gem of the Earth extra bonus 
+
 ## 1.6.0
 - Fix Flawed Ballast gems giving 80% spell power
 - Added support for ISS Magic From The East's Spirit school
