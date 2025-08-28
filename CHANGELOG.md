@@ -1,3 +1,10 @@
+## 1.7.0
+- Fix outdated compat for Alshanex's Familiars sound school
+- Nerf spell power bonus from Warlord gems 30% -> 22.5% 
+- Fix Blood Lord gems receiving Holy Spell Power instead of Blood Spell Power
+- Evocation gems/affixes are now properly themed around trickery and conjuration
+- Changed a few other affix names
+
 ## 1.6.1
 - Buffed a few unique gem bonuses (ex. Ice queen gem Ice Spell Power 30% -> 40%)
 - Removed unusable Gem of the Earth extra bonus 

@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "alshanex_familiars"
+      "modid": "familiarslib"
     }
   ],
   "type": "irons_apothic:spell_level",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "school": "alshanex_familiars:sound",
+  "school": "familiarslib:sound",
   "values": {
     "apotheosis:rare": {
       "level": {

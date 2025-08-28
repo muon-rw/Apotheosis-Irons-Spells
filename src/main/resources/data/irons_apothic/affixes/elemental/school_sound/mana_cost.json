@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "alshanex_familiars"
+      "modid": "familiarslib"
     }
   ],
   "type": "irons_apothic:mana_cost",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "school": "alshanex_familiars:sound",
+  "school": "familiarslib:sound",
   "values": {
     "apotheosis:common": {
       "min": 0.05,

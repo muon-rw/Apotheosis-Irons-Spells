@@ -172,23 +172,34 @@ dependencies {
 
 
     // Optional Compats
+    // https://www.curseforge.com/minecraft/mc-mods/magic-from-the-east
     localRuntime "curse.maven:magic-from-the-east-1224162:6864551"
-    /*
+
+    // https://www.curseforge.com/minecraft/mc-mods/snackpirates-aeromancy-additions
+    // https://www.curseforge.com/minecraft/mc-mods/expandability
     localRuntime "curse.maven:snackpirates-aeromancy-additions-1160104:6781033"
+    localRuntime "curse.maven:expandability-465066:5428824"
 
-    localRuntime "curse.maven:cataclysm-spellbooks-1099461:6427259"
-    localRuntime "curse.maven:lendercataclysm-551586:6429407"
-    localRuntime "curse.maven:azurelib-817423:6378821"
+    // https://www.curseforge.com/minecraft/mc-mods/cataclysm-spellbooks
+    // https://www.curseforge.com/minecraft/mc-mods/aces-spell-utils
+    // https://www.curseforge.com/minecraft/mc-mods/lendercataclysm
+    // https://www.curseforge.com/minecraft/mc-mods/lionfish-api/
+    // https://www.curseforge.com/minecraft/mc-mods/azurelib
+    localRuntime "curse.maven:cataclysm-spellbooks-1099461:6925079"
+    localRuntime "curse.maven:lendercataclysm-551586:6906997"
+    localRuntime "curse.maven:azurelib-817423:6849116"
     localRuntime "curse.maven:lionfish-api-1001614:6168249"
+    localRuntime "curse.maven:aces-spell-utils-1299492:6925303"
 
-    localRuntime "curse.maven:magic-from-the-east-1224162:6353396"
-
-    localRuntime "curse.maven:enders-spellsandstuff-1140215:6427854"
+    // https://www.curseforge.com/minecraft/mc-mods/enders-spellsandstuff
+    // https://www.curseforge.com/minecraft/mc-mods/gtbcs-spelllib/
+    localRuntime "curse.maven:enders-spellsandstuff-1140215:6903947"
     localRuntime "curse.maven:gtbcs-spelllib-1194714:6164512"
 
-    localRuntime "curse.maven:alshanexs-familiars-1171602:6250900"
-
-     */
+    // https://www.curseforge.com/minecraft/mc-mods/alshanexs-familiars/
+    // https://www.curseforge.com/minecraft/mc-mods/familiarslib/
+    localRuntime "curse.maven:alshanexs-familiars-1171602:6825732"
+    localRuntime "curse.maven:familiarslib-1316458:6824093"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -54,39 +54,39 @@
           "apotheosis:boots"
         ]
       },
-      "mob_effect": "irons_spellbooks:charged",
+      "mob_effect": "irons_spellbooks:true_invisibility",
       "target": "hurt_self",
       "operation": "ADD_VALUE",
       "values": {
         "cracked": {
           "duration": 60,
           "amplifier": 0,
-          "cooldown": 100
+          "cooldown": 500
         },
         "chipped": {
           "duration": 80,
           "amplifier": 0,
-          "cooldown": 100
+          "cooldown": 500
         },
         "flawed": {
           "duration": 100,
           "amplifier": 0,
-          "cooldown": 100
+          "cooldown": 500
         },
         "normal": {
           "duration": 120,
-          "amplifier": 1,
-          "cooldown": 100
+          "amplifier": 0,
+          "cooldown": 500
         },
         "flawless": {
           "duration": 160,
-          "amplifier": 1,
-          "cooldown": 100
+          "amplifier": 0,
+          "cooldown": 500
         },
         "perfect": {
           "duration": 200,
-          "amplifier": 1,
-          "cooldown": 100
+          "amplifier": 0,
+          "cooldown": 500
         }
       }
     }

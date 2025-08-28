@@ -1,6 +1,6 @@
 {
     "type": "apotheosis:extra_gem_bonus",
-    "gem": "apotheosis:the_nether/blood_lord",
+    "gem": "apotheosis:core/guardian",
     "bonuses": [
         {
             "type": "apotheosis:multi_attribute",
