@@ -1,3 +1,7 @@
+## 1.7.1
+- Add Chinese translation, thanks ZHAY10086!
+- Add Brazilian Portuguese translation, thanks PrincessStelllar! 
+
 ## 1.7.0
 - Fix outdated compat for Alshanex's Familiars sound school
 - Nerf spell power bonus from Warlord gems 30% -> 22.5% 
