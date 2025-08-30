@@ -1,3 +1,6 @@
+## 1.7.2
+- Add Staff Festive Affix (requires Apotheosis 8.4.0+)
+
 ## 1.7.1
 - Add Chinese translation, thanks ZHAY10086!
 - Add Brazilian Portuguese translation, thanks PrincessStelllar! 

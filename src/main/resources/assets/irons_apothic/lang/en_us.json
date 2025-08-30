@@ -50,6 +50,10 @@
   "affix.irons_apothic:telepathic.suffix": "of Space and Time",
   "affix.irons_apothic:telepathic.desc.staff": "Mob drops will teleport to you.",
 
+  "affix.irons_apothic:festive": "Festive",
+  "affix.irons_apothic:festive.suffix": "of Partying",
+  "affix.irons_apothic:festive.desc": "Slain enemies have a %s%% chance to be a Loot Piñata",
+
   "affix.irons_apothic:magic_weapons/attribute/volatile": "Volatile",
   "affix.irons_apothic:magic_weapons/attribute/volatile.suffix": "of Wild Magics",
   "affix.irons_apothic:magic_weapons/attribute/intricate": "Intricate",
