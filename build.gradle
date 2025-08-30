@@ -170,7 +170,6 @@ dependencies {
 
     runtimeOnly ("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config}")
 
-
     // Optional Compats
     // https://www.curseforge.com/minecraft/mc-mods/magic-from-the-east
     localRuntime "curse.maven:magic-from-the-east-1224162:6864551"
@@ -200,6 +199,9 @@ dependencies {
     // https://www.curseforge.com/minecraft/mc-mods/familiarslib/
     localRuntime "curse.maven:alshanexs-familiars-1171602:6825732"
     localRuntime "curse.maven:familiarslib-1316458:6824093"
+
+    // https://www.curseforge.com/minecraft/mc-mods/irons-spells-n-spellbooks-restrictions
+    localRuntime "curse.maven:irons-spells-n-spellbooks-restrictions-1330168:6937835"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

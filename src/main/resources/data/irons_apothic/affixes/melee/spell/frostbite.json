@@ -10,7 +10,7 @@
   },
   "spell": "irons_spellbooks:ice_spikes",
   "trigger": "MELEE_HIT",
-  "target": "SELF",
+  "target": "TARGET",
   "values": {
     "apotheosis:rare": {
       "level": {

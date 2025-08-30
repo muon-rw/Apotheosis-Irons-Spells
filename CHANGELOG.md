@@ -1,3 +1,7 @@
+## 1.7.3
+- Fix Frostbite affix's spell target being SELF instead of TARGET
+- Remove unnecessary check+message for cooldown/learning/mana from affix spellcasts
+
 ## 1.7.2
 - Add Staff Festive Affix (requires Apotheosis 8.4.0+)
 
