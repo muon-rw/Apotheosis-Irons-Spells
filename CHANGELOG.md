@@ -1,8 +1,3 @@
-## 1.8.0
-- Adding an upgrade orb to an item now allows it to roll that school's filtered affixes 
-For example, if you add a fire upgrade orb to a villager spell book, it can roll both fire and holy affixes.
-- Add initial support for ESS Requiem Mind School, removed support for Ender's Spells n' Such
-
 ## 1.7.2
 - Add Staff Festive Affix (requires Apotheosis 8.4.0+)
 

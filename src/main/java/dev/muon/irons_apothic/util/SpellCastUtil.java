@@ -47,7 +47,6 @@ public class SpellCastUtil {
 
         if (caster instanceof ServerPlayer serverPlayer) {
             IronsApothic.LOGGER.debug("Casting SPELL FOR SERVERPLAYA");
-            //TODO: Some of the manual targeting logic will need to be extracted in order to be used by non-players
             castSpellForPlayer(spell, spellLevel, serverPlayer, magicData);
         } else if (caster instanceof IMagicEntity magicEntity) {
             magicEntity.initiateCastSpell(spell, spellLevel);
@@ -62,18 +61,20 @@ public class SpellCastUtil {
 
     private static void castSpellForPlayer(AbstractSpell spell, int spellLevel, ServerPlayer serverPlayer, MagicData magicData) {
 
+        // We don't actually care about any of these checks (might make some of them an affix definition field)
+        /*
         CastResult castResult = spell.canBeCastedBy(spellLevel, CastSource.COMMAND, magicData, serverPlayer);
         if (castResult.message != null) {
             serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(castResult.message));
         }
+        */
 
         // Shouldn't happen
         if (magicData.isCasting()) {
             IronsApothic.LOGGER.warn("Attempted to trigger affix-cast while player was already casting");
             return;
         }
-
-        // No precast conditions check here; we set a target manually, and ignore mana cost/cooldowns
+        // No precast conditions check here either
         if (serverPlayer.isUsingItem()) {
             serverPlayer.stopUsingItem();
         }
@@ -120,10 +121,10 @@ public class SpellCastUtil {
                 if (spell.getCastType() != CastType.INSTANT) {
                     PacketDistributor.sendToPlayer(serverPlayer, new SyncTargetingDataPacket(livingTarget, spell));
                 }
-                //serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.spell_target_success", livingTarget.getDisplayName().getString(), spell.getDisplayName(serverPlayer)).withStyle(ChatFormatting.GREEN)));
+                // serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.spell_target_success", livingTarget.getDisplayName().getString(), spell.getDisplayName(serverPlayer)).withStyle(ChatFormatting.GREEN)));
             }
             if (livingTarget instanceof ServerPlayer serverPlayer) {
-                //Utils.sendTargetedNotification(serverPlayer, caster, spell);
+                // Utils.sendTargetedNotification(serverPlayer, caster, spell);
             }
         } else if (caster instanceof ServerPlayer serverPlayer) {
             serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.cast_error_target").withStyle(ChatFormatting.RED)));
