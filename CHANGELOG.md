@@ -1,3 +1,11 @@
+## 1.8.0
+- Adding an Upgrade Orb to an item now allows it to roll affixes from that school. For example, if you add a fire upgrade orb to a Villager spell book, it can roll both fire and holy affixes.
+- Initial support for ESS: Requiem (Ender's Spells n' Stuff support removed)
+
+## 1.7.3
+- Fix Frostbite affix's spell target being SELF instead of TARGET
+- Remove unnecessary check+message for cooldown/learning/mana from affix spellcasts
+
 ## 1.7.2
 - Add Staff Festive Affix (requires Apotheosis 8.4.0+)
 
