@@ -1,8 +1,10 @@
-package dev.muon.irons_apothic.affix;
+package dev.muon.irons_apothic.util;
 
 import com.google.common.collect.Multimap;
+import io.redspace.ironsspellbooks.api.item.UpgradeData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
+import io.redspace.ironsspellbooks.item.armor.UpgradeOrbType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,18 +28,40 @@ public class AffixSchoolMapper {
         
         schools.addAll(getVanillaSlotAttributes(stack));
         schools.addAll(getCurioAttributes(stack));
-        
+        schools.addAll(getUpgradeDataAttributes(stack));
         return schools;
     }
     
     private static Set<SchoolType> getVanillaSlotAttributes(ItemStack stack) {
         Set<SchoolType> schools = new HashSet<>();
-        
+
         ItemAttributeModifiers componentModifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         List<ItemAttributeModifiers.Entry> allModifierEntries = componentModifiers.modifiers();
 
         for (ItemAttributeModifiers.Entry entry : allModifierEntries) {
             Holder<Attribute> attributeHolder = entry.attribute();
+            if (!attributeHolder.isBound()) continue;
+
+            Attribute attribute = attributeHolder.value();
+            SchoolType school = getSchoolFromAttribute(attribute);
+            if (school != null) {
+                schools.add(school);
+            }
+        }
+
+        return schools;
+    }
+
+    private static Set<SchoolType> getUpgradeDataAttributes(ItemStack stack) {
+        Set<SchoolType> schools = new HashSet<>();
+        UpgradeData upgradeData = UpgradeData.getUpgradeData(stack);
+        
+        for (Holder<UpgradeOrbType> upgradeHolder : upgradeData.upgrades().keySet()) {
+            if (!upgradeHolder.isBound()) continue;
+            
+            UpgradeOrbType upgradeOrb = upgradeHolder.value();
+            Holder<Attribute> attributeHolder = upgradeOrb.attribute();
+            
             if (!attributeHolder.isBound()) continue;
             
             Attribute attribute = attributeHolder.value();
@@ -46,10 +70,9 @@ public class AffixSchoolMapper {
                 schools.add(school);
             }
         }
-        
         return schools;
     }
-    
+
     private static Set<SchoolType> getCurioAttributes(ItemStack stack) {
         Set<SchoolType> schools = new HashSet<>();
         

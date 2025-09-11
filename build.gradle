@@ -191,10 +191,13 @@ dependencies {
     localRuntime "curse.maven:lionfish-api-1001614:6168249"
     localRuntime "curse.maven:aces-spell-utils-1299492:6925303"
 
-    // https://www.curseforge.com/minecraft/mc-mods/enders-spellsandstuff
+    // OLD VERSIONS https://www.curseforge.com/minecraft/mc-mods/enders-spellsandstuff
+
+    // https://www.curseforge.com/minecraft/mc-mods/enders-spells-and-stuff-requiem
     // https://www.curseforge.com/minecraft/mc-mods/gtbcs-spelllib/
-    localRuntime "curse.maven:enders-spellsandstuff-1140215:6903947"
-    localRuntime "curse.maven:gtbcs-spelllib-1194714:6164512"
+    // localRuntime "curse.maven:enders-spellsandstuff-1140215:6903947"
+    // localRuntime "curse.maven:enders-spells-and-stuff-requiem-1336977:6964462"
+    localRuntime "curse.maven:gtbcs-spelllib-1194714:6973019"
 
     // https://www.curseforge.com/minecraft/mc-mods/alshanexs-familiars/
     // https://www.curseforge.com/minecraft/mc-mods/familiarslib/
@@ -253,7 +256,7 @@ publishMods {
         optional "alshanexs-familiars" // Sound
         optional "snackpirates-aeromancy-additions" // Wind
         optional "magic-from-the-east" // Symmetry
-        optional "enders-spellsandstuff" // Spellblade
+        optional "enders-spells-and-stuff-requiem" // Mind, Spellblade pending
         optional "to-tweaks-irons-spells" // Aqua (pending)
     }
 

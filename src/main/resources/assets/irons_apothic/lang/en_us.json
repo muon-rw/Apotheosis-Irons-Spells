@@ -172,6 +172,11 @@
   "affix.irons_apothic:elemental/school_spellblade/blade_dancer": "Blade Dancer's",
   "affix.irons_apothic:elemental/school_spellblade/blade_dancer.suffix": "of Arcane Strikes",
 
+  "affix.irons_apothic:elemental/school_mind/attribute": "Cerebral",
+  "affix.irons_apothic:elemental/school_mind/attribute.suffix": "of the Prophet",
+  "affix.irons_apothic:elemental/school_mind/genius": "Genius'",
+  "affix.irons_apothic:elemental/school_mind/genius.suffix": "of Sharp Wit",
+
   "affix.irons_apothic:elemental/school_none/mana_cost": "Efficient",
   "affix.irons_apothic:elemental/school_none/mana_cost.suffix": "of Arcane Conservation",
   "affix.irons_apothic:elemental/school_fire/mana_cost": "Kindling",
@@ -206,6 +211,8 @@
   "affix.irons_apothic:elemental/school_sound/mana_cost.suffix": "of Harmonic Resonance",
   "affix.irons_apothic:elemental/school_spellblade/mana_cost": "Blade Dancer's",
   "affix.irons_apothic:elemental/school_spellblade/mana_cost.suffix": "of Effortless Swordsmanship",
+  "affix.irons_apothic:elemental/school_mind/mana_cost": "Genius'",
+  "affix.irons_apothic:elemental/school_mind/mana_cost.suffix": "of Quick Thinking",
 
   "affix.irons_apothic:elemental/school_blood/armor": "Sanguine",
   "affix.irons_apothic:elemental/school_blood/armor.suffix": "of the Blood Ward",

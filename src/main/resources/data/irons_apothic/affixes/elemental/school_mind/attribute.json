@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "attribute": "ess_requiem:spellblade_spell_power",
+  "attribute": "ess_requiem:mind_spell_power",
   "operation": "ADD_MULTIPLIED_BASE",
   "values": {
     "apotheosis:common": {
@@ -48,5 +48,5 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ],
-  "school": "ess_requiem:blade"
+  "school": "ess_requiem:mind"
 }
