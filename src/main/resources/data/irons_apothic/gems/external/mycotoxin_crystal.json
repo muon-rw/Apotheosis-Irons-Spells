@@ -1,0 +1,120 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "hazennstuff"
+    }
+  ],
+  "type": "apotheosis:gem",
+  "min_purity": "cracked",
+  "unique": false,
+  "weights": {
+    "weight": 5,
+    "quality": 2
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_gear",
+        "types": [
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
+        ]
+      },
+      "attribute": "hazennstuff:radiance_spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "hazennstuff:radiance_magic_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.1,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "helmet",
+        "types": [
+          "apotheosis:helmet"
+        ]
+      },
+      "attribute": "apothic_attributes:crit_damage",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.02,
+        "chipped": 0.04,
+        "flawed": 0.06,
+        "normal": 0.08,
+        "flawless": 0.1,
+        "perfect": 0.12
+      }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": {
+        "key": "bow",
+        "types": [
+          "apotheosis:bow"
+        ]
+      },
+      "mob_effect": "minecraft:glowing",
+      "target": "attack_target",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": {
+          "duration": 60,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "chipped": {
+          "duration": 80,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "flawed": {
+          "duration": 100,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "normal": {
+          "duration": 120,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "flawless": {
+          "duration": 160,
+          "amplifier": 0,
+          "cooldown": 100
+        },
+        "perfect": {
+          "duration": 200,
+          "amplifier": 0,
+          "cooldown": 100
+        }
+      }
+    }
+  ]
+}
+

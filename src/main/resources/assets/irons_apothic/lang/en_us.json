@@ -26,6 +26,8 @@
   "item.apotheosis.gem.irons_apothic:external/resonant_quartz": "Resonant Quartz",
   "item.apotheosis.gem.irons_apothic:external/arcanists_edge": "Arcanist's Edge",
   "item.apotheosis.gem.irons_apothic:external/amethyst_lotus": "Amethyst Lotus",
+  "item.apotheosis.gem.irons_apothic:external/mycotoxin_crystal": "Mycotoxin Crystal",
+  "item.apotheosis.gem.irons_apothic:external/umbral_obsidian": "Umbral Obsidian",
 
   "affix.irons_apothic.target.spell_damage_self": "On spell damage, gain %s",
   "affix.irons_apothic.target.spell_damage_target": "On spell damage, inflict %s",
@@ -177,6 +179,16 @@
   "affix.irons_apothic:elemental/school_mind/genius": "Genius'",
   "affix.irons_apothic:elemental/school_mind/genius.suffix": "of Sharp Wit",
 
+  "affix.irons_apothic:elemental/school_radiance/attribute": "Blackreach",
+  "affix.irons_apothic:elemental/school_radiance/attribute.suffix": "of Glowing Caves",
+  "affix.irons_apothic:elemental/school_radiance/mycelial": "Mycelial",
+  "affix.irons_apothic:elemental/school_radiance/mycelial.suffix": "of Fungal Growth",
+
+  "affix.irons_apothic:elemental/school_shadow/attribute": "Shadowy",
+  "affix.irons_apothic:elemental/school_shadow/attribute.suffix": "of Dark Veils",
+  "affix.irons_apothic:elemental/school_shadow/warlocks": "Warlock's",
+  "affix.irons_apothic:elemental/school_shadow/warlocks.suffix": "of Binding Pacts",
+
   "affix.irons_apothic:elemental/school_none/mana_cost": "Efficient",
   "affix.irons_apothic:elemental/school_none/mana_cost.suffix": "of Arcane Conservation",
   "affix.irons_apothic:elemental/school_fire/mana_cost": "Kindling",
@@ -213,6 +225,10 @@
   "affix.irons_apothic:elemental/school_spellblade/mana_cost.suffix": "of Effortless Swordsmanship",
   "affix.irons_apothic:elemental/school_mind/mana_cost": "Genius'",
   "affix.irons_apothic:elemental/school_mind/mana_cost.suffix": "of Quick Thinking",
+  "affix.irons_apothic:elemental/school_radiance/mana_cost": "Bioluminescent",
+  "affix.irons_apothic:elemental/school_radiance/mana_cost.suffix": "of Luciferase",
+  "affix.irons_apothic:elemental/school_shadow/mana_cost": "Umbral",
+  "affix.irons_apothic:elemental/school_shadow/mana_cost.suffix": "of Shadow Weaving",
 
   "affix.irons_apothic:elemental/school_blood/armor": "Sanguine",
   "affix.irons_apothic:elemental/school_blood/armor.suffix": "of the Blood Ward",
@@ -257,6 +273,8 @@
   "affix.irons_apothic:armor/spell/oakskinned.suffix": "of Oaken Skin",
   "affix.irons_apothic:armor/spell/wither_skull": "Withering",
   "affix.irons_apothic:armor/spell/wither_skull.suffix": "of Reactive Withering",
+  "affix.irons_apothic:armor/spell/energy_burst": "Bursting",
+  "affix.irons_apothic:armor/spell/energy_burst.suffix": "of Radiant Energy",
 
   "affix.irons_apothic:magic_weapons/spell/blessed": "Blessed",
   "affix.irons_apothic:magic_weapons/spell/blessed.suffix": "of Divine Protection",
@@ -283,6 +301,10 @@
   "affix.irons_apothic:melee/spell/stomp.suffix": "of Force",
   "affix.irons_apothic:melee/spell/blood_slash": "Bloody",
   "affix.irons_apothic:melee/spell/blood_slash.suffix": "of Cut Throats",
+  "affix.irons_apothic:melee/spell/brimstone_hellblast": "Brimstone-Fused",
+  "affix.irons_apothic:melee/spell/brimstone_hellblast.suffix": "of Brimstone Hellfire",
+  "affix.irons_apothic:melee/spell/nights_edge_strike": "Dark-Edged",
+  "affix.irons_apothic:melee/spell/nights_edge_strike.suffix": "of the Edge of Night",
 
   "affix.irons_apothic:ranged/spell/fire_arrow": "Flaming",
   "affix.irons_apothic:ranged/spell/fire_arrow.suffix": "of Burning Impact",
@@ -293,5 +315,9 @@
   "affix.irons_apothic:ranged/spell/sunbeam": "Heavenly",
   "affix.irons_apothic:ranged/spell/sunbeam.suffix": "of Sol Invictus",
   "affix.irons_apothic:ranged/spell/volley": "Scattering",
-  "affix.irons_apothic:ranged/spell/volley.suffix": "of Scattering Shots"
+  "affix.irons_apothic:ranged/spell/volley.suffix": "of Scattering Shots",
+  "affix.irons_apothic:ranged/spell/ice_arrow": "Icy",
+  "affix.irons_apothic:ranged/spell/ice_arrow.suffix": "of Frozen Arrows",
+  "affix.irons_apothic:ranged/spell/crystal_volley": "Crystalline",
+  "affix.irons_apothic:ranged/spell/crystal_volley.suffix": "of Frozen Volleys"
 }

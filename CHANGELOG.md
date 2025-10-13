@@ -1,3 +1,6 @@
+## 1.9.0
+- Add compat for Hazen n' Stuff 1.3.0+ Radiance/Shadow schools, and new spells
+
 ## 1.8.0
 - Adding an Upgrade Orb to an item now allows it to roll affixes from that school. For example, if you add a fire upgrade orb to a Villager spell book, it can roll both fire and holy affixes.
 - Initial support for ESS: Requiem (Ender's Spells n' Stuff support removed)

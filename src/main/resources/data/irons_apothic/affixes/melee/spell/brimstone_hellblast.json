@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "hazennstuff"
+    }
+  ],
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 18,
+      "quality": 0.3
+    },
+    "exclusive_set": []
+  },
+  "spell": "hazennstuff:brimstone_hellblast",
+  "trigger": "MELEE_HIT",
+  "target": "TARGET",
+  "values": {
+    "apotheosis:epic": {
+      "level": {
+        "min": 1,
+        "steps": 1,
+        "step": 1
+      },
+      "cooldown": 160
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 2,
+        "steps": 1,
+        "step": 1
+      },
+      "cooldown": 120
+    }
+  },
+  "types": [
+    "apotheosis:melee_weapon"
+  ]
+} 

@@ -1,0 +1,115 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "hazennstuff"
+    }
+  ],
+  "type": "apotheosis:gem",
+  "min_purity": "cracked",
+  "unique": false,
+  "weights": {
+    "weight": 5,
+    "quality": 2
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_gear",
+        "types": [
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
+        ]
+      },
+      "attribute": "hazennstuff:shadow_spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "hazennstuff:shadow_magic_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.1,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "boots",
+        "types": [
+          "apotheosis:boots"
+        ]
+      },
+      "attribute": "minecraft:generic.armor",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 1.0,
+        "chipped": 2.0,
+        "flawed": 3.5,
+        "normal": 5.0,
+        "flawless": 7.0,
+        "perfect": 9.0
+      }
+    },
+    {
+      "type": "apotheosis:mob_effect",
+      "gem_class": {
+        "key": "leggings",
+        "types": [
+          "apotheosis:leggings"
+        ]
+      },
+      "mob_effect": "minecraft:darkness",
+      "target": "hurt_attacker",
+      "operation": "ADD_VALUE",
+      "values": {
+        "chipped": {
+          "duration": 40,
+          "amplifier": 0,
+          "cooldown": 200
+        },
+        "flawed": {
+          "duration": 60,
+          "amplifier": 0,
+          "cooldown": 200
+        },
+        "normal": {
+          "duration": 80,
+          "amplifier": 0,
+          "cooldown": 200
+        },
+        "flawless": {
+          "duration": 100,
+          "amplifier": 0,
+          "cooldown": 200
+        },
+        "perfect": {
+          "duration": 120,
+          "amplifier": 0,
+          "cooldown": 200
+        }
+      }
+    }
+  ]
+}
+

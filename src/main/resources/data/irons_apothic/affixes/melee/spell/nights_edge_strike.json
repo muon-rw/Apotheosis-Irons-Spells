@@ -1,0 +1,49 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "hazennstuff"
+    }
+  ],
+  "type": "irons_apothic:spell_trigger",
+  "definition": {
+    "affix_type": "ability",
+    "weights": {
+      "weight": 18,
+      "quality": 0.3
+    },
+    "exclusive_set": []
+  },
+  "spell": "hazennstuff:nights_edge_strike",
+  "trigger": "MELEE_HIT",
+  "target": "TARGET",
+  "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 200
+    },
+    "apotheosis:epic": {
+      "level": {
+        "min": 2,
+        "steps": 3,
+        "step": 1
+      },
+      "cooldown": 160
+    },
+    "apotheosis:mythic": {
+      "level": {
+        "min": 3,
+        "steps": 4,
+        "step": 1
+      },
+      "cooldown": 120
+    }
+  },
+  "types": [
+    "apotheosis:melee_weapon"
+  ]
+} 
