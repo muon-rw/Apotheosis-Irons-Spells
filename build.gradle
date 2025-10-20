@@ -259,9 +259,10 @@ publishMods {
         requires "irons-spells-n-spellbooks"
 
         optional "cataclysm-spellbooks" // Abyssal
+        optional "hazen-n-stuff" // Radiance, Shadow
         optional "alshanexs-familiars" // Sound
         optional "snackpirates-aeromancy-additions" // Wind
-        optional "magic-from-the-east" // Symmetry
+        optional "magic-from-the-east" // Symmetry, Spirit
         optional "enders-spells-and-stuff-requiem" // Mind, Spellblade pending
         optional "to-tweaks-irons-spells" // Aqua (pending)
     }
