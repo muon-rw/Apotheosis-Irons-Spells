@@ -74,6 +74,12 @@ public class SpellCastUtil {
             IronsApothic.LOGGER.warn("Attempted to trigger affix-cast while player was already casting");
             return;
         }
+        if (magicData.getAdditionalCastData() instanceof TargetEntityCastData targetingData) {
+            // This can happen when getting damaged by some FakePlayer(s)
+            if (targetingData.getTarget((ServerLevel) serverPlayer.level()) == null) {
+                return;
+            }
+        }
         // No precast conditions check here either
         if (serverPlayer.isUsingItem()) {
             serverPlayer.stopUsingItem();
