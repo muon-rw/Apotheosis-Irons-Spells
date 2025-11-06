@@ -7,6 +7,7 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastResult;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
 import io.redspace.ironsspellbooks.api.spells.CastType;
+import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.TargetEntityCastData;
 import io.redspace.ironsspellbooks.network.casting.OnCastStartedPacket;
 import io.redspace.ironsspellbooks.network.casting.OnClientCastPacket;
@@ -61,7 +62,7 @@ public class SpellCastUtil {
 
     private static void castSpellForPlayer(AbstractSpell spell, int spellLevel, ServerPlayer serverPlayer, MagicData magicData) {
 
-        // We don't actually care about any of these checks (might make some of them an affix definition field)
+        // We don't actually care about any of these checks (might make some of them optional affix definition fields)
         /*
         CastResult castResult = spell.canBeCastedBy(spellLevel, CastSource.COMMAND, magicData, serverPlayer);
         if (castResult.message != null) {
@@ -93,9 +94,12 @@ public class SpellCastUtil {
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(serverPlayer, new OnCastStartedPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel));
 
         if (magicData.getAdditionalCastData() instanceof TargetEntityCastData targetingData) {
-            IronsApothic.LOGGER.debug("Casting Spell {} with target {}", magicData.getCastingSpellId(), targetingData.getTarget((ServerLevel) serverPlayer.level()).getName().getString());
+            LivingEntity target = targetingData.getTarget((ServerLevel) serverPlayer.level());
+            if (target != null) {
+                IronsApothic.LOGGER.debug("Casting Spell {} with target {}", magicData.getCastingSpellId(), target.getName().getString());
+            }
         } else {
-            IronsApothic.LOGGER.warn("Tried to merge Targeting Data but was overridden. Current cast data for spell {}: {}", magicData.getCastingSpellId(), magicData.getAdditionalCastData().getClass().getName());
+            IronsApothic.LOGGER.warn("Tried to merge Targeting Data but was overridden. Current cast data for spell {}: {}", magicData.getCastingSpellId(), magicData.getAdditionalCastData());
         }
 
         // For instant cast spells, we need to execute them immediately
@@ -121,10 +125,12 @@ public class SpellCastUtil {
                 if (spell.getCastType() != CastType.INSTANT) {
                     PacketDistributor.sendToPlayer(serverPlayer, new SyncTargetingDataPacket(livingTarget, spell));
                 }
-                // serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.spell_target_success", livingTarget.getDisplayName().getString(), spell.getDisplayName(serverPlayer)).withStyle(ChatFormatting.GREEN)));
+                // TODO: Wrap with config
+                serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.spell_target_success", livingTarget.getDisplayName().getString(), spell.getDisplayName(serverPlayer)).withStyle(ChatFormatting.GREEN)));
             }
             if (livingTarget instanceof ServerPlayer serverPlayer) {
-                // Utils.sendTargetedNotification(serverPlayer, caster, spell);
+                // TODO: Wrap with config
+                Utils.sendTargetedNotification(serverPlayer, caster, spell);
             }
         } else if (caster instanceof ServerPlayer serverPlayer) {
             serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.irons_spellbooks.cast_error_target").withStyle(ChatFormatting.RED)));

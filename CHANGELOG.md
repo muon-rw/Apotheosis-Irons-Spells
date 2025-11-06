@@ -1,3 +1,7 @@
+## 1.9.1
+- Fix rare NPE with Mob Grinding Utils or other FakePlayers (thanks xtrm-en!)
+- Relicense to MIT + CC-BY-4.0
+
 ## 1.9.0
 - Add compat for Hazen n' Stuff 1.3.0+ Radiance/Shadow schools, and new spells
 
