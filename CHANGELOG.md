@@ -1,3 +1,6 @@
+## 1.9.2
+- Temporarily disable the Cleanse cast affix due to a potential rendering crash when it's cast by an Invader
+
 ## 1.9.1
 - Fix rare NPE with Mob Grinding Utils or other FakePlayers (thanks xtrm-en!)
 - Relicense to MIT + CC-BY-4.0
