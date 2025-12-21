@@ -26,6 +26,8 @@
   "item.apotheosis.gem.irons_apothic:external/resonant_quartz": "共鸣石英",
   "item.apotheosis.gem.irons_apothic:external/arcanists_edge": "奥术师之刃",
   "item.apotheosis.gem.irons_apothic:external/amethyst_lotus": "紫晶莲花",
+  "item.apotheosis.gem.irons_apothic:external/mycotoxin_crystal": "菌毒晶体",
+  "item.apotheosis.gem.irons_apothic:external/umbral_obsidian": "黯影黑曜石",
 
   "affix.irons_apothic.target.spell_damage_self": "造成法术伤害时，获得%s",
   "affix.irons_apothic.target.spell_damage_target": "造成法术伤害时，造成%s",
@@ -49,6 +51,10 @@
   "affix.irons_apothic:telepathic": "念动",
   "affix.irons_apothic:telepathic.suffix": "时空",
   "affix.irons_apothic:telepathic.desc.staff": "生物的掉落物将传送至你身边。",
+
+  "affix.irons_apothic:festive": "节庆",
+  "affix.irons_apothic:festive.suffix": "派对",
+  "affix.irons_apothic:festive.desc": "杀死敌人有%s%%概率触发战利品大爆发",
 
   "affix.irons_apothic:magic_weapons/attribute/volatile": "不稳定",
   "affix.irons_apothic:magic_weapons/attribute/volatile.suffix": "狂野魔法",
@@ -168,6 +174,21 @@
   "affix.irons_apothic:elemental/school_spellblade/blade_dancer": "剑舞者的",
   "affix.irons_apothic:elemental/school_spellblade/blade_dancer.suffix": "奥术打击",
 
+  "affix.irons_apothic:elemental/school_mind/attribute": "灵思",
+  "affix.irons_apothic:elemental/school_mind/attribute.suffix": "先知",
+  "affix.irons_apothic:elemental/school_mind/genius": "天才的",
+  "affix.irons_apothic:elemental/school_mind/genius.suffix": "才思敏锐",
+
+  "affix.irons_apothic:elemental/school_radiance/attribute": "黑境",
+  "affix.irons_apothic:elemental/school_radiance/attribute.suffix": "荧光洞穴",
+  "affix.irons_apothic:elemental/school_radiance/mycelial": "菌丝",
+  "affix.irons_apothic:elemental/school_radiance/mycelial.suffix": "真菌生长",
+
+  "affix.irons_apothic:elemental/school_shadow/attribute": "幽影",
+  "affix.irons_apothic:elemental/school_shadow/attribute.suffix": "黑暗面纱",
+  "affix.irons_apothic:elemental/school_shadow/warlocks": "术士的",
+  "affix.irons_apothic:elemental/school_shadow/warlocks.suffix": "束缚契约",
+
   "affix.irons_apothic:elemental/school_none/mana_cost": "高效",
   "affix.irons_apothic:elemental/school_none/mana_cost.suffix": "奥术节流",
   "affix.irons_apothic:elemental/school_fire/mana_cost": "引火",
@@ -202,6 +223,12 @@
   "affix.irons_apothic:elemental/school_sound/mana_cost.suffix": "和谐共鸣",
   "affix.irons_apothic:elemental/school_spellblade/mana_cost": "剑舞者的",
   "affix.irons_apothic:elemental/school_spellblade/mana_cost.suffix": "剑法无滞",
+  "affix.irons_apothic:elemental/school_mind/mana_cost": "天才的",
+  "affix.irons_apothic:elemental/school_mind/mana_cost.suffix": "快速思考",
+  "affix.irons_apothic:elemental/school_radiance/mana_cost": "生体发光",
+  "affix.irons_apothic:elemental/school_radiance/mana_cost.suffix": "荧光素酶",
+  "affix.irons_apothic:elemental/school_shadow/mana_cost": "黯影",
+  "affix.irons_apothic:elemental/school_shadow/mana_cost.suffix": "暗影交织",
 
   "affix.irons_apothic:elemental/school_blood/armor": "血红",
   "affix.irons_apothic:elemental/school_blood/armor.suffix": "猩红守护",
@@ -246,6 +273,8 @@
   "affix.irons_apothic:armor/spell/oakskinned.suffix": "橡木皮肤",
   "affix.irons_apothic:armor/spell/wither_skull": "凋零",
   "affix.irons_apothic:armor/spell/wither_skull.suffix": "反应式凋零",
+  "affix.irons_apothic:armor/spell/energy_burst": "爆发",
+  "affix.irons_apothic:armor/spell/energy_burst.suffix": "辉光能量",
 
   "affix.irons_apothic:magic_weapons/spell/blessed": "祝福",
   "affix.irons_apothic:magic_weapons/spell/blessed.suffix": "神圣守护",
@@ -272,6 +301,10 @@
   "affix.irons_apothic:melee/spell/stomp.suffix": "力量",
   "affix.irons_apothic:melee/spell/blood_slash": "猩红",
   "affix.irons_apothic:melee/spell/blood_slash.suffix": "割喉",
+  "affix.irons_apothic:melee/spell/brimstone_hellblast": "硫磺熔注",
+  "affix.irons_apothic:melee/spell/brimstone_hellblast.suffix": "硫磺狱火",
+  "affix.irons_apothic:melee/spell/nights_edge_strike": "暗刃",
+  "affix.irons_apothic:melee/spell/nights_edge_strike.suffix": "永夜之刃",
 
   "affix.irons_apothic:ranged/spell/fire_arrow": "炽焰",
   "affix.irons_apothic:ranged/spell/fire_arrow.suffix": "炽焰冲击",
@@ -282,5 +315,9 @@
   "affix.irons_apothic:ranged/spell/sunbeam": "天堂",
   "affix.irons_apothic:ranged/spell/sunbeam.suffix": "无匹烈阳",
   "affix.irons_apothic:ranged/spell/volley": "四散",
-  "affix.irons_apothic:ranged/spell/volley.suffix": "散射"
+  "affix.irons_apothic:ranged/spell/volley.suffix": "散射",
+  "affix.irons_apothic:ranged/spell/ice_arrow": "冰结",
+  "affix.irons_apothic:ranged/spell/ice_arrow.suffix": "霜箭",
+  "affix.irons_apothic:ranged/spell/crystal_volley": "冰晶",
+  "affix.irons_apothic:ranged/spell/crystal_volley.suffix": "霜箭齐射"
 }
