@@ -3,8 +3,8 @@
   "definition": {
     "affix_type": "basic_effect",
     "weights": {
-      "weight": 15,
-      "quality": 0.2
+      "weight": 25,
+      "quality": 0.1
     },
     "exclusive_set": []
   },

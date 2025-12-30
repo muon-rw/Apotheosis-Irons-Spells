@@ -9,8 +9,8 @@
   "min_purity": "cracked",
   "unique": false,
   "weights": {
-    "weight": 5,
-    "quality": 2
+    "weight": 100,
+    "quality": 0.1
   },
   "bonuses": [
     {
