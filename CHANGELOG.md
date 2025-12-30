@@ -1,5 +1,6 @@
 ## 2.0.0
 - Update all weights to be in line with Apotheosis weight changes
+- Curios now support Spell Trigger and Spell Effect affixes, only for Spell Damage/Heal+Melee Hit Triggers (not Hurt/Projectile Hit)
 - `school_attribute`, `spell_effect`, `mana_cost`, `spell_level`, and `spell_trigger` now support optional filtering and multiple schools.
 - Updated Chinese Translation (`zh_cn`) - Thanks ZetaY!
 - Updated other affix translations (may interfere with the updated Chinese and other keys)
