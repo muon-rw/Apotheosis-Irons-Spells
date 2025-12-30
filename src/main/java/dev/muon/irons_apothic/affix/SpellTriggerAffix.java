@@ -3,6 +3,7 @@ package dev.muon.irons_apothic.affix;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.muon.irons_apothic.util.SpellCastUtil;
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
@@ -11,11 +12,14 @@ import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
+import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -26,17 +30,20 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class SpellTriggerAffix extends Affix {
+public class SpellTriggerAffix extends SchoolFilteredAffix {
     private static final ThreadLocal<Boolean> IS_TRIGGERING = ThreadLocal.withInitial(() -> false);
 
     public static boolean isCurrentlyTriggering() {
         return IS_TRIGGERING.get();
     }
 
+    // Codec that supports both single "school" (backward compat) and "schools" array
     public static final Codec<SpellTriggerAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
@@ -44,24 +51,48 @@ public class SpellTriggerAffix extends Affix {
                     TriggerType.CODEC.fieldOf("trigger").forGetter(a -> a.trigger),
                     LootRarity.mapCodec(TriggerData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
-                    TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target))
-            .apply(inst, SpellTriggerAffix::new));
+                    TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
+                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
+            .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray) -> {
+                // Prefer "schools" array if present, otherwise use single "school"
+                Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
+                    ? schoolsArray 
+                    : singleSchool.map(List::of);
+                return new SpellTriggerAffix(def, spell, trigger, values, types, target, schoolIds);
+            }));
 
     protected final Holder<AbstractSpell> spell;
     protected final TriggerType trigger;
     protected final Map<LootRarity, TriggerData> values;
     protected final Set<LootCategory> types;
     protected final Optional<TargetType> target;
+    protected final Optional<List<ResourceLocation>> schoolIds;
+    protected final Optional<Set<SchoolType>> schools;
 
     public SpellTriggerAffix(AffixDefinition definition, Holder<AbstractSpell> spell, TriggerType trigger,
                              Map<LootRarity, TriggerData> values, Set<LootCategory> types,
-                             Optional<TargetType> target) {
+                             Optional<TargetType> target, Optional<List<ResourceLocation>> schoolIds) {
         super(definition);
         this.spell = spell;
         this.trigger = trigger;
         this.values = values;
         this.types = types;
         this.target = target;
+        this.schoolIds = schoolIds;
+        this.schools = schoolIds.map(ids -> {
+            Set<SchoolType> schoolSet = new HashSet<>();
+            for (ResourceLocation id : ids) {
+                SchoolType school = SchoolRegistry.REGISTRY.get(id);
+                if (school != null) {
+                    schoolSet.add(school);
+                } else {
+                    Apotheosis.LOGGER.warn("Unknown school ID {} provided for SpellTriggerAffix, ignoring.", id);
+                }
+            }
+            return schoolSet;
+        });
     }
 
     public void triggerSpell(LivingEntity caster, LivingEntity target, AffixInstance inst) {
@@ -109,7 +140,10 @@ public class SpellTriggerAffix extends Affix {
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
-        return (this.types.isEmpty() || this.types.contains(cat)) && this.values.containsKey(rarity);
+        if (!(this.types.isEmpty() || this.types.contains(cat)) || !this.values.containsKey(rarity)) {
+            return false;
+        }
+        return matchesSchools(stack, this.schools);
     }
 
     @Override

@@ -1,3 +1,8 @@
+## 2.0.0
+- `school_attribute`, `spell_effect`, `mana_cost`, `spell_level`, and `spell_trigger` now support optional filtering and multiple schools.
+- Updated Chinese Translation (`zh_cn`) - Thanks ZetaY!
+- Updated other affix translations (may interfere with the updated Chinese and other keys)
+
 ## 1.9.2
 - Temporarily disable the Cleanse cast affix due to a potential rendering crash when it's cast by an Invader
 

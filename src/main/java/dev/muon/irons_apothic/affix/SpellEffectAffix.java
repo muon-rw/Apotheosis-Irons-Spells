@@ -2,6 +2,7 @@ package dev.muon.irons_apothic.affix;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
@@ -9,10 +10,13 @@ import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
+import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
+import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,10 +25,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-public class SpellEffectAffix extends Affix {
+public class SpellEffectAffix extends SchoolFilteredAffix {
+    // Codec that supports both single "school" (backward compat) and "schools" array
     public static final Codec<SpellEffectAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
@@ -33,8 +41,17 @@ public class SpellEffectAffix extends Affix {
                     LootRarity.mapCodec(EffectData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     Codec.BOOL.optionalFieldOf("stack_on_reapply", false).forGetter(a -> a.stackOnReapply),
-                    Codec.intRange(1, 255).optionalFieldOf("stacking_limit", 255).forGetter(a -> a.stackingLimit))
-            .apply(inst, SpellEffectAffix::new));
+                    Codec.intRange(1, 255).optionalFieldOf("stacking_limit", 255).forGetter(a -> a.stackingLimit),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
+                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
+            .apply(inst, (def, effect, target, values, types, stackOnReapply, stackingLimit, singleSchool, schoolsArray) -> {
+                // Prefer "schools" array if present, otherwise use single "school"
+                Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
+                    ? schoolsArray 
+                    : singleSchool.map(List::of);
+                return new SpellEffectAffix(def, effect, target, values, types, stackOnReapply, stackingLimit, schoolIds);
+            }));
 
     protected final Holder<MobEffect> effect;
     protected final SpellTarget target;
@@ -42,6 +59,8 @@ public class SpellEffectAffix extends Affix {
     protected final Set<LootCategory> types;
     protected final boolean stackOnReapply;
     protected final int stackingLimit;
+    protected final Optional<List<ResourceLocation>> schoolIds;
+    protected final Optional<Set<SchoolType>> schools;
 
     public void applyEffectInternal(LivingEntity target, AffixInstance inst) {
         EffectData data = this.values.get(inst.rarity().get());
@@ -70,7 +89,7 @@ public class SpellEffectAffix extends Affix {
         }
     }
 
-    public SpellEffectAffix(AffixDefinition definition, Holder<MobEffect> effect, SpellTarget target, Map<LootRarity, EffectData> values, Set<LootCategory> types, boolean stackOnReapply, int stackingLimit) {
+    public SpellEffectAffix(AffixDefinition definition, Holder<MobEffect> effect, SpellTarget target, Map<LootRarity, EffectData> values, Set<LootCategory> types, boolean stackOnReapply, int stackingLimit, Optional<List<ResourceLocation>> schoolIds) {
         super(definition);
         this.effect = effect;
         this.target = target;
@@ -78,6 +97,19 @@ public class SpellEffectAffix extends Affix {
         this.types = types;
         this.stackOnReapply = stackOnReapply;
         this.stackingLimit = stackingLimit;
+        this.schoolIds = schoolIds;
+        this.schools = schoolIds.map(ids -> {
+            Set<SchoolType> schoolSet = new HashSet<>();
+            for (ResourceLocation id : ids) {
+                SchoolType school = SchoolRegistry.REGISTRY.get(id);
+                if (school != null) {
+                    schoolSet.add(school);
+                } else {
+                    Apotheosis.LOGGER.warn("Unknown school ID {} provided for SpellEffectAffix, ignoring.", id);
+                }
+            }
+            return schoolSet;
+        });
     }
 
     public static enum SpellTarget {
@@ -113,7 +145,10 @@ public class SpellEffectAffix extends Affix {
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
-        return (this.types.isEmpty() || this.types.contains(cat)) && this.values.containsKey(rarity);
+        if (!(this.types.isEmpty() || this.types.contains(cat)) || !this.values.containsKey(rarity)) {
+            return false;
+        }
+        return matchesSchools(stack, this.schools);
     }
 
     @Override
