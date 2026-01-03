@@ -27,6 +27,9 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class AffixEventHandler {
 
@@ -77,24 +80,29 @@ public class AffixEventHandler {
         LivingEntity caster = event.getSpellDamageSource().getEntity() instanceof LivingEntity living ? living : null;
         if (caster == null) return;
 
-        for (ItemStack stack : caster.getAllSlots()) {
+        processSpellDamageAffixes(caster, event.getEntity());
+    }
+
+    private void processSpellDamageAffixes(LivingEntity caster, LivingEntity damageTarget) {
+        // Check all equipment slots and curios
+        forAllSlots(caster, stack -> {
             AffixHelper.streamAffixes(stack).forEach(inst -> {
                 if (inst.getAffix() instanceof SpellEffectAffix affix) {
                     if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_TARGET) {
-                        affix.applyEffectInternal(event.getEntity(), inst);
+                        affix.applyEffectInternal(damageTarget, inst);
                     } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_SELF) {
                         affix.applyEffectInternal(caster, inst);
                     }
                 } else if (inst.getAffix() instanceof SpellTriggerAffix affix && affix.trigger == SpellTriggerAffix.TriggerType.SPELL_DAMAGE) {
                     LivingEntity target = affix.target.map(targetType -> switch (targetType) {
                         case SELF -> caster;
-                        case TARGET -> event.getEntity();
-                    }).orElse(event.getEntity());
-                    
+                        case TARGET -> damageTarget;
+                    }).orElse(damageTarget);
+
                     affix.triggerSpell(caster, target, inst);
                 }
             });
-        }
+        });
     }
 
     @SubscribeEvent
@@ -102,62 +110,67 @@ public class AffixEventHandler {
         if (event.getEntity().level().isClientSide()) return;
 
         LivingEntity caster = event.getEntity();
-        
-        for (ItemStack stack : caster.getAllSlots()) {
+        processSpellHealAffixes(caster, event.getTargetEntity());
+    }
+
+    private void processSpellHealAffixes(LivingEntity caster, LivingEntity healTarget) {
+        // Check all equipment slots and curios
+        forAllSlots(caster, stack -> {
             AffixHelper.streamAffixes(stack).forEach(inst -> {
                 if (inst.getAffix() instanceof SpellEffectAffix affix) {
                     if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_TARGET) {
-                        affix.applyEffectInternal(event.getTargetEntity(), inst);
+                        affix.applyEffectInternal(healTarget, inst);
                     } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_SELF) {
                         affix.applyEffectInternal(caster, inst);
                     }
                 } else if (inst.getAffix() instanceof SpellTriggerAffix affix && affix.trigger == SpellTriggerAffix.TriggerType.SPELL_HEAL) {
                     LivingEntity target = affix.target.map(targetType -> switch (targetType) {
                         case SELF -> caster;
-                        case TARGET -> event.getTargetEntity();
-                    }).orElse(event.getTargetEntity());
-                    
+                        case TARGET -> healTarget;
+                    }).orElse(healTarget);
+
                     affix.triggerSpell(caster, target, inst);
                 }
             });
-        }
+        });
     }
 
     @SubscribeEvent
     public void onChangeMana(ChangeManaEvent event) {
         if (event.getEntity().level().isClientSide()) return;
-        
+
         Player player = event.getEntity();
         MagicData magicData = event.getMagicData();
         SpellData castingSpell = magicData.getCastingSpell();
-        
+
         if (castingSpell == null || event.getNewMana() >= event.getOldMana()) {
             return;
         }
-        
+
         AbstractSpell spell = castingSpell.getSpell();
         if (spell == null) return;
-        
+
         SchoolType spellSchool = spell.getSchoolType();
-        
-        // Only applies to STAFF/MELEE_WEAPON
-        ItemStack mainHand = player.getMainHandItem();
-        if (mainHand.isEmpty()) return;
-        
+
         float totalReduction = 0f;
-        
-        Map<DynamicHolder<Affix>, AffixInstance> affixes = AffixHelper.getAffixes(mainHand);
-        for (AffixInstance instance : affixes.values()) {
-            if (instance.isValid() && instance.affix().isBound()) {
-                Affix affix = instance.getAffix();
-                if (affix instanceof ManaCostAffix manaCostAffix) {
-                    if (manaCostAffix.getSchool() == spellSchool) {
-                        float reduction = manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
-                        totalReduction += reduction;
-                    }
-                }
-            }
+
+        // Check all equipment slots
+        for (ItemStack stack : player.getAllSlots()) {
+            totalReduction += getManaCostReduction(stack, spellSchool);
         }
+
+        // Check curios slots
+        float curiosReduction = CuriosApi.getCuriosInventory(player)
+                .map(curiosHandler -> {
+                    float reduction = 0f;
+                    for (var slotResult : curiosHandler.findCurios(stack -> !stack.isEmpty())) {
+                        reduction += getManaCostReduction(slotResult.stack(), spellSchool);
+                    }
+                    return reduction;
+                })
+                .orElse(0f);
+
+        totalReduction += curiosReduction;
 
         if (totalReduction > 0) {
             float manaCost = event.getOldMana() - event.getNewMana();
@@ -165,6 +178,32 @@ public class AffixEventHandler {
             float newManaValue = event.getOldMana() - reducedCost;
             event.setNewMana(newManaValue);
         }
+    }
+
+    private float getManaCostReduction(ItemStack stack, SchoolType spellSchool) {
+        float reduction = 0f;
+        Map<DynamicHolder<Affix>, AffixInstance> affixes = AffixHelper.getAffixes(stack);
+        for (AffixInstance instance : affixes.values()) {
+            if (instance.isValid() && instance.affix().isBound()) {
+                Affix affix = instance.getAffix();
+                if (affix instanceof ManaCostAffix manaCostAffix) {
+                    Optional<Set<SchoolType>> allowedSchools = manaCostAffix.getSchools();
+                    // Check if this affix applies to the spell's school
+                    if (allowedSchools.isEmpty()) {
+                        // No filtering - applies to all schools
+                        reduction += manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
+                    } else {
+                        Set<SchoolType> schools = allowedSchools.get();
+                        if (!schools.isEmpty() && schools.contains(spellSchool)) {
+                            // Spell school matches one of the allowed schools
+                            reduction += manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
+                        }
+                        // If schools.isEmpty(), it means "no schools" - doesn't apply to spells
+                    }
+                }
+            }
+        }
+        return reduction;
     }
 
     @SubscribeEvent
@@ -181,15 +220,15 @@ public class AffixEventHandler {
         }
 
         int curiosBonus = CuriosApi.getCuriosInventory(livingEntity)
-            .map(curiosHandler -> {
-                int bonus = 0;
-                for (var slotResult : curiosHandler.findCurios(stack -> !stack.isEmpty())) {
-                    bonus += getSpellLevelBonus(slotResult.stack(), school);
-                }
-                return bonus;
-            })
-            .orElse(0);
-        
+                .map(curiosHandler -> {
+                    int bonus = 0;
+                    for (var slotResult : curiosHandler.findCurios(stack -> !stack.isEmpty())) {
+                        bonus += getSpellLevelBonus(slotResult.stack(), school);
+                    }
+                    return bonus;
+                })
+                .orElse(0);
+
         totalBonus += curiosBonus;
 
         if (totalBonus > 0) {
@@ -204,12 +243,35 @@ public class AffixEventHandler {
             if (instance.isValid() && instance.affix().isBound()) {
                 Affix affix = instance.getAffix();
                 if (affix instanceof SpellLevelAffix spellLevelAffix) {
-                    if (spellLevelAffix.getSchool() == school) {
+                    Optional<Set<SchoolType>> allowedSchools = spellLevelAffix.getSchools();
+                    // Check if this affix applies to the spell's school
+                    if (allowedSchools.isEmpty()) {
+                        // No filtering - applies to all schools
                         bonus += spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
+                    } else {
+                        Set<SchoolType> schools = allowedSchools.get();
+                        if (!schools.isEmpty() && schools.contains(school)) {
+                            // Spell school matches one of the allowed schools
+                            bonus += spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
+                        }
+                        // If schools.isEmpty(), it means "no schools" - doesn't apply to spells
                     }
                 }
             }
         }
         return bonus;
+    }
+
+    private void forAllSlots(LivingEntity entity, Consumer<ItemStack> consumer) {
+        for (ItemStack stack : entity.getAllSlots()) {
+            consumer.accept(stack);
+        }
+
+        CuriosApi.getCuriosInventory(entity)
+                .ifPresent(curiosHandler -> {
+                    for (var slotResult : curiosHandler.findCurios(stack -> !stack.isEmpty())) {
+                        consumer.accept(slotResult.stack());
+                    }
+                });
     }
 } 

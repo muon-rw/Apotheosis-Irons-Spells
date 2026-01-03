@@ -1,10 +1,4 @@
 {
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "ess_requiem"
-    }
-  ],
   "type": "irons_apothic:spell_level",
   "definition": {
     "affix_type": "basic_effect",
@@ -14,15 +8,8 @@
     },
     "exclusive_set": []
   },
-  "school": "ess_requiem:blade",
+  "schools": [],
   "values": {
-    "apotheosis:rare": {
-      "level": {
-        "min": 1,
-        "steps": 1,
-        "step": 0
-      }
-    },
     "apotheosis:epic": {
       "level": {
         "min": 1,
@@ -34,7 +21,7 @@
       "level": {
         "min": 1,
         "steps": 1,
-        "step": 1
+        "step": 0
       }
     }
   },
@@ -43,4 +30,5 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ]
-} 
+}
+

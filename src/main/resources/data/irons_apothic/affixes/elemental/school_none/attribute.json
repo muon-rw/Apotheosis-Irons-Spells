@@ -10,6 +10,7 @@
   },
   "attribute": "irons_spellbooks:spell_power",
   "operation": "ADD_MULTIPLIED_BASE",
+  "schools": [],
   "values": {
     "apotheosis:common": {
       "min": 0.01,

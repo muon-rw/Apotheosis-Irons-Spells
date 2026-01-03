@@ -46,6 +46,7 @@
   "affix.irons_apothic.trigger.hurt.self": "When attacked, self-cast %s",
 
   "affix.irons_apothic.spell_level.desc": "%s spells cast will be %s levels higher.",
+  "affix.irons_apothic.spell_level.desc.singular": "%s spells cast will be %s level higher.",
   "affix.irons_apothic.mana_cost.desc": "%s spells cast with this weapon will cost %s%% less mana.",
 
   "affix.irons_apothic:telepathic": "Telepathic",
@@ -91,8 +92,13 @@
   "affix.irons_apothic:magic_weapons/mob_effect/fortifying": "Fortifying",
   "affix.irons_apothic:magic_weapons/mob_effect/fortifying.suffix": "of Warding",
 
+  "affix.irons_apothic.school.generic": "All",
+  "affix.irons_apothic.school.none": "All",
+
   "affix.irons_apothic:elemental/school_none/attribute": "Arcane",
   "affix.irons_apothic:elemental/school_none/attribute.suffix": "of the Archmage",
+  "affix.irons_apothic:elemental/school_none/spell_level": "Adept",
+  "affix.irons_apothic:elemental/school_none/spell_level.suffix": "of Arcane Mastery",
 
   "affix.irons_apothic:elemental/school_eldritch/attribute": "Eldritch",
   "affix.irons_apothic:elemental/school_eldritch/attribute.suffix": "of Sinister Horrors",
