@@ -40,6 +40,7 @@ public class IronsApothic {
         AffixRegistry.INSTANCE.registerCodec(loc("magic_telepathic"), MagicTelepathicAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("spell_level"), SpellLevelAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("spell_trigger"), SpellTriggerAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("imbued_spell_trigger"), ImbuedSpellTriggerAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("mana_cost"), ManaCostAffix.CODEC);
         LOGGER.info("Custom affix codecs registered.");
     }

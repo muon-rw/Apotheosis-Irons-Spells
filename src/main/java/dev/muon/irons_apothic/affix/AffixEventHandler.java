@@ -84,22 +84,31 @@ public class AffixEventHandler {
     }
 
     private void processSpellDamageAffixes(LivingEntity caster, LivingEntity damageTarget) {
-        // Check all equipment slots and curios
         forAllSlots(caster, stack -> {
             AffixHelper.streamAffixes(stack).forEach(inst -> {
-                if (inst.getAffix() instanceof SpellEffectAffix affix) {
-                    if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_TARGET) {
-                        affix.applyEffectInternal(damageTarget, inst);
-                    } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_SELF) {
-                        affix.applyEffectInternal(caster, inst);
+                switch (inst.getAffix()) {
+                    case SpellEffectAffix affix -> {
+                        if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_TARGET) {
+                            affix.applyEffectInternal(damageTarget, inst);
+                        } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_DAMAGE_SELF) {
+                            affix.applyEffectInternal(caster, inst);
+                        }
                     }
-                } else if (inst.getAffix() instanceof SpellTriggerAffix affix && affix.trigger == SpellTriggerAffix.TriggerType.SPELL_DAMAGE) {
-                    LivingEntity target = affix.target.map(targetType -> switch (targetType) {
-                        case SELF -> caster;
-                        case TARGET -> damageTarget;
-                    }).orElse(damageTarget);
-
-                    affix.triggerSpell(caster, target, inst);
+                    case SpellTriggerAffix affix when affix.trigger == SpellTriggerAffix.TriggerType.SPELL_DAMAGE -> {
+                        LivingEntity target = affix.target.map(t -> switch (t) {
+                            case SELF -> caster;
+                            case TARGET -> damageTarget;
+                        }).orElse(damageTarget);
+                        affix.triggerSpell(caster, target, inst);
+                    }
+                    case ImbuedSpellTriggerAffix imbuedAffix when imbuedAffix.trigger == SpellTriggerAffix.TriggerType.SPELL_DAMAGE -> {
+                        LivingEntity target = imbuedAffix.target.map(t -> switch (t) {
+                            case SELF -> caster;
+                            case TARGET -> damageTarget;
+                        }).orElse(damageTarget);
+                        imbuedAffix.triggerSpell(caster, target, inst);
+                    }
+                    default -> {}
                 }
             });
         });
@@ -114,22 +123,31 @@ public class AffixEventHandler {
     }
 
     private void processSpellHealAffixes(LivingEntity caster, LivingEntity healTarget) {
-        // Check all equipment slots and curios
         forAllSlots(caster, stack -> {
             AffixHelper.streamAffixes(stack).forEach(inst -> {
-                if (inst.getAffix() instanceof SpellEffectAffix affix) {
-                    if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_TARGET) {
-                        affix.applyEffectInternal(healTarget, inst);
-                    } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_SELF) {
-                        affix.applyEffectInternal(caster, inst);
+                switch (inst.getAffix()) {
+                    case SpellEffectAffix affix -> {
+                        if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_TARGET) {
+                            affix.applyEffectInternal(healTarget, inst);
+                        } else if (affix.target == SpellEffectAffix.SpellTarget.SPELL_HEAL_SELF) {
+                            affix.applyEffectInternal(caster, inst);
+                        }
                     }
-                } else if (inst.getAffix() instanceof SpellTriggerAffix affix && affix.trigger == SpellTriggerAffix.TriggerType.SPELL_HEAL) {
-                    LivingEntity target = affix.target.map(targetType -> switch (targetType) {
-                        case SELF -> caster;
-                        case TARGET -> healTarget;
-                    }).orElse(healTarget);
-
-                    affix.triggerSpell(caster, target, inst);
+                    case SpellTriggerAffix affix when affix.trigger == SpellTriggerAffix.TriggerType.SPELL_HEAL -> {
+                        LivingEntity target = affix.target.map(t -> switch (t) {
+                            case SELF -> caster;
+                            case TARGET -> healTarget;
+                        }).orElse(healTarget);
+                        affix.triggerSpell(caster, target, inst);
+                    }
+                    case ImbuedSpellTriggerAffix imbuedAffix when imbuedAffix.trigger == SpellTriggerAffix.TriggerType.SPELL_HEAL -> {
+                        LivingEntity target = imbuedAffix.target.map(t -> switch (t) {
+                            case SELF -> caster;
+                            case TARGET -> healTarget;
+                        }).orElse(healTarget);
+                        imbuedAffix.triggerSpell(caster, target, inst);
+                    }
+                    default -> {}
                 }
             });
         });

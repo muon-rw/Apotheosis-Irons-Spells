@@ -1,3 +1,9 @@
+## 2.1.0
+- Add Imbued Spell Trigger affix - thanks to v0idout for the idea! 
+- Add `gust`, `shield`, `fortify` on-block affix for shields
+- Add shield-block support to the spell trigger affix
+- Nerf `oakskin` on-cast staff affix
+
 ## 2.0.0
 - Update all weights to be in line with Apotheosis weight changes
 - Curios now support Spell Trigger and Spell Effect affixes, only for Spell Damage/Heal+Melee Hit Triggers (not Hurt/Projectile Hit)

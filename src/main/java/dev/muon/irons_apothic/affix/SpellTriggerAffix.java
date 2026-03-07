@@ -249,12 +249,26 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         }
     }
 
+    @Override
+    public float onShieldBlock(AffixInstance inst, LivingEntity entity, DamageSource source, float amount) {
+        if (this.trigger == TriggerType.SHIELD_BLOCK) {
+            LivingEntity attacker = source.getEntity() instanceof LivingEntity living ? living : null;
+            LivingEntity actualTarget = attacker != null
+                    ? this.target.map(t -> t == TargetType.TARGET ? attacker : entity).orElse(attacker)
+                    : entity;
+
+            triggerSpell(entity, actualTarget, inst);
+        }
+        return amount;
+    }
+
     public enum TriggerType {
         SPELL_DAMAGE,
         SPELL_HEAL,
         MELEE_HIT,
         PROJECTILE_HIT,
-        HURT;
+        HURT,
+        SHIELD_BLOCK;
         public static final Codec<TriggerType> CODEC = PlaceboCodecs.enumCodec(TriggerType.class);
     }
 
@@ -266,7 +280,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
     }
 
     public record TriggerData(StepFunction level, int cooldown) {
-        private static final Codec<TriggerData> CODEC = RecordCodecBuilder.create(inst -> inst
+        public static final Codec<TriggerData> CODEC = RecordCodecBuilder.create(inst -> inst
                 .group(
                         StepFunction.CODEC.optionalFieldOf("level", StepFunction.constant(1)).forGetter(TriggerData::level),
                         Codec.INT.optionalFieldOf("cooldown", 0).forGetter(TriggerData::cooldown))

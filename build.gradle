@@ -5,6 +5,7 @@ plugins {
     // later
     // id 'net.neoforged.moddev' version '2.0.105'
     id "me.modmuss50.mod-publish-plugin" version "0.8.3"
+    id "dev.mixinmcp.decompile" version "0.6.0"
 }
 
 tasks.named('wrapper', Wrapper).configure {
