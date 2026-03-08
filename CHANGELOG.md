@@ -1,3 +1,10 @@
+## 2.1.2
+- Allow the imbued trigger affix to work on any imbuable item
+- Made the imbued trigger affix more common relative to pre-set spell trigger affixes
+- Fix generic (no school) spell level/mana cost affixes not working
+- Update `zh_cn` - Thanks ZHAY10086! 
+- No longer send a hotbar notification for affix spell casts
+
 ## 2.1.1
 - Fix imbued spell affix not applying to unique items that come pre-imbued
 - Lowered cooldown for on-hit imbue affixes

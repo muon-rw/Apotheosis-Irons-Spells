@@ -27,7 +27,6 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -205,18 +204,10 @@ public class AffixEventHandler {
             if (instance.isValid() && instance.affix().isBound()) {
                 Affix affix = instance.getAffix();
                 if (affix instanceof ManaCostAffix manaCostAffix) {
-                    Optional<Set<SchoolType>> allowedSchools = manaCostAffix.getSchools();
-                    // Check if this affix applies to the spell's school
-                    if (allowedSchools.isEmpty()) {
-                        // No filtering - applies to all schools
+                    Set<SchoolType> allowedSchools = manaCostAffix.getSchools().orElse(Set.of());
+                    // Empty set = no filtering, applies to all schools; otherwise check if spell school matches
+                    if (allowedSchools.isEmpty() || allowedSchools.contains(spellSchool)) {
                         reduction += manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
-                    } else {
-                        Set<SchoolType> schools = allowedSchools.get();
-                        if (!schools.isEmpty() && schools.contains(spellSchool)) {
-                            // Spell school matches one of the allowed schools
-                            reduction += manaCostAffix.getReductionPercent(instance.getRarity(), instance.level());
-                        }
-                        // If schools.isEmpty(), it means "no schools" - doesn't apply to spells
                     }
                 }
             }
@@ -261,18 +252,10 @@ public class AffixEventHandler {
             if (instance.isValid() && instance.affix().isBound()) {
                 Affix affix = instance.getAffix();
                 if (affix instanceof SpellLevelAffix spellLevelAffix) {
-                    Optional<Set<SchoolType>> allowedSchools = spellLevelAffix.getSchools();
-                    // Check if this affix applies to the spell's school
-                    if (allowedSchools.isEmpty()) {
-                        // No filtering - applies to all schools
+                    Set<SchoolType> allowedSchools = spellLevelAffix.getSchools().orElse(Set.of());
+                    // Empty set = no filtering, applies to all schools; otherwise check if spell school matches
+                    if (allowedSchools.isEmpty() || allowedSchools.contains(school)) {
                         bonus += spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
-                    } else {
-                        Set<SchoolType> schools = allowedSchools.get();
-                        if (!schools.isEmpty() && schools.contains(school)) {
-                            // Spell school matches one of the allowed schools
-                            bonus += spellLevelAffix.getBonusLevel(instance.getRarity(), instance.level());
-                        }
-                        // If schools.isEmpty(), it means "no schools" - doesn't apply to spells
                     }
                 }
             }

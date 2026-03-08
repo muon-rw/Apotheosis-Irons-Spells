@@ -7,11 +7,10 @@ import dev.shadowsoffire.apotheosis.Apoth;
 import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
+import dev.shadowsoffire.apotheosis.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
-import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
-import dev.shadowsoffire.placebo.util.StepFunction;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -24,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +46,6 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     public static final Codec<ImbuedSpellTriggerAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
-                    ImbuedSlot.CODEC.fieldOf("imbued_slot").forGetter(a -> a.imbuedSlot),
                     SpellTriggerAffix.TriggerType.CODEC.fieldOf("trigger").forGetter(a -> a.trigger),
                     LootRarity.mapCodec(SpellTriggerAffix.TriggerData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
@@ -56,14 +53,13 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                     ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a ->
                             a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
-            .apply(inst, (def, imbuedSlot, trigger, values, types, target, singleSchool, schoolsArray) -> {
+            .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
                         ? schoolsArray
                         : singleSchool.map(List::of);
-                return new ImbuedSpellTriggerAffix(def, imbuedSlot, trigger, values, types, target, schoolIds);
+                return new ImbuedSpellTriggerAffix(def, trigger, values, types, target, schoolIds);
             }));
 
-    protected final ImbuedSlot imbuedSlot;
     protected final SpellTriggerAffix.TriggerType trigger;
     protected final Map<LootRarity, SpellTriggerAffix.TriggerData> values;
     protected final Set<LootCategory> types;
@@ -71,13 +67,12 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     protected final Optional<List<ResourceLocation>> schoolIds;
     protected final Optional<Set<SchoolType>> schools;
 
-    public ImbuedSpellTriggerAffix(AffixDefinition definition, ImbuedSlot imbuedSlot,
+    public ImbuedSpellTriggerAffix(AffixDefinition definition,
                                    SpellTriggerAffix.TriggerType trigger,
                                    Map<LootRarity, SpellTriggerAffix.TriggerData> values, Set<LootCategory> types,
                                    Optional<SpellTriggerAffix.TargetType> target,
                                    Optional<List<ResourceLocation>> schoolIds) {
         super(definition);
-        this.imbuedSlot = imbuedSlot;
         this.trigger = trigger;
         this.values = values;
         this.types = types;
@@ -98,34 +93,25 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     }
 
     /**
-     * Resolves the item stack in the configured imbued slot.
-     * Uses a custom enum and helper (rather than EquipmentSlot) for extensibility:
-     * we may add affixable jewelry later (e.g. Curios rings/necklaces) which would need
-     * to use this affix and resolve from non-vanilla slots.
+     * Resolves the imbued spell source stack, falling back to mainhand for non-imbuable items (e.g. shields).
      */
-    private ItemStack getStackFromSlot(LivingEntity entity) {
-        return switch (imbuedSlot) {
-            case MAINHAND -> entity.getMainHandItem();
-            case OFFHAND -> entity.getOffhandItem();
-            case HEAD -> entity.getItemBySlot(EquipmentSlot.HEAD);
-            case CHEST -> entity.getItemBySlot(EquipmentSlot.CHEST);
-            case LEGS -> entity.getItemBySlot(EquipmentSlot.LEGS);
-            case FEET -> entity.getItemBySlot(EquipmentSlot.FEET);
-        };
+    private static ItemStack resolveSourceStack(ItemStack affixStack, LivingEntity entity) {
+        if (ISpellContainer.isSpellContainer(affixStack) && !ISpellContainer.get(affixStack).isEmpty()) {
+            return affixStack;
+        }
+        return entity.getMainHandItem();
     }
 
     public void triggerSpell(LivingEntity caster, LivingEntity target, AffixInstance inst) {
-        triggerSpellInternal(caster, target, inst.rarity().get());
+        triggerSpellInternal(caster, target, inst.rarity().get(), resolveSourceStack(inst.stack(), caster));
     }
 
-    private void triggerSpellInternal(LivingEntity caster, LivingEntity target, LootRarity rarity) {
+    private void triggerSpellInternal(LivingEntity caster, LivingEntity target, LootRarity rarity, ItemStack sourceStack) {
         if (IS_TRIGGERING.get()) return;
 
         SpellTriggerAffix.TriggerData data = this.values.get(rarity);
         if (data == null || caster.level().isClientSide()) return;
 
-        // Resolve imbued spell source via helper (extensible for future Curios jewelry)
-        ItemStack sourceStack = getStackFromSlot(caster);
         if (!ISpellContainer.isSpellContainer(sourceStack) || ISpellContainer.get(sourceStack).isEmpty()) return;
 
         var spellData = ISpellContainer.get(sourceStack).getSpellAtIndex(0);
@@ -186,8 +172,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
         boolean isSelfCast = this.target.map(t -> t == SpellTriggerAffix.TargetType.SELF).orElse(false);
         String finalKey = isSelfCast ? triggerKey + ".self" : triggerKey;
 
-        Component slotName = Component.translatable("affix.irons_apothic.imbued_slot." + imbuedSlot.name().toLowerCase());
-        MutableComponent comp = Component.translatable(finalKey, slotName);
+        MutableComponent comp = Component.translatable(finalKey);
 
         int cooldown = data.cooldown();
         if (cooldown != 0) {
@@ -207,8 +192,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
         boolean isSelfCast = this.target.map(t -> t == SpellTriggerAffix.TargetType.SELF).orElse(false);
         String finalKey = isSelfCast ? triggerKey + ".self" : triggerKey;
 
-        Component slotName = Component.translatable("affix.irons_apothic.imbued_slot." + imbuedSlot.name().toLowerCase());
-        MutableComponent comp = Component.translatable(finalKey, slotName);
+        MutableComponent comp = Component.translatable(finalKey);
 
         int cooldown = data.cooldown();
         if (cooldown != 0) {
@@ -227,7 +211,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                 case TARGET -> livingTarget;
             }).orElse(livingTarget);
 
-            triggerSpellInternal(user, actualTarget, inst.rarity().get());
+            triggerSpellInternal(user, actualTarget, inst.rarity().get(), resolveSourceStack(inst.stack(), user));
         }
     }
 
@@ -239,7 +223,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                 case TARGET -> attacker;
             }).orElse(user);
 
-            triggerSpellInternal(user, actualTarget, inst.rarity().get());
+            triggerSpellInternal(user, actualTarget, inst.rarity().get(), resolveSourceStack(inst.stack(), user));
         }
     }
 
@@ -254,7 +238,8 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                 case TARGET -> hitEntity;
             }).orElse(hitEntity);
 
-            triggerSpellInternal(owner, actualTarget, rarity);
+            ItemStack sourceStack = AffixHelper.getSourceWeapon(proj);
+            triggerSpellInternal(owner, actualTarget, rarity, sourceStack);
         }
     }
 
@@ -266,24 +251,8 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                     ? this.target.map(t -> t == SpellTriggerAffix.TargetType.TARGET ? attacker : entity).orElse(attacker)
                     : entity;
 
-            triggerSpell(entity, actualTarget, inst);
+            triggerSpellInternal(entity, actualTarget, inst.rarity().get(), resolveSourceStack(inst.stack(), entity));
         }
         return amount;
-    }
-
-    /**
-     * Custom slot enum (rather than EquipmentSlot) for extensibility:
-     * we may add affixable jewelry later (e.g. Curios rings/necklaces) which would need
-     * to use this affix and resolve from non-vanilla slots.
-     */
-    public enum ImbuedSlot {
-        MAINHAND,
-        OFFHAND,
-        HEAD,
-        CHEST,
-        LEGS,
-        FEET;
-
-        public static final Codec<ImbuedSlot> CODEC = PlaceboCodecs.enumCodec(ImbuedSlot.class);
     }
 }

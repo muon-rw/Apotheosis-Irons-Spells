@@ -3,12 +3,11 @@
   "definition": {
     "affix_type": "ability",
     "weights": {
-      "weight": 10,
+      "weight": 15,
       "quality": 0.1
     },
     "exclusive_set": []
   },
-  "imbued_slot": "legs",
   "trigger": "SPELL_DAMAGE",
   "target": "TARGET",
   "values": {
@@ -16,5 +15,5 @@
       "cooldown": 2400
     }
   },
-  "types": ["apotheosis:leggings"]
+  "types": ["apotheosis:helmet", "apotheosis:chestplate", "apotheosis:leggings", "apotheosis:boots"]
 }
