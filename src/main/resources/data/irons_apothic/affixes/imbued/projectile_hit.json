@@ -13,7 +13,7 @@
   "target": "TARGET",
   "values": {
     "apotheosis:mythic": {
-      "cooldown": 2400
+      "cooldown": 900
     }
   },
   "types": ["apotheosis:bow"]

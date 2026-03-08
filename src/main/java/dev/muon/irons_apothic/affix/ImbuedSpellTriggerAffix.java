@@ -168,9 +168,9 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
         if (!(this.types.isEmpty() || this.types.contains(cat)) || !this.values.containsKey(rarity)) {
             return false;
         }
-        // Require imbueable unless shield (spell from mainhand when blocking)
+        // Require imbueable unless shield (spell from mainhand when blocking) or item already has a spell (e.g. MagicSwordItem/UniqueItem like Monstrous Flamberge)
         if (cat != Apoth.LootCategories.SHIELD) {
-            if (!Utils.canImbue(stack)) {
+            if (!Utils.canImbue(stack) && !ISpellContainer.isSpellContainer(stack)) {
                 return false;
             }
         }

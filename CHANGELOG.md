@@ -1,3 +1,7 @@
+## 2.1.1
+- Fix imbued spell affix not applying to unique items that come pre-imbued
+- Lowered cooldown for on-hit imbue affixes
+
 ## 2.1.0
 - Add Imbued Spell Trigger affix - thanks to v0idout for the idea! 
 - Add `gust`, `shield`, `fortify` on-block affix for shields
