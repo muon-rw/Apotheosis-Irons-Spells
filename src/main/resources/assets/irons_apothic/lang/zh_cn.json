@@ -43,7 +43,7 @@
   "affix.irons_apothic.trigger.projectile_hit": "弹射物击中目标时，施放%s",
   "affix.irons_apothic.trigger.projectile_hit.self": "弹射物击中目标时，对自身施放%s",
   "affix.irons_apothic.trigger.hurt": "受到攻击时，施放%s",
-  "affix.irons_apothic.trigger.hurt.self": "受到攻击时，对自身施放%s",",
+  "affix.irons_apothic.trigger.hurt.self": "受到攻击时，对自身施放%s",
   "affix.irons_apothic.trigger.shield_block": "格挡时，施放%s",
   "affix.irons_apothic.trigger.shield_block.self": "格挡时，对自身施放%s",
 
