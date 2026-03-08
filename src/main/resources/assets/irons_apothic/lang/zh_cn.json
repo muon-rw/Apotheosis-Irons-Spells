@@ -46,6 +46,7 @@
   "affix.irons_apothic.trigger.hurt.self": "受到攻击时，对自身施放%s",
 
   "affix.irons_apothic.spell_level.desc": "施放的%s法术等级提高%s级。",
+  "affix.irons_apothic.spell_level.desc.singular": "施放的%s法术等级提高%s级。",
   "affix.irons_apothic.mana_cost.desc": "使用此武器施放%s法术时，法力消耗减少%s%%。",
 
   "affix.irons_apothic:telepathic": "念动",
@@ -91,8 +92,13 @@
   "affix.irons_apothic:magic_weapons/mob_effect/fortifying": "强化",
   "affix.irons_apothic:magic_weapons/mob_effect/fortifying.suffix": "守护",
 
+  "affix.irons_apothic.school.generic": "所有",
+  "affix.irons_apothic.school.none": "所有",
+
   "affix.irons_apothic:elemental/school_none/attribute": "奥术",
   "affix.irons_apothic:elemental/school_none/attribute.suffix": "大法师",
+  "affix.irons_apothic:elemental/school_none/spell_level": "达人",
+  "affix.irons_apothic:elemental/school_none/spell_level.suffix": "奥术精通",
 
   "affix.irons_apothic:elemental/school_eldritch/attribute": "邪术",
   "affix.irons_apothic:elemental/school_eldritch/attribute.suffix": "邪恶恐惧",
