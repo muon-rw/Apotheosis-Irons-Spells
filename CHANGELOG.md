@@ -1,3 +1,6 @@
+## 2.1.3
+- Update `zh_cn` for new affixes, thanks again ZHAY10086 
+
 ## 2.1.2
 - Allow the imbued trigger affix to work on any imbuable item
 - Made the imbued trigger affix more common relative to pre-set spell trigger affixes
