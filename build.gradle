@@ -5,7 +5,7 @@ plugins {
     // later
     // id 'net.neoforged.moddev' version '2.0.105'
     id "me.modmuss50.mod-publish-plugin" version "0.8.3"
-    id "dev.mixinmcp.decompile" version "0.6.0"
+    id 'dev.mixinmcp.decompile' version '0.8.0'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -103,18 +103,21 @@ neoForge {
     runs {
         client {
             client()
-
+            gameDirectory = project.file('run/client')
+            programArguments.addAll('--quickPlayMultiplayer', 'localhost:25565')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         clientExtra {
             client()
-            programArguments.addAll('--username', 'Dev2')
+            gameDirectory = project.file('run/client2')
+            programArguments.addAll('--username', 'Dev2', '--quickPlayMultiplayer', 'localhost:25565')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
             server()
+            gameDirectory = project.file('run/server')
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
