@@ -1,3 +1,6 @@
+## 2.1.4
+- Update to replace Familiarslib Sound school with Tunes n' Tomes Melody school
+
 ## 2.1.3
 - Update `zh_cn` for new affixes, thanks again ZHAY10086 
 

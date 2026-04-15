@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "familiarslib"
+      "modid": "tunes_n_tomes"
     }
   ],
   "type": "irons_apothic:spell_level",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "school": "familiarslib:sound",
+  "school": "tunes_n_tomes:melody",
   "values": {
     "apotheosis:rare": {
       "level": {
