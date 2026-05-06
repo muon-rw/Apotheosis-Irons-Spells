@@ -63,12 +63,12 @@
       "attribute": "minecraft:generic.armor",
       "operation": "ADD_VALUE",
       "values": {
-        "cracked": 1.0,
-        "chipped": 2.0,
-        "flawed": 3.5,
-        "normal": 5.0,
-        "flawless": 7.0,
-        "perfect": 9.0
+        "cracked": 0.5,
+        "chipped": 1.0,
+        "flawed": 2.0,
+        "normal": 3.0,
+        "flawless": 4.5,
+        "perfect": 6.0
       }
     },
     {
@@ -112,4 +112,3 @@
     }
   ]
 }
-

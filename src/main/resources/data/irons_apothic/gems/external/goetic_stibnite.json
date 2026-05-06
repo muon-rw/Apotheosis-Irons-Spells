@@ -101,12 +101,12 @@
       "attribute": "apothic_attributes:current_hp_damage",
       "operation": "ADD_VALUE",
       "values": {
-        "cracked": 0.01,
-        "chipped": 0.02,
-        "flawed": 0.03,
-        "normal": 0.04,
-        "flawless": 0.06,
-        "perfect": 0.08
+        "cracked": 0.005,
+        "chipped": 0.01,
+        "flawed": 0.015,
+        "normal": 0.02,
+        "flawless": 0.03,
+        "perfect": 0.04
       }
     }
   ]
