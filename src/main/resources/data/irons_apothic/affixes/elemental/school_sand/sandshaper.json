@@ -2,48 +2,45 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "hazennstuff"
+      "modid": "cataclysm_spellbooks"
     }
   ],
-  "type": "irons_apothic:spell_trigger",
+  "type": "irons_apothic:spell_level",
   "definition": {
-    "affix_type": "ability",
+    "affix_type": "basic_effect",
     "weights": {
       "weight": 25,
       "quality": 0.1
     },
     "exclusive_set": []
   },
-  "spell": "hazennstuff:crystal_volley",
-  "trigger": "PROJECTILE_HIT",
-  "target": "TARGET",
+  "school": "cataclysm_spellbooks:sand",
   "values": {
     "apotheosis:rare": {
       "level": {
         "min": 1,
-        "steps": 2,
-        "step": 1
-      },
-      "cooldown": 140
+        "steps": 1,
+        "step": 0
+      }
     },
     "apotheosis:epic": {
       "level": {
         "min": 1,
-        "steps": 3,
-        "step": 1
-      },
-      "cooldown": 100
+        "steps": 1,
+        "step": 0
+      }
     },
     "apotheosis:mythic": {
       "level": {
-        "min": 2,
-        "steps": 3,
+        "min": 1,
+        "steps": 1,
         "step": 1
-      },
-      "cooldown": 80
+      }
     }
   },
   "types": [
-    "apotheosis:bow"
+    "apotheosis:melee_weapon",
+    "irons_apothic:staff",
+    "irons_apothic:spellbook"
   ]
-} 
+}

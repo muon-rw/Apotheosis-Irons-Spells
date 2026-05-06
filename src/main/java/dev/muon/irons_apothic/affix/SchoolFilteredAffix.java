@@ -1,5 +1,6 @@
 package dev.muon.irons_apothic.affix;
 
+import dev.muon.irons_apothic.mixin.SchoolTypeAccessor;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import io.redspace.ironsspellbooks.api.item.UpgradeData;
@@ -28,6 +29,17 @@ import java.util.Set;
 public abstract class SchoolFilteredAffix extends Affix {
 
     private static final String SPELL_POWER_SUFFIX = "_spell_power";
+
+    /**
+     * Shared re-entrancy guard for affix-driven spell casts. Set by both {@link SpellTriggerAffix} and
+     * {@link ImbuedSpellTriggerAffix} during {@code triggerSpell} so a cast triggered by one cannot recursively
+     * trigger the other (or itself) via downstream {@code SpellDamageEvent} / {@code SpellHealEvent} fan-out.
+     */
+    protected static final ThreadLocal<Boolean> IS_TRIGGERING = ThreadLocal.withInitial(() -> false);
+
+    public static boolean isCurrentlyTriggering() {
+        return IS_TRIGGERING.get();
+    }
 
     protected SchoolFilteredAffix(AffixDefinition definition) {
         super(definition);
@@ -135,16 +147,33 @@ public abstract class SchoolFilteredAffix extends Affix {
     /**
      * Extracts school from a school-specific spell power attribute (e.g., fire_spell_power → fire).
      * Returns null for generic spell_power or non-spell-power attributes.
+     *
+     * <p>First tries the fast path: strip "_spell_power" from the attribute path and look up the school
+     * by namespace+stripped-path. Most schools name their power attribute consistently with the school id
+     * (e.g. {@code irons_spellbooks:fire} → {@code irons_spellbooks:fire_spell_power}), so this resolves
+     * directly. Falls back to a registry-wide reverse lookup via {@link SchoolTypeAccessor} for schools
+     * where the attribute path does not match the school path — e.g. {@code ess_requiem:blade} registers
+     * its power attribute as {@code ess_requiem:spellblade_spell_power}.
      */
     private static SchoolType getSchoolFromAttribute(Attribute attribute) {
         ResourceLocation attrId = BuiltInRegistries.ATTRIBUTE.getKey(attribute);
         if (attrId == null) return null;
 
         String path = attrId.getPath();
-        if (path.endsWith(SPELL_POWER_SUFFIX) && path.length() > SPELL_POWER_SUFFIX.length()) {
-            String schoolName = path.substring(0, path.length() - SPELL_POWER_SUFFIX.length());
-            ResourceLocation schoolResource = ResourceLocation.fromNamespaceAndPath(attrId.getNamespace(), schoolName);
-            return SchoolRegistry.REGISTRY.get(schoolResource);
+        if (!path.endsWith(SPELL_POWER_SUFFIX) || path.length() <= SPELL_POWER_SUFFIX.length()) {
+            return null;
+        }
+
+        String schoolName = path.substring(0, path.length() - SPELL_POWER_SUFFIX.length());
+        ResourceLocation schoolResource = ResourceLocation.fromNamespaceAndPath(attrId.getNamespace(), schoolName);
+        SchoolType school = SchoolRegistry.REGISTRY.get(schoolResource);
+        if (school != null) return school;
+
+        for (SchoolType candidate : SchoolRegistry.REGISTRY) {
+            Holder<Attribute> powerHolder = ((SchoolTypeAccessor) (Object) candidate).irons_apothic$getPowerAttribute();
+            if (powerHolder != null && powerHolder.isBound() && powerHolder.value() == attribute) {
+                return candidate;
+            }
         }
         return null;
     }

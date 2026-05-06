@@ -1,77 +1,98 @@
 package dev.muon.irons_apothic.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dev.muon.irons_apothic.IronsApothic;
+import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
-import io.redspace.ironsspellbooks.api.spells.AutoSpellConfig;
-import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
-import net.neoforged.fml.ModList;
-import org.objectweb.asm.Type;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.neoforged.fml.loading.FMLPaths;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpellDiscoveryUtil {
-    
-    public static void logAvailableSpells() {
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    public static List<AbstractSpell> getAvailableSpells() {
+        return SpellRegistry.REGISTRY.stream()
+                .filter(spell -> spell != SpellRegistry.none())
+                .toList();
+    }
+
+    public static void logSpells() {
         var spells = getAvailableSpells();
-        
+
         IronsApothic.LOGGER.info("=== Available Spells for Spell Trigger Affixes ===");
-        
-        // Group by school
+
         Map<SchoolType, List<AbstractSpell>> spellsBySchool = spells.stream()
-                .collect(Collectors.groupingBy(AbstractSpell::getSchoolType));
-        
+                .collect(Collectors.groupingBy(
+                        AbstractSpell::getSchoolType,
+                        () -> new TreeMap<>(Comparator.comparing(s -> s.getId().toString())),
+                        Collectors.toList()
+                ));
+
         spellsBySchool.forEach((school, schoolSpells) -> {
             IronsApothic.LOGGER.info("\n{} School:", school.getDisplayName().getString());
             schoolSpells.forEach(spell -> {
-                IronsApothic.LOGGER.info("  - {} ({}): Level {}-{}, Cast Type: {}", 
+                IronsApothic.LOGGER.info("  - {} ({}): Level {}-{}, Cast Type: {}, Min Rarity: {}\n      {}",
                     spell.getSpellName(),
-                    spell.getSpellId(), 
-                    spell.getMinLevel(), 
+                    spell.getSpellId(),
+                    spell.getMinLevel(),
                     spell.getMaxLevel(),
-                    spell.getCastType()
+                    spell.getCastType(),
+                    spell.getRarity(spell.getMinLevel()).name(),
+                    Component.translatable(spell.getComponentId() + ".guide").getString()
                 );
             });
         });
-        
-        // List good buff/utility spells for affixes
-        IronsApothic.LOGGER.info("\n=== Potential Buff/Utility Spells ===");
-        spells.stream()
-                .filter(spell -> spell.getCastType() == CastType.INSTANT)
-                .filter(spell -> !spell.getSpellName().contains("bolt") && 
-                               !spell.getSpellName().contains("slash") &&
-                               !spell.getSpellName().contains("arrow"))
-                .forEach(spell -> {
-                    IronsApothic.LOGGER.info("  - {} ({})", spell.getSpellName(), spell.getSpellId());
-                });
     }
-    
-    public static List<AbstractSpell> getAvailableSpells() {
-        var allScanData = ModList.get().getAllScanData();
-        Set<String> spellClassNames = new HashSet<>();
 
-        allScanData.forEach(scanData -> {
-            scanData.getAnnotations().forEach(annotationData -> {
-                if (Objects.equals(annotationData.annotationType(), Type.getType(AutoSpellConfig.class))) {
-                    spellClassNames.add(annotationData.memberName());
-                }
-            });
-        });
 
-        List<AbstractSpell> spells = new ArrayList<>();
-        spellClassNames.forEach(spellName -> {
-            try {
-                Class<?> pluginClass = Class.forName(spellName);
-                var pluginClassSubclass = pluginClass.asSubclass(AbstractSpell.class);
-                var constructor = pluginClassSubclass.getDeclaredConstructor();
-                var instance = constructor.newInstance();
-                spells.add(instance);
-            } catch (Exception e) {
-                IronsApothic.LOGGER.error("SpellDiscovery error for {}: {}", spellName, e.getMessage());
-            }
-        });
+    public static int sendSchoolsToChat(CommandSourceStack source) {
+        List<SchoolType> schools = SchoolRegistry.REGISTRY.stream()
+                .sorted(Comparator.comparing(s -> s.getId().toString()))
+                .toList();
 
-        return spells;
+        source.sendSuccess(() -> Component.literal("Available Schools (" + schools.size() + "):"), false);
+        for (SchoolType school : schools) {
+            source.sendSuccess(() -> Component.literal(" - ")
+                    .append(school.getDisplayName())
+                    .append(Component.literal(" (" + school.getId() + ")")), false);
+        }
+        return schools.size();
     }
-} 
+
+    public static Path dumpToFile() throws IOException {
+        List<SpellData> spellDataList = new ArrayList<>();
+
+        for (AbstractSpell spell : getAvailableSpells()) {
+            spellDataList.add(new SpellData(
+                    spell.getSpellId(),
+                    spell.getSchoolType().getId().toString(),
+                    spell.getRarity(spell.getMinLevel()).name(),
+                    spell.getCastType().name(),
+                    spell.getMinLevel(),
+                    spell.getMaxLevel(),
+                    Component.translatable(spell.getComponentId() + ".guide").getString()
+            ));
+        }
+
+        Path modConfigDir = FMLPaths.CONFIGDIR.get().resolve(IronsApothic.MODID);
+        Files.createDirectories(modConfigDir);
+        Path outputFile = modConfigDir.resolve("spells.json");
+        Files.writeString(outputFile, GSON.toJson(spellDataList));
+        IronsApothic.LOGGER.info("Spell dump written to: {}", outputFile);
+        return outputFile;
+    }
+
+    private record SpellData(String spellId, String school, String minRarity, String castType,
+                             int minLevel, int maxLevel, String description) {}
+}

@@ -2,20 +2,20 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "hazennstuff"
+      "modid": "hazentouvelib"
     }
   ],
   "type": "irons_apothic:spell_level",
   "definition": {
     "affix_type": "basic_effect",
     "weights": {
-      "weight": 20,
-      "quality": 0.2
+      "weight": 25,
+      "quality": 0.1
     },
     "exclusive_set": []
   },
-  "school": "hazennstuff:radiance",
-"values": {
+  "school": "hazentouvelib:radiance",
+  "values": {
     "apotheosis:rare": {
       "level": {
         "min": 1,
@@ -43,4 +43,4 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ]
-} 
+}

@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "ess_requiem"
+      "modid": "aces_spell_utils"
     }
   ],
   "type": "irons_apothic:mana_cost",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "school": "ess_requiem:mind",
+  "school": "aces_spell_utils:technomancy",
   "values": {
     "apotheosis:common": {
       "min": 0.05,
@@ -46,4 +46,4 @@
     "apotheosis:melee_weapon",
     "irons_apothic:staff"
   ]
-} 
+}

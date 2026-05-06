@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "ess_requiem"
+      "modid": "aces_spell_utils"
     }
   ],
   "type": "irons_apothic:attribute",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "attribute": "ess_requiem:mind_spell_power",
+  "attribute": "aces_spell_utils:hydro_spell_power",
   "operation": "ADD_MULTIPLIED_BASE",
   "values": {
     "apotheosis:common": {
@@ -48,5 +48,5 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ],
-  "school": "ess_requiem:mind"
+  "school": "aces_spell_utils:hydro"
 }

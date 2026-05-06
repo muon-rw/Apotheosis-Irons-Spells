@@ -340,8 +340,6 @@
   "affix.irons_apothic:melee/spell/stomp.suffix": "力量",
   "affix.irons_apothic:melee/spell/blood_slash": "猩红",
   "affix.irons_apothic:melee/spell/blood_slash.suffix": "割喉",
-  "affix.irons_apothic:melee/spell/brimstone_hellblast": "硫磺熔注",
-  "affix.irons_apothic:melee/spell/brimstone_hellblast.suffix": "硫磺狱火",
   "affix.irons_apothic:melee/spell/nights_edge_strike": "暗刃",
   "affix.irons_apothic:melee/spell/nights_edge_strike.suffix": "永夜之刃",
 
@@ -356,7 +354,5 @@
   "affix.irons_apothic:ranged/spell/volley": "四散",
   "affix.irons_apothic:ranged/spell/volley.suffix": "散射",
   "affix.irons_apothic:ranged/spell/ice_arrow": "冰结",
-  "affix.irons_apothic:ranged/spell/ice_arrow.suffix": "霜箭",
-  "affix.irons_apothic:ranged/spell/crystal_volley": "冰晶",
-  "affix.irons_apothic:ranged/spell/crystal_volley.suffix": "霜箭齐射"
+  "affix.irons_apothic:ranged/spell/ice_arrow.suffix": "霜箭"
 }

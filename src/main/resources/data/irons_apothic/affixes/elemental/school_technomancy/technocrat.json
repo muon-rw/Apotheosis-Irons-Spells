@@ -2,19 +2,19 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "ess_requiem"
+      "modid": "aces_spell_utils"
     }
   ],
   "type": "irons_apothic:spell_level",
   "definition": {
     "affix_type": "basic_effect",
     "weights": {
-      "weight": 20,
-      "quality": 0.2
+      "weight": 25,
+      "quality": 0.1
     },
     "exclusive_set": []
   },
-  "school": "ess_requiem:mind",
+  "school": "aces_spell_utils:technomancy",
   "values": {
     "apotheosis:rare": {
       "level": {
@@ -43,4 +43,4 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ]
-} 
+}

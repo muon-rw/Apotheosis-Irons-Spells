@@ -1,3 +1,12 @@
+## 2.2.0
+- Update compat for HazenTouveLib, Ace's Spell utils, 
+- Add compat for Monsters & Spellbooks
+- Add compat for Discerning the Eldritch
+- Add many more built-in spell cast affixes
+- Rewrite spell cast utilities, now properly point spells at their targets, even if the spell doesn't natively support entity targeting
+- Should also prevent a rare ClassCastException crash related to TargetEntityCastData
+- Add `/irons_apothic spells dump` command — writes all registered spells (id, school, min rarity, cast type, level range, guide description) to `config/irons_apothic/spells.json`
+
 ## 2.1.4
 - Update to replace Familiarslib Sound school with Tunes n' Tomes Melody school
 

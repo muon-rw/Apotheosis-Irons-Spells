@@ -146,8 +146,7 @@ public class ManaCostAffix extends SchoolFilteredAffix {
     }
 
     private static Component formatSchool(SchoolType school) {
-        String key = "school." + school.getId().getNamespace() + "." + school.getId().getPath();
-        return Component.translatable(key).withStyle(school.getDisplayName().getStyle());
+        return school.getDisplayName();
     }
 
     @Override

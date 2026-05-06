@@ -37,11 +37,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
-    private static final ThreadLocal<Boolean> IS_TRIGGERING = ThreadLocal.withInitial(() -> false);
-
-    public static boolean isCurrentlyTriggering() {
-        return IS_TRIGGERING.get();
-    }
 
     public static final Codec<ImbuedSpellTriggerAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
@@ -52,12 +47,13 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                     SpellTriggerAffix.TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
                     ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a ->
                             a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
-            .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray) -> {
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
+                    Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
+            .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
                         ? schoolsArray
                         : singleSchool.map(List::of);
-                return new ImbuedSpellTriggerAffix(def, trigger, values, types, target, schoolIds);
+                return new ImbuedSpellTriggerAffix(def, trigger, values, types, target, schoolIds, castTime);
             }));
 
     protected final SpellTriggerAffix.TriggerType trigger;
@@ -66,18 +62,21 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     protected final Optional<SpellTriggerAffix.TargetType> target;
     protected final Optional<List<ResourceLocation>> schoolIds;
     protected final Optional<Set<SchoolType>> schools;
+    protected final Optional<Integer> castTime;
 
     public ImbuedSpellTriggerAffix(AffixDefinition definition,
                                    SpellTriggerAffix.TriggerType trigger,
                                    Map<LootRarity, SpellTriggerAffix.TriggerData> values, Set<LootCategory> types,
                                    Optional<SpellTriggerAffix.TargetType> target,
-                                   Optional<List<ResourceLocation>> schoolIds) {
+                                   Optional<List<ResourceLocation>> schoolIds,
+                                   Optional<Integer> castTime) {
         super(definition);
         this.trigger = trigger;
         this.values = values;
         this.types = types;
         this.target = target;
         this.schoolIds = schoolIds;
+        this.castTime = castTime;
         this.schools = schoolIds.map(ids -> {
             Set<SchoolType> schoolSet = new HashSet<>();
             for (ResourceLocation id : ids) {
@@ -134,7 +133,11 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
         try {
             IS_TRIGGERING.set(true);
 
-            SpellCastUtil.castSpell(caster, spellInstance, spellLevel, target);
+            if (target == caster) {
+                SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime);
+            } else {
+                SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
+            }
 
             if (!hasActiveRecast && cooldown != 0) {
                 Affix.startCooldown(this.id(), caster);

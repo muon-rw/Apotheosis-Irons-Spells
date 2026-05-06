@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "irons_apothic.refmap.json",
   "mixins": [
-    "EnchantmentHelperMixin"
+    "EnchantmentHelperMixin",
+    "EntityMixin",
+    "SchoolTypeAccessor"
   ],
   "client": [],
   "injectors": {

@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "hazennstuff"
+      "modid": "monsterspellbooks"
     }
   ],
   "type": "irons_apothic:spell_trigger",
@@ -14,28 +14,36 @@
     },
     "exclusive_set": []
   },
-  "spell": "hazennstuff:brimstone_hellblast",
+  "spell": "monsterspellbooks:vile_slash",
   "trigger": "MELEE_HIT",
   "target": "TARGET",
   "values": {
+    "apotheosis:rare": {
+      "level": {
+        "min": 1,
+        "steps": 2,
+        "step": 1
+      },
+      "cooldown": 240
+    },
     "apotheosis:epic": {
       "level": {
         "min": 1,
-        "steps": 1,
+        "steps": 3,
         "step": 1
       },
-      "cooldown": 160
+      "cooldown": 180
     },
     "apotheosis:mythic": {
       "level": {
         "min": 2,
-        "steps": 1,
+        "steps": 3,
         "step": 1
       },
-      "cooldown": 120
+      "cooldown": 140
     }
   },
   "types": [
     "apotheosis:melee_weapon"
   ]
-} 
+}

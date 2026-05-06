@@ -1,0 +1,113 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "discerning_the_eldritch"
+    }
+  ],
+  "type": "apotheosis:gem",
+  "min_purity": "cracked",
+  "unique": false,
+  "weights": {
+    "weight": 100,
+    "quality": 0.1
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_gear",
+        "types": [
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
+        ]
+      },
+      "attribute": "discerning_the_eldritch:ritual_spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "discerning_the_eldritch:ritual_magic_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.1,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "chestplate",
+        "types": [
+          "apotheosis:chestplate"
+        ]
+      },
+      "attribute": "aces_spell_utils:mana_rend",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.02,
+        "chipped": 0.04,
+        "flawed": 0.06,
+        "normal": 0.08,
+        "flawless": 0.12,
+        "perfect": 0.16
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "helmet",
+        "types": [
+          "apotheosis:helmet"
+        ]
+      },
+      "attribute": "irons_spellbooks:max_mana",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.03,
+        "chipped": 0.045,
+        "flawed": 0.06,
+        "normal": 0.09,
+        "flawless": 0.12,
+        "perfect": 0.15
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "leggings",
+        "types": [
+          "apotheosis:leggings"
+        ]
+      },
+      "attribute": "apothic_attributes:current_hp_damage",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.01,
+        "chipped": 0.02,
+        "flawed": 0.03,
+        "normal": 0.04,
+        "flawless": 0.06,
+        "perfect": 0.08
+      }
+    }
+  ]
+}

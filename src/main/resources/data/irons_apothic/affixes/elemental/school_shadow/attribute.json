@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "hazennstuff"
+      "modid": "hazentouvelib"
     }
   ],
   "type": "irons_apothic:attribute",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "attribute": "hazennstuff:shadow_spell_power",
+  "attribute": "hazentouvelib:shadow_spell_power",
   "operation": "ADD_MULTIPLIED_BASE",
   "values": {
     "apotheosis:common": {
@@ -48,5 +48,5 @@
     "irons_apothic:staff",
     "irons_apothic:spellbook"
   ],
-  "school": "hazennstuff:shadow"
+  "school": "hazentouvelib:shadow"
 }

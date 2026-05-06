@@ -37,11 +37,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class SpellTriggerAffix extends SchoolFilteredAffix {
-    private static final ThreadLocal<Boolean> IS_TRIGGERING = ThreadLocal.withInitial(() -> false);
-
-    public static boolean isCurrentlyTriggering() {
-        return IS_TRIGGERING.get();
-    }
 
     // Codec that supports both single "school" (backward compat) and "schools" array
     public static final Codec<SpellTriggerAffix> CODEC = RecordCodecBuilder.create(inst -> inst
@@ -52,15 +47,16 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
                     LootRarity.mapCodec(TriggerData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a ->
                         a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
-            .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray) -> {
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
+                    Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
+            .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
                 // Prefer "schools" array if present, otherwise use single "school"
-                Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
-                    ? schoolsArray 
+                Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
+                    ? schoolsArray
                     : singleSchool.map(List::of);
-                return new SpellTriggerAffix(def, spell, trigger, values, types, target, schoolIds);
+                return new SpellTriggerAffix(def, spell, trigger, values, types, target, schoolIds, castTime);
             }));
 
     protected final Holder<AbstractSpell> spell;
@@ -70,10 +66,12 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
     protected final Optional<TargetType> target;
     protected final Optional<List<ResourceLocation>> schoolIds;
     protected final Optional<Set<SchoolType>> schools;
+    protected final Optional<Integer> castTime;
 
     public SpellTriggerAffix(AffixDefinition definition, Holder<AbstractSpell> spell, TriggerType trigger,
                              Map<LootRarity, TriggerData> values, Set<LootCategory> types,
-                             Optional<TargetType> target, Optional<List<ResourceLocation>> schoolIds) {
+                             Optional<TargetType> target, Optional<List<ResourceLocation>> schoolIds,
+                             Optional<Integer> castTime) {
         super(definition);
         this.spell = spell;
         this.trigger = trigger;
@@ -81,6 +79,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         this.types = types;
         this.target = target;
         this.schoolIds = schoolIds;
+        this.castTime = castTime;
         this.schools = schoolIds.map(ids -> {
             Set<SchoolType> schoolSet = new HashSet<>();
             for (ResourceLocation id : ids) {
@@ -123,7 +122,11 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         try {
             IS_TRIGGERING.set(true);
 
-            SpellCastUtil.castSpell(caster, spellInstance, spellLevel, target);
+            if (target == caster) {
+                SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime);
+            } else {
+                SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
+            }
 
             if (!hasActiveRecast && cooldown != 0) {
                 Affix.startCooldown(this.id(), caster);

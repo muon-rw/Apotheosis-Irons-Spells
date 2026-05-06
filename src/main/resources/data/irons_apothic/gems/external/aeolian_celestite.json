@@ -1,0 +1,113 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "monsterspellbooks"
+    }
+  ],
+  "type": "apotheosis:gem",
+  "min_purity": "cracked",
+  "unique": false,
+  "weights": {
+    "weight": 100,
+    "quality": 0.1
+  },
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "magic_gear",
+        "types": [
+          "irons_apothic:staff",
+          "irons_apothic:spellbook"
+        ]
+      },
+      "attribute": "monsterspellbooks:aero_spell_power",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "melee_weapon",
+        "types": [
+          "apotheosis:melee_weapon"
+        ]
+      },
+      "attribute": "monsterspellbooks:aero_magic_resist",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.1,
+        "normal": 0.125,
+        "flawless": 0.15,
+        "perfect": 0.2
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "bow",
+        "types": [
+          "apotheosis:bow"
+        ]
+      },
+      "attribute": "aces_spell_utils:magic_projectile_damage",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.04,
+        "chipped": 0.08,
+        "flawed": 0.12,
+        "normal": 0.16,
+        "flawless": 0.2,
+        "perfect": 0.25
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "boots",
+        "types": [
+          "apotheosis:boots"
+        ]
+      },
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "ADD_MULTIPLIED_BASE",
+      "values": {
+        "cracked": 0.025,
+        "chipped": 0.05,
+        "flawed": 0.075,
+        "normal": 0.1,
+        "flawless": 0.125,
+        "perfect": 0.15
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "chestplate",
+        "types": [
+          "apotheosis:chestplate"
+        ]
+      },
+      "attribute": "apothic_attributes:dodge_chance",
+      "operation": "ADD_VALUE",
+      "values": {
+        "cracked": 0.015,
+        "chipped": 0.03,
+        "flawed": 0.045,
+        "normal": 0.06,
+        "flawless": 0.075,
+        "perfect": 0.09
+      }
+    }
+  ]
+}
