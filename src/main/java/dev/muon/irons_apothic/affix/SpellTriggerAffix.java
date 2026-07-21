@@ -9,6 +9,7 @@ import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
+import dev.shadowsoffire.apothic_attributes.api.AbilityCooldowns;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -115,7 +116,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         boolean hasActiveRecast = magicData.getPlayerRecasts().hasRecastForSpell(spellId);
 
         int cooldown = data.cooldown();
-        if (!hasActiveRecast && cooldown != 0 && Affix.isOnCooldown(this.id(), cooldown, caster)) {
+        if (!hasActiveRecast && cooldown != 0 && AbilityCooldowns.isOnCooldown(caster, this.id(), cooldown)) {
             return;
         }
 
@@ -129,7 +130,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
             }
 
             if (!hasActiveRecast && cooldown != 0) {
-                Affix.startCooldown(this.id(), caster);
+                AbilityCooldowns.startCooldown(caster, this.id());
             }
         } finally {
             IS_TRIGGERING.set(false);

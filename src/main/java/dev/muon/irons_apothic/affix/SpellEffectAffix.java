@@ -8,6 +8,7 @@ import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
+import dev.shadowsoffire.apothic_attributes.api.AbilityCooldowns;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -67,7 +68,7 @@ public class SpellEffectAffix extends SchoolFilteredAffix {
         if (data == null || target.level().isClientSide()) return;
 
         int cooldown = data.cooldown();
-        if (cooldown != 0 && Affix.isOnCooldown(this.id(), cooldown, target)) return;
+        if (cooldown != 0 && AbilityCooldowns.isOnCooldown(target, this.id(), cooldown)) return;
 
         MobEffectInstance currentInst = target.getEffect(this.effect);
         MobEffectInstance newInst = data.build(this.effect, inst.level());
@@ -85,7 +86,7 @@ public class SpellEffectAffix extends SchoolFilteredAffix {
         }
 
         if (cooldown != 0) {
-            Affix.startCooldown(this.id(), target);
+            AbilityCooldowns.startCooldown(target, this.id());
         }
     }
 

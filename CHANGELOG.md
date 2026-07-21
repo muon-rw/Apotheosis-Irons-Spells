@@ -1,3 +1,6 @@
+## 2.2.1
+- Update to (and require) Apotheosis 8.6.0
+
 ## 2.2.0
 - Update compat for HazenTouveLib, Ace's Spell Utils, ESS: Requiem
 - Add compat for Monsters & Spellbooks
