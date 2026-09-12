@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "cataclysm_spellbooks"
+      "modid": "gtbcs_geomancy_plus"
     }
   ],
   "type": "irons_apothic:mana_cost",
@@ -14,7 +14,7 @@
     },
     "exclusive_set": []
   },
-  "school": "cataclysm_spellbooks:sand",
+  "school": "gtbcs_geomancy_plus:geo",
   "values": {
     "apotheosis:common": {
       "min": 0.05,
@@ -46,4 +46,4 @@
     "apotheosis:melee_weapon",
     "irons_apothic:staff"
   ]
-}
+} 

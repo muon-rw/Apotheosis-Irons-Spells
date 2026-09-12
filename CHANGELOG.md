@@ -1,3 +1,8 @@
+## 2.2.2
+- Add Geo school affixes and the Quaking Jasper gem for GTBC's Geomancy
+- Remove Sand school to match Cataclysm Spellbooks 1.1.13
+- Remove Harmonic affix, Alshanex Familiars removed Guardian Angel spell
+
 ## 2.2.1
 - Update to (and require) Apotheosis 8.6.0
 
