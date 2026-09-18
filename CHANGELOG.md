@@ -1,3 +1,6 @@
+## 2.2.4
+- Update Chinese Translation (zh_cn), thanks ZHAY10086! 
+
 ## 2.2.3
 - Fix log errors+no rarity assigned when a rare-tier rotten spellbook was dropped by a mob (thanks item4 and VaporeonScripts!)
 - Dropped T.O Magic alpha version compat entirely (was unreachable anyway)
