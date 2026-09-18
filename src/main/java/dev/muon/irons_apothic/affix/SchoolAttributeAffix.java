@@ -39,7 +39,6 @@ public class SchoolAttributeAffix extends AttributeAffix {
                         a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds)
             ).apply(inst, (def, attr, op, values, categories, singleSchool, schoolsArray) -> {
-                // Prefer "schools" array if present, otherwise use single "school"
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
                     ? schoolsArray 
                     : singleSchool.map(List::of);

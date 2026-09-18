@@ -4,7 +4,9 @@ import dev.muon.irons_apothic.affix.*;
 import dev.muon.irons_apothic.category.LootCategories;
 import dev.muon.irons_apothic.category.SlotGroups;
 import dev.muon.irons_apothic.command.IronsApothicCommands;
+import dev.muon.irons_apothic.loot.SchoolSelectLootRule;
 import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
+import dev.shadowsoffire.apotheosis.loot.LootRule;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -43,6 +45,7 @@ public class IronsApothic {
         AffixRegistry.INSTANCE.registerCodec(loc("imbued_spell_trigger"), ImbuedSpellTriggerAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("mana_cost"), ManaCostAffix.CODEC);
         LOGGER.info("Custom affix codecs registered.");
+        LootRule.CODEC.register(loc("school_select"), SchoolSelectLootRule.CODEC);
     }
 
     private void registerCommands(RegisterCommandsEvent event) {

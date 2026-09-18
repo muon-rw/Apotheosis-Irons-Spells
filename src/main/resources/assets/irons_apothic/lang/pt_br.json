@@ -138,10 +138,6 @@
   "affix.irons_apothic:elemental/school_wind/aeromancer": "do Aeromante",
   "affix.irons_apothic:elemental/school_wind/aeromancer.suffix": "dos Céus Ilimitados",
 
-  "affix.irons_apothic:elemental/school_aqua/attribute": "Náutico",
-  "affix.irons_apothic:elemental/school_aqua/attribute.suffix": "das Marés Colidentes",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer": "do Aquamante",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer.suffix": "das Profundezas do Oceano",
 
   "affix.irons_apothic:elemental/school_abyssal/attribute": "Abissal",
   "affix.irons_apothic:elemental/school_abyssal/attribute.suffix": "das Profundezas Submersas",
@@ -190,8 +186,6 @@
   "affix.irons_apothic:elemental/school_eldritch/mana_cost.suffix": "da Acumulação Sobrenatural",
   "affix.irons_apothic:elemental/school_wind/mana_cost": "Leve",
   "affix.irons_apothic:elemental/school_wind/mana_cost.suffix": "das Ventanias Sem Esforço",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost": "Corrente",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost.suffix": "da Eficiência das Marés",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost": "Tocado pelas Profundezas",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost.suffix": "da Canalização Abissal",
   "affix.irons_apothic:elemental/school_spirit/mana_cost": "Leve",
@@ -221,8 +215,6 @@
   "affix.irons_apothic:elemental/school_nature/armor.suffix": "da Pele de Pedra",
   "affix.irons_apothic:elemental/school_abyssal/armor": "de Águas Profundas",
   "affix.irons_apothic:elemental/school_abyssal/armor.suffix": "da Barreira Abissal",
-  "affix.irons_apothic:elemental/school_aqua/armor": "Oceânico",
-  "affix.irons_apothic:elemental/school_aqua/armor.suffix": "da Crista da Onda",
   "affix.irons_apothic:elemental/school_sound/armor": "Ressonante",
   "affix.irons_apothic:elemental/school_sound/armor.suffix": "do Amortecedor Sônico",
   "affix.irons_apothic:elemental/school_spellblade/armor": "Infundido em Arcano",

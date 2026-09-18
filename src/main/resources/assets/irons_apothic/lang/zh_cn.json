@@ -183,10 +183,6 @@
   "affix.irons_apothic:elemental/school_wind/aeromancer": "风术师的",
   "affix.irons_apothic:elemental/school_wind/aeromancer.suffix": "无垠天空",
 
-  "affix.irons_apothic:elemental/school_aqua/attribute": "航海",
-  "affix.irons_apothic:elemental/school_aqua/attribute.suffix": "惊涛骇浪",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer": "碧水术士的",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer.suffix": "渊底",
 
   "affix.irons_apothic:elemental/school_abyssal/attribute": "深渊",
   "affix.irons_apothic:elemental/school_abyssal/attribute.suffix": "沉没深渊",
@@ -250,8 +246,6 @@
   "affix.irons_apothic:elemental/school_eldritch/mana_cost.suffix": "邪术囤积",
   "affix.irons_apothic:elemental/school_wind/mana_cost": "清风",
   "affix.irons_apothic:elemental/school_wind/mana_cost.suffix": "狂风无息",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost": "流动",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost.suffix": "潮汐效率",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost": "深渊之触",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost.suffix": "深渊导引",
   "affix.irons_apothic:elemental/school_spirit/mana_cost": "轻灵",
@@ -287,8 +281,6 @@
   "affix.irons_apothic:elemental/school_nature/armor.suffix": "岩石皮肤",
   "affix.irons_apothic:elemental/school_abyssal/armor": "深海",
   "affix.irons_apothic:elemental/school_abyssal/armor.suffix": "深渊屏障",
-  "affix.irons_apothic:elemental/school_aqua/armor": "海洋",
-  "affix.irons_apothic:elemental/school_aqua/armor.suffix": "波峰浪尖",
   "affix.irons_apothic:elemental/school_sound/armor": "共鸣",
   "affix.irons_apothic:elemental/school_sound/armor.suffix": "音波减震",
   "affix.irons_apothic:elemental/school_spellblade/armor": "奥术灌注",

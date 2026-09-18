@@ -39,8 +39,11 @@
         "affix_type": "stat"
       },
       {
-        "type": "apotheosis:affix",
-        "affix_type": "basic_effect"
+        "type": "irons_apothic:school_select",
+        "if_true": {
+          "type": "apotheosis:affix",
+          "affix_type": "basic_effect"
+        }
       }
     ],
     "apotheosis:epic": [

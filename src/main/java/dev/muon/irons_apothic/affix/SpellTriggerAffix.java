@@ -53,7 +53,6 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
                     Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
             .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
-                // Prefer "schools" array if present, otherwise use single "school"
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
                     ? schoolsArray
                     : singleSchool.map(List::of);

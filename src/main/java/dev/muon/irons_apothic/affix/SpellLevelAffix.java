@@ -34,7 +34,6 @@ public class SpellLevelAffix extends SchoolFilteredAffix {
                     LootRarity.mapCodec(LevelData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.validTypes)
             ).apply(inst, (def, singleSchool, schoolsArray, values, types) -> {
-                // Prefer "schools" array if present, otherwise use single "school"
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
                     ? schoolsArray 
                     : singleSchool.map(List::of);
@@ -148,7 +147,6 @@ public class SpellLevelAffix extends SchoolFilteredAffix {
                 : "affix.irons_apothic.spell_level.desc";
         MutableComponent comp = Component.translatable(key, schoolComponent, currentBonus);
 
-        // Add min/max bounds if they differ
         if (minBonus != maxBonus) {
             Component minComp = Component.literal(String.valueOf(minBonus));
             Component maxComp = Component.literal(String.valueOf(maxBonus));

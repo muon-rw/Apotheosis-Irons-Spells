@@ -26,17 +26,14 @@ import java.util.Optional;
 
 /**
  * Server-side cast pipeline for affix-triggered Iron's Spellbooks casts (CastSource.COMMAND).
- * <p>
- * Two entry points:
  * <ul>
- *   <li>{@link #castSelf} — caster-as-target / no-target (look-direction projectiles, self-AoE).</li>
- *   <li>{@link #castWithTarget} — bi-entity cast: aim is redirected to {@code target} via
- *       {@link BientitySpellCastAim} during {@code checkPreCastConditions} / {@code onServerPreCast} / {@code onCast},
- *       and any {@link TargetEntityCastData} or {@link TargetedTargetAreaCastData} the spell installs is overridden
- *       to point at {@code target}.</li>
+ *   <li>{@link #castSelf}: caster-as-target or no target (look-direction projectiles, self-AoE).</li>
+ *   <li>{@link #castWithTarget}: aim is redirected to {@code target} via {@link BientitySpellCastAim} during
+ *       {@code checkPreCastConditions}, {@code onServerPreCast} and {@code onCast}, and any
+ *       {@link TargetEntityCastData} or {@link TargetedTargetAreaCastData} the spell installs is overridden to point
+ *       at {@code target}.</li>
  * </ul>
- * If the caster is already casting, the in-progress spell is force-completed (parity with the pre-refactor behavior;
- * affix triggers always interrupt).
+ * Affix triggers always interrupt: any in-progress cast is force-completed first.
  */
 public final class SpellCastUtil {
 

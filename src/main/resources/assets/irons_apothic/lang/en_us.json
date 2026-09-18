@@ -198,10 +198,6 @@
   "affix.irons_apothic:elemental/school_geo/geomancers": "Geomancer's",
   "affix.irons_apothic:elemental/school_geo/geomancers.suffix": "of Earthcalling",
 
-  "affix.irons_apothic:elemental/school_aqua/attribute": "Nautical",
-  "affix.irons_apothic:elemental/school_aqua/attribute.suffix": "of Crashing Tides",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer": "Aquamancer's",
-  "affix.irons_apothic:elemental/school_aqua/aquamancer.suffix": "of the Ocean's Depths",
 
   "affix.irons_apothic:elemental/school_abyssal/attribute": "Abyssal",
   "affix.irons_apothic:elemental/school_abyssal/attribute.suffix": "of Sunken Depths",
@@ -288,8 +284,6 @@
   "affix.irons_apothic:elemental/school_wind/mana_cost.suffix": "of Effortless Gales",
   "affix.irons_apothic:elemental/school_geo/mana_cost": "Fossilized",
   "affix.irons_apothic:elemental/school_geo/mana_cost.suffix": "of Effortless Landscaping",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost": "Flowing",
-  "affix.irons_apothic:elemental/school_aqua/mana_cost.suffix": "of Tidal Efficiency",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost": "Depths-touched",
   "affix.irons_apothic:elemental/school_abyssal/mana_cost.suffix": "of Abyssal Channeling",
   "affix.irons_apothic:elemental/school_spirit/mana_cost": "Lightweight",
@@ -333,8 +327,6 @@
   "affix.irons_apothic:elemental/school_nature/armor.suffix": "of Stone Skin",
   "affix.irons_apothic:elemental/school_abyssal/armor": "Deepwater",
   "affix.irons_apothic:elemental/school_abyssal/armor.suffix": "of the Abyssal Barrier",
-  "affix.irons_apothic:elemental/school_aqua/armor": "Oceanic",
-  "affix.irons_apothic:elemental/school_aqua/armor.suffix": "of Wave Crests",
   "affix.irons_apothic:elemental/school_sound/armor": "Resonant",
   "affix.irons_apothic:elemental/school_sound/armor.suffix": "of Sonic Dampening",
   "affix.irons_apothic:elemental/school_spellblade/armor": "Arcane-Infused",

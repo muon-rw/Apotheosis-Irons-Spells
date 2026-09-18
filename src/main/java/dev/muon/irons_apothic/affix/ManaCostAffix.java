@@ -35,7 +35,6 @@ public class ManaCostAffix extends SchoolFilteredAffix {
             LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(a -> a.values),
             LootCategory.SET_CODEC.fieldOf("categories").forGetter(a -> a.categories)
     ).apply(inst, (def, singleSchool, schoolsArray, values, categories) -> {
-        // Prefer "schools" array if present, otherwise use single "school"
         Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
             ? schoolsArray 
             : singleSchool.map(List::of);
@@ -85,7 +84,6 @@ public class ManaCostAffix extends SchoolFilteredAffix {
             return false;
         }
 
-        // Check if the gear matches the school filter
         return matchesSchools(stack, this.schools);
     }
 

@@ -171,12 +171,10 @@ public class AffixEventHandler {
 
         float totalReduction = 0f;
 
-        // Check all equipment slots
         for (ItemStack stack : player.getAllSlots()) {
             totalReduction += getManaCostReduction(stack, spellSchool);
         }
 
-        // Check curios slots
         float curiosReduction = CuriosApi.getCuriosInventory(player)
                 .map(curiosHandler -> {
                     float reduction = 0f;

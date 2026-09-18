@@ -47,7 +47,6 @@ public class SpellEffectAffix extends SchoolFilteredAffix {
                         a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
             .apply(inst, (def, effect, target, values, types, stackOnReapply, stackingLimit, singleSchool, schoolsArray) -> {
-                // Prefer "schools" array if present, otherwise use single "school"
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
                     ? schoolsArray 
                     : singleSchool.map(List::of);

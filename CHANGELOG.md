@@ -1,3 +1,7 @@
+## 2.2.3
+- Fix log errors+no rarity assigned when a rare-tier rotten spellbook was dropped by a mob (thanks item4 and VaporeonScripts!)
+- Dropped T.O Magic alpha version compat entirely (was unreachable anyway)
+
 ## 2.2.2
 - Add Geo school affixes and the Quaking Jasper gem for GTBC's Geomancy
 - Remove Sand school to match Cataclysm Spellbooks 1.1.13

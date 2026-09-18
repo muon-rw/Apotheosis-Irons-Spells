@@ -4,8 +4,8 @@ plugins {
     id 'net.neoforged.moddev' version '1.0.21'
     // later
     // id 'net.neoforged.moddev' version '2.0.105'
-    id "me.modmuss50.mod-publish-plugin" version "2.1.1"
-    id 'dev.mixinmcp.decompile' version '1.4.0'
+    id "me.modmuss50.mod-publish-plugin" version "2.2.0"
+    id 'dev.mixinmcp.decompile' version '1.5.0'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -89,8 +89,12 @@ repositories {
 base {
     archivesName = mod_id
 }
-\
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+java {
+    withSourcesJar()
+}
 
 neoForge {
     version = project.neo_version
@@ -158,80 +162,91 @@ configurations {
 }
 
 dependencies {
-    // Dev Env
+    // Dev env
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     localRuntime("snownee.jade:Jade-NeoForge:${minecraft_version}-${jade_version}")
+    localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config}")
 
-    // Deps
+    // Apotheosis
     implementation("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo}")
     implementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis}")
     implementation("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${apothic_attributes}")
-    implementation("dev.shadowsoffire:ApothicSpawners:${minecraft_version}-${apothic_spawners}")
-    implementation("dev.shadowsoffire:ApothicEnchanting:${minecraft_version}-${apothic_enchanting}")
+    localRuntime("dev.shadowsoffire:ApothicSpawners:${minecraft_version}-${apothic_spawners}")
+    localRuntime("dev.shadowsoffire:ApothicEnchanting:${minecraft_version}-${apothic_enchanting}")
     // Override newer version of patchouli due to dev env crash
-    implementation("vazkii.patchouli:Patchouli:${patchouli_version}")
+    localRuntime("vazkii.patchouli:Patchouli:${patchouli_version}")
 
+    // Iron's Spells 'n Spellbooks
+    implementation("io.redspace:irons_spellbooks:${irons_spellbooks}")
+    localRuntime("io.redspace:irons_lib:${irons_lib}")
+    localRuntime("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
+    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+    localRuntime("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+    localRuntime("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator}")
 
-    implementation ("io.redspace:irons_spellbooks:${irons_spellbooks}")
-    implementation("io.redspace:irons_lib:${irons_lib}")
-    runtimeOnly ("software.bernie.geckolib:geckolib-neoforge-${geckolib_version}")
-    compileOnly ("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-    runtimeOnly ("top.theillusivec4.curios:curios-neoforge:${curios_version}")
-    runtimeOnly("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator}")
+    // Optional compats
 
-    runtimeOnly ("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config}")
-
-    // Optional Compats
     // https://www.curseforge.com/minecraft/mc-mods/magic-from-the-east
-    implementation "curse.maven:magic-from-the-east-1224162:7385201"
+    compileOnly("curse.maven:magic-from-the-east-1224162:7385201")
+    localRuntime("curse.maven:magic-from-the-east-1224162:7385201")
 
     // https://www.curseforge.com/minecraft/mc-mods/snackpirates-aeromancy-additions
     // https://www.curseforge.com/minecraft/mc-mods/expandability
-    implementation "curse.maven:snackpirates-aeromancy-additions-1160104:8251034"
-    implementation "curse.maven:expandability-465066:5428824"
+    compileOnly("curse.maven:snackpirates-aeromancy-additions-1160104:8251034")
+    localRuntime("curse.maven:snackpirates-aeromancy-additions-1160104:8251034")
+    localRuntime("curse.maven:expandability-465066:5428824")
 
     // https://www.curseforge.com/minecraft/mc-mods/cataclysm-spellbooks
     // https://www.curseforge.com/minecraft/mc-mods/aces-spell-utils
     // https://www.curseforge.com/minecraft/mc-mods/lendercataclysm
-    // https://www.curseforge.com/minecraft/mc-mods/lionfish-api/
+    // https://www.curseforge.com/minecraft/mc-mods/lionfish-api
     // https://www.curseforge.com/minecraft/mc-mods/azurelib
-    implementation "curse.maven:cataclysm-spellbooks-1099461:7703231"
-    implementation "curse.maven:lendercataclysm-551586:7908490"
-    implementation "curse.maven:azurelib-817423:7961057"
-    implementation "curse.maven:lionfish-api-1001614:7941057"
-    implementation "curse.maven:aces-spell-utils-1299492:7787705"
+    compileOnly("curse.maven:cataclysm-spellbooks-1099461:8847070")
+    localRuntime("curse.maven:cataclysm-spellbooks-1099461:8847070")
+    compileOnly("curse.maven:aces-spell-utils-1299492:8789930")
+    localRuntime("curse.maven:aces-spell-utils-1299492:8789930")
+    localRuntime("curse.maven:lendercataclysm-551586:8706841")
+    localRuntime("curse.maven:lionfish-api-1001614:8345326")
+    localRuntime("curse.maven:azurelib-817423:8367232")
 
     // https://www.curseforge.com/minecraft/mc-mods/discerning-the-eldritch
-    implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
-    implementation "curse.maven:prometheus-1365195:7364871"
-    implementation "curse.maven:soul-fire-d-662413:7364962"
-    implementation "curse.maven:cobweb-968456:7186943"
+    compileOnly("curse.maven:discerning-the-eldritch-1143065:8816497")
+    localRuntime("curse.maven:discerning-the-eldritch-1143065:8816497")
+    localRuntime("curse.maven:prometheus-1365195:7364871")
+    localRuntime("curse.maven:soul-fire-d-662413:7364962")
+    localRuntime("curse.maven:cobweb-968456:7186943")
 
     // https://www.curseforge.com/minecraft/mc-mods/monsters-spellbooks-iss
-    implementation "curse.maven:monsters-spellbooks-iss-1428928:7963311"
+    compileOnly("curse.maven:monsters-spellbooks-iss-1428928:8788560")
+    localRuntime("curse.maven:monsters-spellbooks-iss-1428928:8788560")
 
-    // https://www.curseforge.com/minecraft/mc-mods/stars-align/files/
     // https://www.curseforge.com/minecraft/mc-mods/hazentouvelib
+    // https://www.curseforge.com/minecraft/mc-mods/stars-align
     // https://www.curseforge.com/minecraft/mc-mods/eternal-starlight
-    implementation "curse.maven:hazentouvelib-1528722:8044060"
-    implementation "curse.maven:stars-align-1526398:8041593"
-    implementation "curse.maven:eternal-starlight-1080592:7788339"
+    compileOnly("curse.maven:hazentouvelib-1528722:8666581")
+    localRuntime("curse.maven:hazentouvelib-1528722:8666581")
+    localRuntime("curse.maven:stars-align-1526398:8041593")
+    localRuntime("curse.maven:eternal-starlight-1080592:8668881")
+    localRuntime("com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}") // required by hazentouvelib
 
     // https://www.curseforge.com/minecraft/mc-mods/enders-spells-and-stuff-requiem
-    implementation "curse.maven:enders-spells-and-stuff-requiem-1336977:7932825"
+    compileOnly("curse.maven:enders-spells-and-stuff-requiem-1336977:8762149")
+    localRuntime("curse.maven:enders-spells-and-stuff-requiem-1336977:8762149")
 
-    // Tunes n Tomes
-    implementation "curse.maven:tunes-n-tomes-a-bards-journey-1509193:7920232"
-
-    // compatibility testing only
-    // https://www.curseforge.com/minecraft/mc-mods/irons-spells-n-spellbooks-restrictions
-    // localRuntime "curse.maven:irons-spells-n-spellbooks-restrictions-1330168:6937835"
+    // https://www.curseforge.com/minecraft/mc-mods/tunes-n-tomes-a-bards-journey
+    compileOnly("curse.maven:tunes-n-tomes-a-bards-journey-1509193:8370271")
+    localRuntime("curse.maven:tunes-n-tomes-a-bards-journey-1509193:8370271")
 
     // https://www.curseforge.com/minecraft/mc-mods/hazen-n-stuff
-    implementation "curse.maven:hazen-n-stuff-1231627:8045806"
+    compileOnly("curse.maven:hazen-n-stuff-1231627:8277644")
+    localRuntime("curse.maven:hazen-n-stuff-1231627:8277644")
 
-    // https://www.curseforge.com/minecraft/mc-mods/elemental-synergies/
-    // implementation "curse.maven:elemental-synergies-1364850:7946663"
+    // Compatibility testing only
+    // https://www.curseforge.com/minecraft/mc-mods/irons-spells-n-spellbooks-restrictions
+    // localRuntime("curse.maven:irons-spells-n-spellbooks-restrictions-1330168:8448221")
+
+    // https://www.curseforge.com/minecraft/mc-mods/elemental-synergies
+    // localRuntime("curse.maven:elemental-synergies-1364850:8901149")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -287,7 +302,6 @@ publishMods {
         optional "snackpirates-aeromancy-additions" // Wind
         optional "magic-from-the-east" // Symmetry, Spirit
         optional "enders-spells-and-stuff-requiem" // Mind, Spellblade pending
-        optional "to-tweaks-irons-spells" // Aqua (pending)
     }
 
     //github {
@@ -296,6 +310,39 @@ publishMods {
     //    commitish = "master"
     //    tagName = "v${project.version}"
    // }
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
+
+publishing {
+    publications {
+        create('mavenJava', MavenPublication) {
+            groupId = 'dev.muon'
+            artifactId = 'irons-apothic'
+            version = "${mod_version}+${minecraft_version}"
+            artifact(tasks.named('jar'))
+            artifact(tasks.named('sourcesJar', Jar))
+        }
+    }
+    repositories {
+        maven {
+            name = 'muonReleases'
+            url = System.getenv('MAVEN_URL') ?: 'https://maven.muon.rip/releases/'
+            credentials {
+                username = System.getenv('MAVEN_USERNAME')
+                password = System.getenv('MAVEN_PASSWORD')
+            }
+        }
+    }
+}
+
+tasks.named('publishMods') {
+    dependsOn 'publishAllPublicationsToMuonReleasesRepository'
+}
+tasks.withType(me.modmuss50.mpp.PublishModTask).configureEach {
+    mustRunAfter 'publishAllPublicationsToMuonReleasesRepository'
 }
 
 tasks.withType(JavaCompile).configureEach {
