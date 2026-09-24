@@ -1,3 +1,9 @@
+## 2.2.5
+- When a spell is *channeling*, affix spell triggers will now skip instead of interrupting the spell
+- When a spell is *charging*, affix spell triggers will still proceed and force-complete the charge, but now properly drains mana and triggers a cooldown for the force completed spell
+- Spell trigger affixes will no longer go on cooldown when their spell fails to cast
+- Fix a potential case where a spell-triggered spell affix could doublecast the spell that triggered it (that's a mouthful) 
+
 ## 2.2.4
 - Update Chinese Translation (zh_cn), thanks ZHAY10086! 
 

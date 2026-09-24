@@ -15,6 +15,7 @@ import dev.shadowsoffire.apothic_attributes.api.AbilityCooldowns;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
@@ -116,7 +117,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
 
         var spellData = ISpellContainer.get(sourceStack).getSpellAtIndex(0);
         AbstractSpell spellInstance = spellData.getSpell();
-        if (spellInstance == null) return;
+        if (spellInstance == null || spellInstance == SpellRegistry.none()) return;
 
         int spellLevel = spellData.getLevel();
         String spellId = spellInstance.getSpellId();
@@ -134,13 +135,11 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
         try {
             IS_TRIGGERING.set(true);
 
-            if (target == caster) {
-                SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime);
-            } else {
-                SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
-            }
+            boolean cast = target == caster
+                    ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime)
+                    : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
 
-            if (!hasActiveRecast && cooldown != 0) {
+            if (cast && !hasActiveRecast && cooldown != 0) {
                 AbilityCooldowns.startCooldown(caster, this.id());
             }
         } finally {

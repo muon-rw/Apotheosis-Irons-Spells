@@ -9,8 +9,8 @@ import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.api.spells.ICastData;
 import io.redspace.ironsspellbooks.capabilities.magic.TargetEntityCastData;
 import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
+import io.redspace.ironsspellbooks.item.Scroll;
 import io.redspace.ironsspellbooks.network.casting.OnCastStartedPacket;
-import io.redspace.ironsspellbooks.network.casting.OnClientCastPacket;
 import io.redspace.ironsspellbooks.network.casting.SyncTargetingDataPacket;
 import io.redspace.ironsspellbooks.network.casting.UpdateCastingStatePacket;
 import io.redspace.ironsspellbooks.spells.TargetedTargetAreaCastData;
@@ -22,7 +22,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Server-side cast pipeline for affix-triggered Iron's Spellbooks casts (CastSource.COMMAND).
@@ -33,30 +36,48 @@ import java.util.Optional;
  *       {@link TargetEntityCastData} or {@link TargetedTargetAreaCastData} the spell installs is overridden to point
  *       at {@code target}.</li>
  * </ul>
- * Affix triggers always interrupt: any in-progress cast is force-completed first.
+ * Affix triggers interrupt any in-progress cast by force-completing it, with two exceptions: a CONTINUOUS cast keeps
+ * running and the trigger is skipped, and a spell that is resolving right now (the trigger came from its own damage
+ * or healing) is not completed a second time. Both entry points return false when the trigger had no effect: it was
+ * skipped, or nothing was interrupted and the spell's {@code checkPreCastConditions} failed.
  */
 public final class SpellCastUtil {
 
     // ISS uses this slot id for /cast-style casts in MagicData.initiateCast and UpdateCastingStatePacket.
     private static final String COMMAND_CASTING_SLOT = "command";
 
+    // Server thread only: AbstractSpell#castSpell takes a ServerPlayer.
+    private static final Set<LivingEntity> RESOLVING = Collections.newSetFromMap(new IdentityHashMap<>());
+
     private SpellCastUtil() {
     }
 
+    /** Wraps every {@code AbstractSpell#castSpell} (see {@code AbstractSpellMixin}). */
+    public static void resolve(ServerPlayer caster, Runnable castSpell) {
+        boolean outermost = RESOLVING.add(caster);
+        try {
+            castSpell.run();
+        } finally {
+            if (outermost) {
+                RESOLVING.remove(caster);
+            }
+        }
+    }
+
     /** No target / caster-as-target. Skip aim redirect and any target injection. */
-    public static void castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel) {
-        castSelf(caster, spell, spellLevel, Optional.empty());
+    public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel) {
+        return castSelf(caster, spell, spellLevel, Optional.empty());
     }
 
     /**
      * Self-cast variant with a {@code castTime} override (player path only). When present, replaces the default
      * {@code 0} for INSTANT/LONG and the spell-derived value for CONTINUOUS.
      */
-    public static void castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel, Optional<Integer> castTime) {
+    public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel, Optional<Integer> castTime) {
         if (caster.level().isClientSide()) {
-            return;
+            return false;
         }
-        castInternal(caster, spell, spellLevel, null, castTime);
+        return castInternal(caster, spell, spellLevel, null, castTime);
     }
 
     /**
@@ -64,27 +85,34 @@ public final class SpellCastUtil {
      * {@code target} during the cast setup window, and the spell's own {@link TargetEntityCastData} (or
      * {@link TargetedTargetAreaCastData}) is overridden to point at {@code target}.
      */
-    public static void castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target) {
-        castWithTarget(caster, spell, spellLevel, target, Optional.empty());
+    public static boolean castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target) {
+        return castWithTarget(caster, spell, spellLevel, target, Optional.empty());
     }
 
     /**
      * Bi-entity variant with a {@code castTime} override (player path only).
      */
-    public static void castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target,
-                                      Optional<Integer> castTime) {
+    public static boolean castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target,
+                                         Optional<Integer> castTime) {
         if (caster.level().isClientSide()) {
-            return;
+            return false;
         }
-        castInternal(caster, spell, spellLevel, target == caster ? null : target, castTime);
+        return castInternal(caster, spell, spellLevel, target == caster ? null : target, castTime);
     }
 
-    private static void castInternal(LivingEntity caster, AbstractSpell spell, int spellLevel,
-                                     @Nullable LivingEntity target, Optional<Integer> castTime) {
+    private static boolean castInternal(LivingEntity caster, AbstractSpell spell, int spellLevel,
+                                        @Nullable LivingEntity target, Optional<Integer> castTime) {
         Level world = caster.level();
         MagicData magicData = MagicData.getPlayerMagicData(caster);
+        boolean interrupted = false;
         if (magicData.isCasting()) {
-            forceCompleteCurrentCast(caster, world, magicData);
+            if (magicData.getCastType() == CastType.CONTINUOUS) {
+                return false;
+            }
+            if (!RESOLVING.contains(caster)) {
+                forceCompleteCurrentCast(caster, world, magicData);
+                interrupted = true;
+            }
         }
 
         if (target != null) {
@@ -92,15 +120,18 @@ public final class SpellCastUtil {
         }
         try {
             if (caster instanceof ServerPlayer serverPlayer) {
-                castForPlayer(serverPlayer, spell, spellLevel, magicData, target, castTime);
+                return castForPlayer(serverPlayer, spell, spellLevel, magicData, target, castTime) || interrupted;
             } else if (caster instanceof IMagicEntity magicEntity) {
                 // ISS mob casting; target / aim redirect aren't supported on this path.
                 magicEntity.initiateCastSpell(spell, spellLevel);
+                return true;
             } else if (spell.checkPreCastConditions(world, spellLevel, caster, magicData)) {
                 maybeOverrideTargetData(target, magicData);
                 spell.onCast(world, spellLevel, caster, CastSource.COMMAND, magicData);
                 spell.onServerCastComplete(world, spellLevel, caster, magicData, false);
+                return true;
             }
+            return interrupted;
         } finally {
             if (target != null) {
                 BientitySpellCastAim.pop();
@@ -108,15 +139,15 @@ public final class SpellCastUtil {
         }
     }
 
-    private static void castForPlayer(ServerPlayer serverPlayer, AbstractSpell spell, int spellLevel,
-                                      MagicData magicData, @Nullable LivingEntity target, Optional<Integer> castTime) {
+    private static boolean castForPlayer(ServerPlayer serverPlayer, AbstractSpell spell, int spellLevel,
+                                         MagicData magicData, @Nullable LivingEntity target, Optional<Integer> castTime) {
         Level world = serverPlayer.level();
 
         // Spells like RootSpell / HasteSpell install TargetEntityCastData here via Utils.preCastTargetHelper. The
         // bientity aim push redirects the raycast toward our target so the helper succeeds. Respect the return value:
         // if the spell aborts, so do we.
         if (!spell.checkPreCastConditions(world, spellLevel, serverPlayer, magicData)) {
-            return;
+            return false;
         }
 
         if (serverPlayer.isUsingItem()) {
@@ -152,11 +183,10 @@ public final class SpellCastUtil {
                 new OnCastStartedPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel));
 
         if (effectiveCastTime == 0) {
-            spell.onCast(world, spellLevel, serverPlayer, CastSource.COMMAND, magicData);
-            PacketDistributor.sendToPlayer(serverPlayer,
-                    new OnClientCastPacket(spell.getSpellId(), spellLevel, CastSource.COMMAND, magicData.getAdditionalCastData()));
+            spell.castSpell(world, spellLevel, serverPlayer, CastSource.COMMAND, false);
             spell.onServerCastComplete(world, spellLevel, serverPlayer, magicData, false);
         }
+        return true;
     }
 
     /**
@@ -187,7 +217,14 @@ public final class SpellCastUtil {
         AbstractSpell oldSpell = magicData.getCastingSpell().getSpell();
         int oldLevel = magicData.getCastingSpellLevel();
         CastSource oldSource = magicData.getCastSource();
-        oldSpell.onCast(world, oldLevel, caster, oldSource, magicData);
+        if (caster instanceof ServerPlayer serverPlayer) {
+            oldSpell.castSpell(world, oldLevel, serverPlayer, oldSource, true);
+            if (oldSource == CastSource.SCROLL) {
+                Scroll.attemptRemoveScrollAfterCast(serverPlayer);
+            }
+        } else {
+            oldSpell.onCast(world, oldLevel, caster, oldSource, magicData);
+        }
         oldSpell.onServerCastComplete(world, oldLevel, caster, magicData, false);
         magicData.resetCastingState();
     }

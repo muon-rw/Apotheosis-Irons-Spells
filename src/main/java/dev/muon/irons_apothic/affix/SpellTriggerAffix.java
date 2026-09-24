@@ -122,13 +122,11 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         try {
             IS_TRIGGERING.set(true);
 
-            if (target == caster) {
-                SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime);
-            } else {
-                SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
-            }
+            boolean cast = target == caster
+                    ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime)
+                    : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
 
-            if (!hasActiveRecast && cooldown != 0) {
+            if (cast && !hasActiveRecast && cooldown != 0) {
                 AbilityCooldowns.startCooldown(caster, this.id());
             }
         } finally {
