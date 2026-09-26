@@ -1,3 +1,6 @@
+## 2.2.6
+- "All school" affixes (spell level, spell power, mana cost) no longer roll on gear without any magic attributes. Gear now needs generic spell power, mana, mana regen, cooldown reduction, etc.)
+
 ## 2.2.5
 - When a spell is *channeling*, affix spell triggers will now skip instead of interrupting the spell
 - When a spell is *charging*, affix spell triggers will still proceed and force-complete the charge, but now properly drains mana and triggers a cooldown for the force completed spell

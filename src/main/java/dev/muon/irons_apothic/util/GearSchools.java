@@ -2,6 +2,7 @@ package dev.muon.irons_apothic.util;
 
 import dev.muon.irons_apothic.IronsApothic;
 import dev.muon.irons_apothic.mixin.SchoolTypeAccessor;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.item.UpgradeData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
@@ -22,13 +23,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public record GearSchools(Set<SchoolType> schools, boolean hasGenericSpellPower) {
+public record GearSchools(Set<SchoolType> schools, boolean hasGenericSpellPower, boolean hasSchoollessMagicAttribute) {
     private static final String SPELL_POWER_SUFFIX = "_spell_power";
+    private static final String MAGIC_RESIST_SUFFIX = "_magic_resist";
     private static final ResourceLocation CURIO_MODIFIER_ID = IronsApothic.loc("school_check");
 
     public static GearSchools of(ItemStack stack) {
         Set<SchoolType> schools = new HashSet<>();
         boolean hasGenericSpellPower = false;
+        boolean hasSchoollessMagicAttribute = false;
         for (Holder<Attribute> holder : collectAttributes(stack)) {
             if (!holder.isBound()) continue;
             Attribute attr = holder.value();
@@ -39,8 +42,11 @@ public record GearSchools(Set<SchoolType> schools, boolean hasGenericSpellPower)
             } else if (isGenericSpellPower(attr)) {
                 hasGenericSpellPower = true;
             }
+            if (isSchoollessMagicAttribute(attr)) {
+                hasSchoollessMagicAttribute = true;
+            }
         }
-        return new GearSchools(schools, hasGenericSpellPower);
+        return new GearSchools(schools, hasGenericSpellPower, hasSchoollessMagicAttribute);
     }
 
     private static List<Holder<Attribute>> collectAttributes(ItemStack stack) {
@@ -69,6 +75,18 @@ public record GearSchools(Set<SchoolType> schools, boolean hasGenericSpellPower)
     private static boolean isGenericSpellPower(Attribute attribute) {
         ResourceLocation attrId = BuiltInRegistries.ATTRIBUTE.getKey(attribute);
         return attrId != null && attrId.getPath().equals("spell_power");
+    }
+
+    /**
+     * Any Iron's attribute that is not a school's spell power or resistance, e.g. generic spell power, max mana,
+     * or cooldown reduction.
+     */
+    private static boolean isSchoollessMagicAttribute(Attribute attribute) {
+        ResourceLocation attrId = BuiltInRegistries.ATTRIBUTE.getKey(attribute);
+        return attrId != null
+            && attrId.getNamespace().equals(IronsSpellbooks.MODID)
+            && !attrId.getPath().endsWith(SPELL_POWER_SUFFIX)
+            && !attrId.getPath().endsWith(MAGIC_RESIST_SUFFIX);
     }
 
     /**

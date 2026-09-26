@@ -27,8 +27,9 @@ public abstract class SchoolFilteredAffix extends Affix {
     }
 
     /**
-     * An absent filter matches all gear. An empty set matches gear with generic spell power or no school-specific
-     * spell power. Otherwise the gear must have at least one of the given schools.
+     * An absent filter matches all gear. An empty set matches gear with generic spell power, or with no
+     * school-specific spell power but some other non-school magic attribute such as mana or cooldown reduction.
+     * Otherwise the gear must have at least one of the given schools.
      */
     protected static boolean matchesSchools(ItemStack stack, Optional<Set<SchoolType>> schools) {
         if (schools.isEmpty()) {
@@ -38,7 +39,7 @@ public abstract class SchoolFilteredAffix extends Affix {
         Set<SchoolType> allowedSchools = schools.get();
         GearSchools gear = GearSchools.of(stack);
         if (allowedSchools.isEmpty()) {
-            return gear.hasGenericSpellPower() || gear.schools().isEmpty();
+            return gear.hasGenericSpellPower() || gear.schools().isEmpty() && gear.hasSchoollessMagicAttribute();
         }
         return gear.schools().stream().anyMatch(allowedSchools::contains);
     }
