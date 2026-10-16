@@ -1,3 +1,6 @@
+## 2.2.7
+- Add affix builders for datagen
+
 ## 2.2.6
 - "All school" affixes (spell level, spell power, mana cost) no longer roll on gear without any magic attributes. Gear now needs generic spell power, mana, mana regen, cooldown reduction, etc.)
 

@@ -1,9 +1,11 @@
 package dev.muon.irons_apothic.affix;
 
+import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.muon.irons_apothic.category.LootCategories;
 import dev.shadowsoffire.apotheosis.affix.Affix;
+import dev.shadowsoffire.apotheosis.affix.AffixBuilder;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
@@ -47,5 +49,18 @@ public class MagicTelepathicAffix extends Affix {
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory cat, LootRarity rarity) {
         return this.minRarity.isBound() && LootCategories.isStaff(stack) && rarity.sortIndex() >= this.minRarity.get().sortIndex();
+    }
+
+    public static class Builder extends AffixBuilder<Builder> {
+        protected final DynamicHolder<LootRarity> minRarity;
+
+        public Builder(LootRarity minRarity) {
+            this.minRarity = RarityRegistry.INSTANCE.holder(minRarity);
+        }
+
+        public MagicTelepathicAffix build() {
+            Preconditions.checkState(this.definition != null, "Affix definition is not set");
+            return new MagicTelepathicAffix(this.definition, this.minRarity);
+        }
     }
 }

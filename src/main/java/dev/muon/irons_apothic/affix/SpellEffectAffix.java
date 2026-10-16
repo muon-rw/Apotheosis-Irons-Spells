@@ -33,7 +33,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class SpellEffectAffix extends SchoolFilteredAffix {
-    // Codec that supports both single "school" (backward compat) and "schools" array
+    // Reads both single "school" (backward compat) and "schools" array, but only writes "schools"
     public static final Codec<SpellEffectAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
@@ -43,8 +43,7 @@ public class SpellEffectAffix extends SchoolFilteredAffix {
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     Codec.BOOL.optionalFieldOf("stack_on_reapply", false).forGetter(a -> a.stackOnReapply),
                     Codec.intRange(1, 255).optionalFieldOf("stacking_limit", 255).forGetter(a -> a.stackingLimit),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
-                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds))
             .apply(inst, (def, effect, target, values, types, stackOnReapply, stackingLimit, singleSchool, schoolsArray) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
@@ -216,6 +215,50 @@ public class SpellEffectAffix extends SchoolFilteredAffix {
         public MobEffectInstance build(Holder<MobEffect> effect, float level) {
             float clampedLevel = Math.max(0F, level);
             return new MobEffectInstance(effect, this.duration.getInt(clampedLevel), this.amplifier.getInt(clampedLevel));
+        }
+    }
+
+    public static class Builder extends SchoolFilteredAffixBuilder<Builder, EffectData> {
+        protected final Holder<MobEffect> effect;
+        protected final SpellTarget target;
+        protected boolean stackOnReapply = false;
+        protected int stackingLimit = 255;
+
+        public Builder(Holder<MobEffect> effect, SpellTarget target) {
+            this.effect = effect;
+            this.target = target;
+        }
+
+        public Builder stackOnReapply() {
+            this.stackOnReapply = true;
+            return this;
+        }
+
+        public Builder stackingLimit(int stackingLimit) {
+            this.stackingLimit = stackingLimit;
+            return this;
+        }
+
+        public Builder value(LootRarity rarity, int duration, int amplifier, int cooldown) {
+            return this.value(rarity, StepFunction.constant(duration), StepFunction.constant(amplifier), cooldown);
+        }
+
+        public Builder value(LootRarity rarity, int minDuration, int maxDuration, int amplifier, int cooldown) {
+            return this.value(rarity, minDuration, maxDuration, StepFunction.constant(amplifier), cooldown);
+        }
+
+        public Builder value(LootRarity rarity, int minDuration, int maxDuration, StepFunction amplifier, int cooldown) {
+            return this.value(rarity, StepFunction.fromBounds(minDuration, maxDuration, 20), amplifier, cooldown);
+        }
+
+        public Builder value(LootRarity rarity, StepFunction duration, StepFunction amplifier, int cooldown) {
+            return this.value(rarity, new EffectData(duration, amplifier, cooldown));
+        }
+
+        public SpellEffectAffix build() {
+            this.validate();
+            return new SpellEffectAffix(this.definition, this.effect, this.target, this.values, this.categories,
+                    this.stackOnReapply, this.stackingLimit, this.schoolFilter());
         }
     }
 }

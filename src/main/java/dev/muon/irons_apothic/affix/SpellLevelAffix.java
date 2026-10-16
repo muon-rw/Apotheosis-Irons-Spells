@@ -24,12 +24,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public class SpellLevelAffix extends SchoolFilteredAffix {
-    // Codec that supports both single "school" (backward compat) and "schools" array
+    // Reads both single "school" (backward compat) and "schools" array, but only writes "schools"
     public static final Codec<SpellLevelAffix> CODEC = RecordCodecBuilder.create(inst ->
             inst.group(
                     Affix.affixDef(),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
-                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
                     LootRarity.mapCodec(LevelData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.validTypes)
@@ -182,5 +181,25 @@ public class SpellLevelAffix extends SchoolFilteredAffix {
                 .group(
                         StepFunction.CODEC.optionalFieldOf("level", StepFunction.constant(1)).forGetter(LevelData::level)
                 ).apply(inst, LevelData::new));
+    }
+
+    public static class Builder extends SchoolFilteredAffixBuilder<Builder, LevelData> {
+
+        public Builder value(LootRarity rarity, int bonusLevels) {
+            return this.value(rarity, StepFunction.constant(bonusLevels));
+        }
+
+        public Builder value(LootRarity rarity, int minBonusLevels, int maxBonusLevels) {
+            return this.value(rarity, StepFunction.fromBounds(minBonusLevels, maxBonusLevels, 1));
+        }
+
+        public Builder value(LootRarity rarity, StepFunction bonusLevels) {
+            return this.value(rarity, new LevelData(bonusLevels));
+        }
+
+        public SpellLevelAffix build() {
+            this.validate();
+            return new SpellLevelAffix(this.definition, this.schoolFilter(), this.values, this.categories);
+        }
     }
 }

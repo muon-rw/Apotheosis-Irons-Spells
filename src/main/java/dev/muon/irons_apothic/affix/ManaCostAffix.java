@@ -26,11 +26,10 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ManaCostAffix extends SchoolFilteredAffix {
-    // Codec that supports both single "school" (backward compat) and "schools" array
+    // Reads both single "school" (backward compat) and "schools" array, but only writes "schools"
     public static final Codec<ManaCostAffix> CODEC = RecordCodecBuilder.create(inst -> inst.group(
             Affix.affixDef(),
-            ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
-                a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+            ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
             ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
             LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(a -> a.values),
             LootCategory.SET_CODEC.fieldOf("categories").forGetter(a -> a.categories)
@@ -168,4 +167,12 @@ public class ManaCostAffix extends SchoolFilteredAffix {
         StepFunction func = this.values.get(rarity);
         return func != null ? func.get(level) : 0f;
     }
-} 
+
+    public static class Builder extends SchoolFilteredAffixBuilder.Valued<Builder> {
+
+        public ManaCostAffix build() {
+            this.validate();
+            return new ManaCostAffix(this.definition, this.schoolFilter(), this.values, this.categories);
+        }
+    }
+}

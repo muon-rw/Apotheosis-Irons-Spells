@@ -47,8 +47,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                     LootRarity.mapCodec(SpellTriggerAffix.TriggerData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     SpellTriggerAffix.TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a ->
-                            a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
                     Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
             .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
@@ -257,5 +256,18 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
             triggerSpellInternal(entity, actualTarget, inst.rarity().get(), resolveSourceStack(inst.stack(), entity));
         }
         return amount;
+    }
+
+    public static class Builder extends SpellTriggerAffix.TriggerBuilder<Builder> {
+
+        public Builder(SpellTriggerAffix.TriggerType trigger) {
+            super(trigger);
+        }
+
+        public ImbuedSpellTriggerAffix build() {
+            this.validate();
+            return new ImbuedSpellTriggerAffix(this.definition, this.trigger, this.values, this.categories,
+                    Optional.ofNullable(this.target), this.schoolFilter(), Optional.ofNullable(this.castTime));
+        }
     }
 }

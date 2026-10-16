@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +40,7 @@ import java.util.Set;
 
 public class SpellTriggerAffix extends SchoolFilteredAffix {
 
-    // Codec that supports both single "school" (backward compat) and "schools" array
+    // Reads both single "school" (backward compat) and "schools" array, but only writes "schools"
     public static final Codec<SpellTriggerAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
@@ -48,8 +49,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
                     LootRarity.mapCodec(TriggerData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a ->
-                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
                     Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
             .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
@@ -287,4 +287,58 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
                         Codec.INT.optionalFieldOf("cooldown", 0).forGetter(TriggerData::cooldown))
                 .apply(inst, TriggerData::new));
     }
-} 
+
+    @SuppressWarnings("unchecked")
+    public static abstract class TriggerBuilder<T extends TriggerBuilder<T>> extends SchoolFilteredAffixBuilder<T, TriggerData> {
+        protected final TriggerType trigger;
+        @Nullable
+        protected TargetType target;
+        @Nullable
+        protected Integer castTime;
+
+        protected TriggerBuilder(TriggerType trigger) {
+            this.trigger = trigger;
+        }
+
+        public T target(TargetType target) {
+            this.target = target;
+            return (T) this;
+        }
+
+        public T castTime(int castTime) {
+            this.castTime = castTime;
+            return (T) this;
+        }
+
+        public T value(LootRarity rarity, int spellLevel, int cooldown) {
+            return this.value(rarity, StepFunction.constant(spellLevel), cooldown);
+        }
+
+        public T value(LootRarity rarity, int minSpellLevel, int maxSpellLevel, int cooldown) {
+            return this.value(rarity, StepFunction.fromBounds(minSpellLevel, maxSpellLevel, 1), cooldown);
+        }
+
+        public T value(LootRarity rarity, StepFunction spellLevel, int cooldown) {
+            return this.value(rarity, new TriggerData(spellLevel, cooldown));
+        }
+    }
+
+    public static class Builder extends TriggerBuilder<Builder> {
+        protected final Holder<AbstractSpell> spell;
+
+        public Builder(Holder<AbstractSpell> spell, TriggerType trigger) {
+            super(trigger);
+            this.spell = spell;
+        }
+
+        public Builder(AbstractSpell spell, TriggerType trigger) {
+            this(SpellRegistry.REGISTRY.wrapAsHolder(spell), trigger);
+        }
+
+        public SpellTriggerAffix build() {
+            this.validate();
+            return new SpellTriggerAffix(this.definition, this.spell, this.trigger, this.values, this.categories,
+                    Optional.ofNullable(this.target), this.schoolFilter(), Optional.ofNullable(this.castTime));
+        }
+    }
+}

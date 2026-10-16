@@ -173,6 +173,7 @@ dependencies {
     implementation("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${apothic_attributes}")
     localRuntime("dev.shadowsoffire:ApothicSpawners:${minecraft_version}-${apothic_spawners}")
     localRuntime("dev.shadowsoffire:ApothicEnchanting:${minecraft_version}-${apothic_enchanting}")
+    localRuntime("dev.shadowsoffire:GatewaysToEternity:${minecraft_version}-${gateways}") // Apotheosis datagen needs it
     // Override newer version of patchouli due to dev env crash
     localRuntime("vazkii.patchouli:Patchouli:${patchouli_version}")
 
@@ -185,6 +186,10 @@ dependencies {
     localRuntime("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator}")
 
     // Optional compats
+
+    // Apothic Compats
+    compileOnly "curse.maven:apothic-compats-1188699:8996735"
+    // localRuntime "curse.maven:apothic-compats-1188699:8996735"
 
     // https://www.curseforge.com/minecraft/mc-mods/magic-from-the-east
     compileOnly("curse.maven:magic-from-the-east-1224162:7385201")

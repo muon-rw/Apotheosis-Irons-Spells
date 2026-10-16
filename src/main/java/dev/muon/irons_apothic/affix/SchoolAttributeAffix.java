@@ -27,7 +27,7 @@ import java.util.Set;
 
 public class SchoolAttributeAffix extends AttributeAffix {
 
-    // Codec that supports both single "school" (backward compat) and "schools" array
+    // Reads both single "school" (backward compat) and "schools" array, but only writes "schools"
     public static final Codec<SchoolAttributeAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Affix.affixDef(),
@@ -35,8 +35,7 @@ public class SchoolAttributeAffix extends AttributeAffix {
                     PlaceboCodecs.enumCodec(Operation.class).fieldOf("operation").forGetter(a -> a.operation),
                     LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("categories").forGetter(a -> a.categories),
-                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> 
-                        a.schoolIds.filter(list -> list.size() == 1).map(list -> list.get(0))),
+                    ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds)
             ).apply(inst, (def, attr, op, values, categories, singleSchool, schoolsArray) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent() 
@@ -81,4 +80,19 @@ public class SchoolAttributeAffix extends AttributeAffix {
     public Codec<? extends Affix> getCodec() {
         return CODEC;
     }
-} 
+
+    public static class Builder extends SchoolFilteredAffixBuilder.Valued<Builder> {
+        protected final Holder<Attribute> attribute;
+        protected final Operation operation;
+
+        public Builder(Holder<Attribute> attribute, Operation operation) {
+            this.attribute = attribute;
+            this.operation = operation;
+        }
+
+        public SchoolAttributeAffix build() {
+            this.validate();
+            return new SchoolAttributeAffix(this.definition, this.attribute, this.operation, this.values, this.categories, this.schoolFilter());
+        }
+    }
+}
