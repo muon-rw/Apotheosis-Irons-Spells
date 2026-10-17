@@ -1,3 +1,6 @@
+## 2.2.8
+- Allow skipping player animations per spell cast, and add an affix field `"player_animations"` to `spell_trigger` to do so. 
+
 ## 2.2.7
 - Add affix builders for datagen
 

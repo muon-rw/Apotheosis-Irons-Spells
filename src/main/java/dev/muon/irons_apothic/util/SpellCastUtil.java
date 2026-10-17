@@ -1,6 +1,7 @@
 package dev.muon.irons_apothic.util;
 
 import dev.muon.irons_apothic.IronsApothic;
+import dev.muon.irons_apothic.network.CastStartedWithoutAnimationPacket;
 import io.redspace.ironsspellbooks.api.entity.IMagicEntity;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -23,9 +24,12 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 /**
  * Server-side cast pipeline for affix-triggered Iron's Spellbooks casts (CastSource.COMMAND).
@@ -49,6 +53,11 @@ public final class SpellCastUtil {
     // Server thread only: AbstractSpell#castSpell takes a ServerPlayer.
     private static final Set<LivingEntity> RESOLVING = Collections.newSetFromMap(new IdentityHashMap<>());
 
+    // Server thread only. Maps each caster to the spell ids of their in-progress casts that should finish without a
+    // player animation. A set, because an affix cast can start and finish while another one is resolving. Weak keys
+    // drop a disconnected player's entry; vanilla gives a respawned player the old entity id, so it keeps the entry.
+    private static final Map<ServerPlayer, Set<String>> CASTS_WITHOUT_ANIMATION = new WeakHashMap<>();
+
     private SpellCastUtil() {
     }
 
@@ -64,9 +73,21 @@ public final class SpellCastUtil {
         }
     }
 
+    /** Called from {@code AbstractSpellMixin} when {@code spell} finishes or is cancelled, and before animated casts. */
+    public static boolean consumeCastWithoutAnimation(ServerPlayer caster, AbstractSpell spell) {
+        Set<String> spellIds = CASTS_WITHOUT_ANIMATION.get(caster);
+        if (spellIds == null || !spellIds.remove(spell.getSpellId())) {
+            return false;
+        }
+        if (spellIds.isEmpty()) {
+            CASTS_WITHOUT_ANIMATION.remove(caster);
+        }
+        return true;
+    }
+
     /** No target / caster-as-target. Skip aim redirect and any target injection. */
     public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel) {
-        return castSelf(caster, spell, spellLevel, Optional.empty());
+        return castSelf(caster, spell, spellLevel, Optional.empty(), true);
     }
 
     /**
@@ -74,10 +95,19 @@ public final class SpellCastUtil {
      * {@code 0} for INSTANT/LONG and the spell-derived value for CONTINUOUS.
      */
     public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel, Optional<Integer> castTime) {
+        return castSelf(caster, spell, spellLevel, castTime, true);
+    }
+
+    /**
+     * With {@code playerAnimations} false, ISS's start and finish animations are skipped while every other client-side
+     * cast effect still plays (player path only).
+     */
+    public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel, Optional<Integer> castTime,
+                                   boolean playerAnimations) {
         if (caster.level().isClientSide()) {
             return false;
         }
-        return castInternal(caster, spell, spellLevel, null, castTime);
+        return castInternal(caster, spell, spellLevel, null, castTime, playerAnimations);
     }
 
     /**
@@ -86,7 +116,7 @@ public final class SpellCastUtil {
      * {@link TargetedTargetAreaCastData}) is overridden to point at {@code target}.
      */
     public static boolean castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target) {
-        return castWithTarget(caster, spell, spellLevel, target, Optional.empty());
+        return castWithTarget(caster, spell, spellLevel, target, Optional.empty(), true);
     }
 
     /**
@@ -94,14 +124,23 @@ public final class SpellCastUtil {
      */
     public static boolean castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target,
                                          Optional<Integer> castTime) {
+        return castWithTarget(caster, spell, spellLevel, target, castTime, true);
+    }
+
+    /**
+     * Bi-entity variant with {@code castTime} and {@code playerAnimations} overrides (player path only).
+     */
+    public static boolean castWithTarget(LivingEntity caster, AbstractSpell spell, int spellLevel, LivingEntity target,
+                                         Optional<Integer> castTime, boolean playerAnimations) {
         if (caster.level().isClientSide()) {
             return false;
         }
-        return castInternal(caster, spell, spellLevel, target == caster ? null : target, castTime);
+        return castInternal(caster, spell, spellLevel, target == caster ? null : target, castTime, playerAnimations);
     }
 
     private static boolean castInternal(LivingEntity caster, AbstractSpell spell, int spellLevel,
-                                        @Nullable LivingEntity target, Optional<Integer> castTime) {
+                                        @Nullable LivingEntity target, Optional<Integer> castTime,
+                                        boolean playerAnimations) {
         Level world = caster.level();
         MagicData magicData = MagicData.getPlayerMagicData(caster);
         boolean interrupted = false;
@@ -120,7 +159,8 @@ public final class SpellCastUtil {
         }
         try {
             if (caster instanceof ServerPlayer serverPlayer) {
-                return castForPlayer(serverPlayer, spell, spellLevel, magicData, target, castTime) || interrupted;
+                return castForPlayer(serverPlayer, spell, spellLevel, magicData, target, castTime, playerAnimations)
+                        || interrupted;
             } else if (caster instanceof IMagicEntity magicEntity) {
                 // ISS mob casting; target / aim redirect aren't supported on this path.
                 magicEntity.initiateCastSpell(spell, spellLevel);
@@ -140,7 +180,8 @@ public final class SpellCastUtil {
     }
 
     private static boolean castForPlayer(ServerPlayer serverPlayer, AbstractSpell spell, int spellLevel,
-                                         MagicData magicData, @Nullable LivingEntity target, Optional<Integer> castTime) {
+                                         MagicData magicData, @Nullable LivingEntity target, Optional<Integer> castTime,
+                                         boolean playerAnimations) {
         Level world = serverPlayer.level();
 
         // Spells like RootSpell / HasteSpell install TargetEntityCastData here via Utils.preCastTargetHelper. The
@@ -179,8 +220,16 @@ public final class SpellCastUtil {
 
         PacketDistributor.sendToPlayer(serverPlayer,
                 new UpdateCastingStatePacket(spell.getSpellId(), spellLevel, effectiveCastTime, CastSource.COMMAND, COMMAND_CASTING_SLOT));
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(serverPlayer,
-                new OnCastStartedPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel));
+        if (playerAnimations) {
+            // Drops a stale marker from an earlier affix cast of this spell that was wiped out before it could finish
+            consumeCastWithoutAnimation(serverPlayer, spell);
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(serverPlayer,
+                    new OnCastStartedPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel));
+        } else {
+            CASTS_WITHOUT_ANIMATION.computeIfAbsent(serverPlayer, player -> new HashSet<>()).add(spell.getSpellId());
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(serverPlayer,
+                    new CastStartedWithoutAnimationPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel));
+        }
 
         if (effectiveCastTime == 0) {
             spell.castSpell(world, spellLevel, serverPlayer, CastSource.COMMAND, false);

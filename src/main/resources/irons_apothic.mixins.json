@@ -10,7 +10,9 @@
     "EntityMixin",
     "SchoolTypeAccessor"
   ],
-  "client": [],
+  "client": [
+    "client.AnimationHelperMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

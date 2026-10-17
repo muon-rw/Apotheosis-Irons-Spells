@@ -51,12 +51,13 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
                     TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
                     ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
-                    Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime))
-            .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray, castTime) -> {
+                    Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime),
+                    Codec.BOOL.optionalFieldOf("player_animations", true).forGetter(a -> a.playerAnimations))
+            .apply(inst, (def, spell, trigger, values, types, target, singleSchool, schoolsArray, castTime, playerAnimations) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
                     ? schoolsArray
                     : singleSchool.map(List::of);
-                return new SpellTriggerAffix(def, spell, trigger, values, types, target, schoolIds, castTime);
+                return new SpellTriggerAffix(def, spell, trigger, values, types, target, schoolIds, castTime, playerAnimations);
             }));
 
     protected final Holder<AbstractSpell> spell;
@@ -67,11 +68,19 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
     protected final Optional<List<ResourceLocation>> schoolIds;
     protected final Optional<Set<SchoolType>> schools;
     protected final Optional<Integer> castTime;
+    protected final boolean playerAnimations;
 
     public SpellTriggerAffix(AffixDefinition definition, Holder<AbstractSpell> spell, TriggerType trigger,
                              Map<LootRarity, TriggerData> values, Set<LootCategory> types,
                              Optional<TargetType> target, Optional<List<ResourceLocation>> schoolIds,
                              Optional<Integer> castTime) {
+        this(definition, spell, trigger, values, types, target, schoolIds, castTime, true);
+    }
+
+    public SpellTriggerAffix(AffixDefinition definition, Holder<AbstractSpell> spell, TriggerType trigger,
+                             Map<LootRarity, TriggerData> values, Set<LootCategory> types,
+                             Optional<TargetType> target, Optional<List<ResourceLocation>> schoolIds,
+                             Optional<Integer> castTime, boolean playerAnimations) {
         super(definition);
         this.spell = spell;
         this.trigger = trigger;
@@ -80,6 +89,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         this.target = target;
         this.schoolIds = schoolIds;
         this.castTime = castTime;
+        this.playerAnimations = playerAnimations;
         this.schools = schoolIds.map(ids -> {
             Set<SchoolType> schoolSet = new HashSet<>();
             for (ResourceLocation id : ids) {
@@ -123,8 +133,8 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
             IS_TRIGGERING.set(true);
 
             boolean cast = target == caster
-                    ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime)
-                    : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime);
+                    ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime, this.playerAnimations)
+                    : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime, this.playerAnimations);
 
             if (cast && !hasActiveRecast && cooldown != 0) {
                 AbilityCooldowns.startCooldown(caster, this.id());
@@ -295,9 +305,11 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         protected TargetType target;
         @Nullable
         protected Integer castTime;
+        protected boolean playerAnimations = true;
 
-        protected TriggerBuilder(TriggerType trigger) {
+        protected TriggerBuilder(TriggerType trigger, @Nullable TargetType target) {
             this.trigger = trigger;
+            this.target = target;
         }
 
         public T target(TargetType target) {
@@ -307,6 +319,11 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
 
         public T castTime(int castTime) {
             this.castTime = castTime;
+            return (T) this;
+        }
+
+        public T playerAnimations(boolean playerAnimations) {
+            this.playerAnimations = playerAnimations;
             return (T) this;
         }
 
@@ -326,19 +343,28 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
     public static class Builder extends TriggerBuilder<Builder> {
         protected final Holder<AbstractSpell> spell;
 
-        public Builder(Holder<AbstractSpell> spell, TriggerType trigger) {
-            super(trigger);
+        public Builder(Holder<AbstractSpell> spell, TriggerType trigger, @Nullable TargetType target) {
+            super(trigger, target);
             this.spell = spell;
         }
 
+        public Builder(Holder<AbstractSpell> spell, TriggerType trigger) {
+            this(spell, trigger, null);
+        }
+
+        public Builder(AbstractSpell spell, TriggerType trigger, @Nullable TargetType target) {
+            this(SpellRegistry.REGISTRY.wrapAsHolder(spell), trigger, target);
+        }
+
         public Builder(AbstractSpell spell, TriggerType trigger) {
-            this(SpellRegistry.REGISTRY.wrapAsHolder(spell), trigger);
+            this(spell, trigger, null);
         }
 
         public SpellTriggerAffix build() {
             this.validate();
             return new SpellTriggerAffix(this.definition, this.spell, this.trigger, this.values, this.categories,
-                    Optional.ofNullable(this.target), this.schoolFilter(), Optional.ofNullable(this.castTime));
+                    Optional.ofNullable(this.target), this.schoolFilter(), Optional.ofNullable(this.castTime),
+                    this.playerAnimations);
         }
     }
 }
