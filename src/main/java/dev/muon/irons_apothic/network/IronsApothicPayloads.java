@@ -20,5 +20,7 @@ public final class IronsApothicPayloads {
                 CastStartedWithoutAnimationPacket::handle);
         registrar.playToClient(CastFinishedWithoutAnimationPacket.TYPE, CastFinishedWithoutAnimationPacket.STREAM_CODEC,
                 CastFinishedWithoutAnimationPacket::handle);
+        registrar.playToClient(CastWithoutSlowdownPacket.TYPE, CastWithoutSlowdownPacket.STREAM_CODEC,
+                CastWithoutSlowdownPacket::handle);
     }
 }

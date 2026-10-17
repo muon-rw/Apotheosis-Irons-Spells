@@ -299,6 +299,7 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         @Nullable
         protected Integer castTime;
         protected boolean playerAnimations = true;
+        protected boolean castingSlowdown = true;
         protected SpellCastInterruptMode interruptMode = SpellCastInterruptMode.FORCE_COMPLETE;
         protected int delayTicks;
 
@@ -321,6 +322,11 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
             return (T) this;
         }
 
+        public T castingSlowdown(boolean castingSlowdown) {
+            this.castingSlowdown = castingSlowdown;
+            return (T) this;
+        }
+
         public T interruptMode(SpellCastInterruptMode interruptMode) {
             this.interruptMode = interruptMode;
             return (T) this;
@@ -332,8 +338,8 @@ public class SpellTriggerAffix extends SchoolFilteredAffix {
         }
 
         protected SpellCastOptions castOptions() {
-            return new SpellCastOptions(Optional.ofNullable(this.castTime), this.playerAnimations, this.interruptMode,
-                    this.delayTicks);
+            return new SpellCastOptions(Optional.ofNullable(this.castTime), this.playerAnimations, this.castingSlowdown,
+                    this.interruptMode, this.delayTicks);
         }
 
         public T value(LootRarity rarity, int spellLevel, int cooldown) {

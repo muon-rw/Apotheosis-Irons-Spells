@@ -11,7 +11,10 @@
     "SchoolTypeAccessor"
   ],
   "client": [
-    "client.AnimationHelperMixin"
+    "client.AnimationHelperMixin",
+    "client.CastBarOverlayMixin",
+    "client.ClientMagicDataMixin",
+    "client.ClientPlayerEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

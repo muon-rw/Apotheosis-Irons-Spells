@@ -2,6 +2,7 @@ package dev.muon.irons_apothic.util;
 
 import dev.muon.irons_apothic.IronsApothic;
 import dev.muon.irons_apothic.network.CastStartedWithoutAnimationPacket;
+import dev.muon.irons_apothic.network.CastWithoutSlowdownPacket;
 import io.redspace.ironsspellbooks.api.entity.IMagicEntity;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -124,8 +125,9 @@ public final class SpellCastUtil {
     }
 
     /**
-     * {@code castTime} and {@code playerAnimations} apply to the player path only. With {@code playerAnimations}
-     * false, ISS's start and finish animations are skipped while every other client-side cast effect still plays.
+     * {@code castTime}, {@code playerAnimations} and {@code castingSlowdown} apply to the player path only. With
+     * {@code playerAnimations} false, ISS's start and finish animations are skipped while every other client-side cast
+     * effect still plays. With {@code castingSlowdown} false, ISS doesn't slow the caster's movement during the cast.
      */
     public static boolean castSelf(LivingEntity caster, AbstractSpell spell, int spellLevel, SpellCastOptions options) {
         if (caster.level().isClientSide()) {
@@ -268,6 +270,9 @@ public final class SpellCastUtil {
 
         PacketDistributor.sendToPlayer(serverPlayer,
                 new UpdateCastingStatePacket(spell.getSpellId(), spellLevel, effectiveCastTime, CastSource.COMMAND, COMMAND_CASTING_SLOT));
+        if (!options.castingSlowdown()) {
+            PacketDistributor.sendToPlayer(serverPlayer, CastWithoutSlowdownPacket.INSTANCE);
+        }
         CustomPacketPayload castStarted = options.playerAnimations()
                 ? new OnCastStartedPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel)
                 : new CastStartedWithoutAnimationPacket(serverPlayer.getUUID(), spell.getSpellId(), spellLevel);

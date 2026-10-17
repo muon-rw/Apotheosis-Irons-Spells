@@ -7,7 +7,7 @@ import net.minecraft.util.ExtraCodecs;
 
 import java.util.Optional;
 
-public record SpellCastOptions(Optional<Integer> castTime, boolean playerAnimations,
+public record SpellCastOptions(Optional<Integer> castTime, boolean playerAnimations, boolean castingSlowdown,
                                SpellCastInterruptMode interruptMode, int delayTicks) {
 
     public static final SpellCastOptions DEFAULT = withCastTime(Optional.empty());
@@ -17,12 +17,13 @@ public record SpellCastOptions(Optional<Integer> castTime, boolean playerAnimati
             .group(
                     Codec.INT.optionalFieldOf("cast_time").forGetter(SpellCastOptions::castTime),
                     Codec.BOOL.optionalFieldOf("player_animations", true).forGetter(SpellCastOptions::playerAnimations),
+                    Codec.BOOL.optionalFieldOf("casting_slowdown", true).forGetter(SpellCastOptions::castingSlowdown),
                     SpellCastInterruptMode.CODEC.optionalFieldOf("interrupt_mode", SpellCastInterruptMode.FORCE_COMPLETE)
                             .forGetter(SpellCastOptions::interruptMode),
                     ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("delay_ticks", 0).forGetter(SpellCastOptions::delayTicks))
             .apply(inst, SpellCastOptions::new));
 
     public static SpellCastOptions withCastTime(Optional<Integer> castTime) {
-        return new SpellCastOptions(castTime, true, SpellCastInterruptMode.FORCE_COMPLETE, 0);
+        return new SpellCastOptions(castTime, true, true, SpellCastInterruptMode.FORCE_COMPLETE, 0);
     }
 }

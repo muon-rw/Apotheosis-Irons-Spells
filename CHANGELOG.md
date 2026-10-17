@@ -1,9 +1,11 @@
 ## 2.2.8
 - Allow skipping player animations per `spell_trigger` cast via an optional affix field `"player_animations"`. Sounds, particles and other client-side spell effects still play
+- Prevent casting movement slowdown per `spell_trigger` cast via an optional affix field `"casting_slowdown"`
 - Optionally delay `spell_trigger` casts by an optional affix field `"delay_ticks"`. If the target dies or leaves the dimension before then, the spell falls back to its standard targeting
 - Optionally specify how `spell_trigger` will interrupt existing casts with `"interrupt_mode"`: `FORCE_COMPLETE` (default, the previous behavior), `CANCEL`, or `FAIL` (skip the trigger)
 - Fix spell trigger affixes with a `"cast_time"` never casting when another spell's damage or healing triggered them. Spells triggered mid-cast now wait until the triggering spell finishes
 - Spells cast by trigger affixes with a `"cast_time"` no longer trigger other affixes when they resolve, matching instant affix casts
+- Instant spells given a `"cast_time"` now actually show the cast bar
 
 ## 2.2.7
 - Add affix builders for datagen
