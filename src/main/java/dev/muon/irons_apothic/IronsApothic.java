@@ -6,6 +6,7 @@ import dev.muon.irons_apothic.category.SlotGroups;
 import dev.muon.irons_apothic.command.IronsApothicCommands;
 import dev.muon.irons_apothic.loot.SchoolSelectLootRule;
 import dev.muon.irons_apothic.network.IronsApothicPayloads;
+import dev.muon.irons_apothic.util.PendingSpellCasts;
 import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.loot.LootRule;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ public class IronsApothic {
         LootCategories.register(modEventBus);
         AffixEventHandler.register();
         IronsApothicPayloads.register(modEventBus);
+        PendingSpellCasts.register();
         // Registered here, not in common setup, because data runs skip common setup and addons datagen our affixes
         registerCodecs();
 

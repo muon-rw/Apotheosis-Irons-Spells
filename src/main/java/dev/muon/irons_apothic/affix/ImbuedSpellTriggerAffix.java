@@ -2,6 +2,7 @@ package dev.muon.irons_apothic.affix;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.muon.irons_apothic.util.SpellCastOptions;
 import dev.muon.irons_apothic.util.SpellCastUtil;
 import dev.shadowsoffire.apotheosis.Apoth;
 import dev.shadowsoffire.apotheosis.Apotheosis;
@@ -31,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -50,13 +50,12 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                     SpellTriggerAffix.TargetType.CODEC.optionalFieldOf("target").forGetter(a -> a.target),
                     ResourceLocation.CODEC.optionalFieldOf("school").forGetter(a -> Optional.empty()),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("schools").forGetter(a -> a.schoolIds),
-                    Codec.INT.optionalFieldOf("cast_time").forGetter(a -> a.castTime),
-                    Codec.BOOL.optionalFieldOf("player_animations", true).forGetter(a -> a.playerAnimations))
-            .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray, castTime, playerAnimations) -> {
+                    SpellCastOptions.MAP_CODEC.forGetter(a -> a.castOptions))
+            .apply(inst, (def, trigger, values, types, target, singleSchool, schoolsArray, castOptions) -> {
                 Optional<List<ResourceLocation>> schoolIds = schoolsArray.isPresent()
                         ? schoolsArray
                         : singleSchool.map(List::of);
-                return new ImbuedSpellTriggerAffix(def, trigger, values, types, target, schoolIds, castTime, playerAnimations);
+                return new ImbuedSpellTriggerAffix(def, trigger, values, types, target, schoolIds, castOptions);
             }));
 
     protected final SpellTriggerAffix.TriggerType trigger;
@@ -65,8 +64,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     protected final Optional<SpellTriggerAffix.TargetType> target;
     protected final Optional<List<ResourceLocation>> schoolIds;
     protected final Optional<Set<SchoolType>> schools;
-    protected final Optional<Integer> castTime;
-    protected final boolean playerAnimations;
+    protected final SpellCastOptions castOptions;
 
     public ImbuedSpellTriggerAffix(AffixDefinition definition,
                                    SpellTriggerAffix.TriggerType trigger,
@@ -74,7 +72,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                                    Optional<SpellTriggerAffix.TargetType> target,
                                    Optional<List<ResourceLocation>> schoolIds,
                                    Optional<Integer> castTime) {
-        this(definition, trigger, values, types, target, schoolIds, castTime, true);
+        this(definition, trigger, values, types, target, schoolIds, SpellCastOptions.withCastTime(castTime));
     }
 
     public ImbuedSpellTriggerAffix(AffixDefinition definition,
@@ -82,15 +80,14 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
                                    Map<LootRarity, SpellTriggerAffix.TriggerData> values, Set<LootCategory> types,
                                    Optional<SpellTriggerAffix.TargetType> target,
                                    Optional<List<ResourceLocation>> schoolIds,
-                                   Optional<Integer> castTime, boolean playerAnimations) {
+                                   SpellCastOptions castOptions) {
         super(definition);
         this.trigger = trigger;
         this.values = values;
         this.types = types;
         this.target = target;
         this.schoolIds = schoolIds;
-        this.castTime = castTime;
-        this.playerAnimations = playerAnimations;
+        this.castOptions = castOptions;
         this.schools = schoolIds.map(ids -> {
             Set<SchoolType> schoolSet = new HashSet<>();
             for (ResourceLocation id : ids) {
@@ -120,7 +117,7 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
     }
 
     private void triggerSpellInternal(LivingEntity caster, LivingEntity target, LootRarity rarity, ItemStack sourceStack) {
-        if (IS_TRIGGERING.get()) return;
+        if (SpellCastUtil.isCastingForAffix()) return;
 
         SpellTriggerAffix.TriggerData data = this.values.get(rarity);
         if (data == null || caster.level().isClientSide()) return;
@@ -144,18 +141,12 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
 
         if (!matchesSchools(sourceStack, this.schools)) return;
 
-        try {
-            IS_TRIGGERING.set(true);
+        boolean cast = target == caster
+                ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castOptions)
+                : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castOptions);
 
-            boolean cast = target == caster
-                    ? SpellCastUtil.castSelf(caster, spellInstance, spellLevel, this.castTime, this.playerAnimations)
-                    : SpellCastUtil.castWithTarget(caster, spellInstance, spellLevel, target, this.castTime, this.playerAnimations);
-
-            if (cast && !hasActiveRecast && cooldown != 0) {
-                AbilityCooldowns.startCooldown(caster, this.id());
-            }
-        } finally {
-            IS_TRIGGERING.set(false);
+        if (cast && !hasActiveRecast && cooldown != 0) {
+            AbilityCooldowns.startCooldown(caster, this.id());
         }
     }
 
@@ -273,19 +264,14 @@ public class ImbuedSpellTriggerAffix extends SchoolFilteredAffix {
 
     public static class Builder extends SpellTriggerAffix.TriggerBuilder<Builder> {
 
-        public Builder(SpellTriggerAffix.TriggerType trigger, @Nullable SpellTriggerAffix.TargetType target) {
-            super(trigger, target);
-        }
-
         public Builder(SpellTriggerAffix.TriggerType trigger) {
-            this(trigger, null);
+            super(trigger);
         }
 
         public ImbuedSpellTriggerAffix build() {
             this.validate();
             return new ImbuedSpellTriggerAffix(this.definition, this.trigger, this.values, this.categories,
-                    Optional.ofNullable(this.target), this.schoolFilter(), Optional.ofNullable(this.castTime),
-                    this.playerAnimations);
+                    Optional.ofNullable(this.target), this.schoolFilter(), this.castOptions());
         }
     }
 }

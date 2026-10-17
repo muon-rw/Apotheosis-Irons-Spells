@@ -1,6 +1,7 @@
 package dev.muon.irons_apothic.affix;
 
 import dev.muon.irons_apothic.util.GearSchools;
+import dev.muon.irons_apothic.util.SpellCastUtil;
 import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
@@ -11,15 +12,8 @@ import java.util.Set;
 
 public abstract class SchoolFilteredAffix extends Affix {
 
-    /**
-     * Shared re-entrancy guard for affix-driven spell casts. Set by both {@link SpellTriggerAffix} and
-     * {@link ImbuedSpellTriggerAffix} during {@code triggerSpell} so a cast triggered by one cannot recursively
-     * trigger the other (or itself) via downstream {@code SpellDamageEvent} / {@code SpellHealEvent} fan-out.
-     */
-    protected static final ThreadLocal<Boolean> IS_TRIGGERING = ThreadLocal.withInitial(() -> false);
-
     public static boolean isCurrentlyTriggering() {
-        return IS_TRIGGERING.get();
+        return SpellCastUtil.isCastingForAffix();
     }
 
     protected SchoolFilteredAffix(AffixDefinition definition) {
